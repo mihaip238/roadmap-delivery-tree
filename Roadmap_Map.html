@@ -102,7 +102,7 @@
 <body>
   <header>
     <h1>Roadmap map</h1>
-    <p class="lede">Organic view of the same delivery tree. Official products from Jira. Click a branch to expand. Drag the paper, scroll to zoom.</p>
+    <p class="lede">Organic view of the same delivery tree. Official products from Jira. Click a branch to expand. Drag the paper, scroll to zoom. Labels show Jira time spent where logged.</p>
     <div class="toolbar">
       <input type="search" id="q" placeholder="Find a key or title" />
       <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active only</label>
@@ -279,7 +279,12 @@
       if (node.type === "root") return "Roadmap";
       if (node.name) return node.name;
       const key = node.key ? node.key + "  " : "";
-      return key + (node.title || "");
+      const base = key + (node.title || "");
+      const t = node.time || {};
+      if (t.rolledSpent && t.rolledSpent !== "0h") {
+        return base + " · " + t.rolledSpent;
+      }
+      return base;
     }
 
     function fitWorld(nodes) {

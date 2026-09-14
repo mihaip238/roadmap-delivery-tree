@@ -6,6 +6,9 @@ import re
 from collections import OrderedDict
 from pathlib import Path
 
+from jira_time import format_jira_time
+from milestones import build_milestone_tree
+
 ROOT = Path(r"C:\Users\MihaiPostolache\Downloads\kpisss")
 SRC = ROOT / "jira_map" / "delivery_tree.json"
 OUT_JSON = ROOT / "jira_map" / "product_tree.json"
@@ -86,6 +89,28 @@ def products_for(item: dict) -> list[str]:
     return parts or ["Unclassified"]
 
 
+def slim_time(raw: dict | None) -> dict | None:
+    if not raw:
+        return None
+    return {
+        "ownSpentSec": raw.get("ownSpentSec") or 0,
+        "rolledSpentSec": raw.get("rolledSpentSec") or 0,
+        "ownEstimateSec": raw.get("ownEstimateSec"),
+        "rolledEstimateSec": raw.get("rolledEstimateSec"),
+        "ownSpent": raw.get("ownSpent") or "",
+        "rolledSpent": raw.get("rolledSpent") or "",
+        "ownEstimate": raw.get("ownEstimate") or "",
+        "rolledEstimate": raw.get("rolledEstimate") or "",
+        "ownSpentHours": raw.get("ownSpentHours"),
+        "rolledSpentHours": raw.get("rolledSpentHours"),
+        "uniqueSpentHours": raw.get("uniqueSpentHours"),
+        "uniqueSpent": raw.get("uniqueSpent") or "",
+        "rolledPoints": raw.get("rolledPoints"),
+        "unlistedSpent": raw.get("unlistedSpent") or "",
+        "sharedWith": raw.get("sharedWith") or [],
+    }
+
+
 def node_issue(kind: str, rec: dict, extra: dict | None = None) -> dict:
     key = rec.get("key") or ""
     out = {
@@ -95,6 +120,9 @@ def node_issue(kind: str, rec: dict, extra: dict | None = None) -> dict:
         "status": rec.get("status") or "",
         "url": (JIRA + key) if key else "",
     }
+    t = slim_time(rec.get("time"))
+    if t:
+        out["time"] = t
     if extra:
         out.update(extra)
     return out
@@ -136,7 +164,7 @@ def compact_item(item: dict) -> dict:
             )
         )
     cov = item.get("coverage") or {}
-    return {
+    out = {
         "type": "edp",
         "key": edp.get("key") or "",
         "title": excel.get("summary") or edp.get("summary") or "",
@@ -156,6 +184,10 @@ def compact_item(item: dict) -> dict:
         "storyCount": cov.get("story_count") or 0,
         "children": epps,
     }
+    t = slim_time(edp.get("time"))
+    if t:
+        out["time"] = t
+    return out
 
 
 def flatten_edps(nodes: list[dict]) -> list[dict]:
@@ -168,14 +200,37 @@ def flatten_edps(nodes: list[dict]) -> list[dict]:
     return out
 
 
+def collect_own_spent(node: dict, acc: dict[str, int]) -> None:
+    t = node.get("time") or {}
+    key = node.get("key")
+    if key:
+        acc[key] = int(t.get("ownSpentSec") or 0)
+    for child in node.get("children") or []:
+        collect_own_spent(child, acc)
+
+
+def unique_spent_hours(nodes: list[dict]) -> float:
+    acc: dict[str, int] = {}
+    for n in flatten_edps(nodes):
+        collect_own_spent(n, acc)
+    return round(sum(acc.values()) / 3600, 2)
+
+
 def tally(nodes: list[dict]) -> dict:
     leaves = flatten_edps(nodes)
+    rolled = 0.0
+    for n in leaves:
+        hours = (n.get("time") or {}).get("rolledSpentHours")
+        if hours:
+            rolled += float(hours)
     return {
         "edpCount": len(leaves),
         "activeCount": sum(1 for n in leaves if n.get("active")),
         "eppCount": sum(n.get("eppCount") or 0 for n in leaves),
         "featureCount": sum(n.get("featureCount") or 0 for n in leaves),
         "storyCount": sum(n.get("storyCount") or 0 for n in leaves),
+        "rolledSpentHours": round(rolled, 2),
+        "uniqueSpentHours": unique_spent_hours(nodes),
     }
 
 
@@ -326,10 +381,20 @@ def main() -> None:
         encoding="utf-8",
     )
 
+    milestones = build_milestone_tree(products)
+    for ms in milestones:
+        uniq_sec = int((ms.get("time") or {}).get("ownSpentSec") or 0)
+        t = dict(ms.get("time") or {})
+        pretty = format_jira_time(uniq_sec) if uniq_sec else ""
+        t["uniqueSpent"] = pretty
+        t["rolledSpent"] = pretty
+        ms["time"] = t
+
     payload = {
         "jiraBase": JIRA,
         "hierarchy": ["product", "theme", "edp", "epp", "feature", "story"],
         "products": products,
+        "milestones": milestones,
         "review": review,
         "totals": {
             "products": len(products),
@@ -338,8 +403,13 @@ def main() -> None:
             "note": (
                 "Official product = Jira/Excel Product Name. "
                 "Unclassified is themed for the map only. "
-                "An EDP tagged with two products appears under both."
+                "An EDP tagged with two products appears under both. "
+                "Time is Jira worklogs (8h = 1d). Feature totals include child defects "
+                "via aggregatetimespent. EPP totals add the epic's own worklogs to child features. "
+                "Shared EPPs are flagged; unique hours de-duplicate tickets. "
+                "Delivery milestones group BRPaaS + Power Balancer EPPs (EET / VanHelder cut)."
             ),
+            "time": data.get("time") or {},
         },
     }
     OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -348,6 +418,7 @@ def main() -> None:
         encoding="utf-8",
     )
     print("products", [(p["name"], p["edpCount"], p["activeCount"]) for p in products])
+    print("milestones", [(m["key"], m["eppCount"], m["featureCount"], m["storyCount"]) for m in milestones])
     print("wrote", OUT_JSON, "js", OUT_JS.stat().st_size)
     write_canvas(payload)
 
@@ -362,6 +433,7 @@ def strip_edp(edp: dict) -> dict:
                 "status": f.get("status"),
                 "issuetype": f.get("issuetype"),
                 "storyCount": f.get("storyCount") or 0,
+                "rolledSpentHours": (f.get("time") or {}).get("rolledSpentHours"),
             }
             for f in epp.get("children") or []
         ]
@@ -372,9 +444,10 @@ def strip_edp(edp: dict) -> dict:
             "method": epp.get("method"),
             "featureCount": epp.get("featureCount") or 0,
             "storyCount": epp.get("storyCount") or 0,
+            "rolledSpentHours": (epp.get("time") or {}).get("rolledSpentHours"),
             "children": feats,
         })
-    return {
+    out = {
         "type": "edp",
         "key": edp.get("key"),
         "title": edp.get("title"),
@@ -390,8 +463,11 @@ def strip_edp(edp: dict) -> dict:
         "eppCount": edp.get("eppCount") or 0,
         "featureCount": edp.get("featureCount") or 0,
         "storyCount": edp.get("storyCount") or 0,
+        "rolledSpentHours": (edp.get("time") or {}).get("rolledSpentHours"),
+        "uniqueSpentHours": (edp.get("time") or {}).get("uniqueSpentHours"),
         "children": epps,
     }
+    return out
 
 
 def strip_stories(products: list) -> list:
@@ -417,6 +493,8 @@ def strip_stories(products: list) -> list:
             "eppCount": prod["eppCount"],
             "featureCount": prod["featureCount"],
             "storyCount": prod["storyCount"],
+            "rolledSpentHours": prod.get("rolledSpentHours"),
+            "uniqueSpentHours": prod.get("uniqueSpentHours"),
             "children": children,
         })
     return slim

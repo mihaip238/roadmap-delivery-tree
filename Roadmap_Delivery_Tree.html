@@ -56,7 +56,7 @@
       font: inherit; border: 1px solid var(--navy); background: transparent;
       color: var(--navy); padding: 7px 12px; cursor: pointer; border-radius: 2px;
     }
-    button:hover, select:hover { background: var(--navy); color: var(--paper); }
+    button:disabled, select:disabled { opacity: 0.45; cursor: not-allowed; }
     .nav a {
       color: inherit;
       font-size: 13px;
@@ -88,13 +88,14 @@
     }
     .row:hover { border-color: var(--rule); }
     .row.hidden { display: none; }
-    .row.product { background: var(--navy); color: var(--paper); margin: 16px 0 6px; }
-    .row.product .meta, .row.product a { color: #e7dcc9; }
+    .row.product, .row.milestone { background: var(--navy); color: var(--paper); margin: 16px 0 6px; }
+    .row.product .meta, .row.product a,
+    .row.milestone .meta, .row.milestone a { color: #e7dcc9; }
     .twist {
       width: 22px; height: 22px; border: 0; background: transparent; color: inherit;
       font-size: 12px; padding: 0; line-height: 22px; cursor: pointer;
     }
-    .row.product .twist { color: var(--paper); }
+    .row.product .twist, .row.milestone .twist { color: var(--paper); }
     .twist:hover { background: transparent; color: inherit; }
     .body { min-width: 0; }
     .kicker {
@@ -105,15 +106,15 @@
       opacity: 0.75;
     }
     .title { font-size: 14.5px; line-height: 1.35; }
-    .row.product .title { font-family: Fraunces, serif; font-size: 20px; }
-    a.key {
+    .row.product .title, .row.milestone .title { font-family: Fraunces, serif; font-size: 20px; }
+    a.key, span.key {
       font-family: "Source Code Pro", monospace;
       font-size: 12.5px;
       color: var(--mixed);
       text-decoration: none;
       margin-right: 8px;
     }
-    .row.product a.key { color: #f4d7a8; }
+    .row.product a.key, .row.milestone a.key, .row.milestone span.key { color: #f4d7a8; }
     a.key:hover { text-decoration: underline; }
     .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 3px; }
     .pill {
@@ -126,17 +127,31 @@
     .pill.none { border-color: var(--none); color: var(--none); }
     .empty { color: var(--ink-soft); font-size: 13px; padding: 6px 8px 10px 30px; font-style: italic; }
     .also { font-size: 11px; color: var(--ink-soft); }
-    .counts { font-size: 12px; color: var(--ink-soft); white-space: nowrap; padding-top: 3px; }
-    .row.product .counts { color: #e7dcc9; }
+    .counts { font-size: 12px; color: var(--ink-soft); white-space: nowrap; padding-top: 3px; text-align: right; }
+    .row.product .counts, .row.milestone .counts { color: #e7dcc9; }
+    .time { color: var(--ink-soft); }
+    .row.product .time, .row.milestone .time { color: #f4d7a8; }
+    .pill.time { border-color: #6b5344; color: #6b5344; }
     .leaf .twist { visibility: hidden; }
   </style>
 </head>
 <body>
   <header>
     <h1>Roadmap delivery tree</h1>
-  
+    <p class="lede" id="lede">Product → EDP → EPP → Feature → Story. BRPaaS is Power Balancer plus BPO services.</p>
     <div class="toolbar">
       <input type="search" id="q" placeholder="Search title or key (EDP-113, aFRR, ETPA…)" />
+      <select id="group">
+        <option value="product">Group by product line</option>
+        <option value="milestone">Group by delivery milestone</option>
+      </select>
+      <select id="milestone">
+        <option value="all">All milestones (M1–M4)</option>
+        <option value="M1">M1 Nomination</option>
+        <option value="M2">M2 Measurements</option>
+        <option value="M3">M3 Forecast / position / financials</option>
+        <option value="M4">M4 Alloc 2.0 + imbalance</option>
+      </select>
       <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active only (Now / Next / Later)</label>
       <select id="kind">
         <option value="all">All link kinds</option>
@@ -165,6 +180,7 @@
       <span><i class="sw inferred"></i>Inferred title match</span>
       <span><i class="sw none"></i>No Jira connection</span>
       <span>An item tagged with two products appears under both.</span>
+      <span>Hours are Jira worklogs (8h = 1d). Feature totals include child tickets. Shared EPPs are flagged.</span>
     </div>
   </header>
   <main>
@@ -174,7 +190,34 @@
   <script>
     const JIRA = (window.ROADMAP_TREE && window.ROADMAP_TREE.jiraBase) || "https://eneve.atlassian.net/browse/";
     const root = document.getElementById("root");
-    const state = { open: new Set(), activeOnly: true, kind: "all", q: "" };
+    const state = { open: new Set(), activeOnly: true, kind: "all", q: "", group: "product", milestone: "all" };
+    const DEPTH_PRODUCT = [
+      [1, "Expand to product"],
+      [2, "Expand to EDP"],
+      [3, "Expand to EPP"],
+      [4, "Expand to feature"],
+      [5, "Expand to story"]
+    ];
+    const DEPTH_MILESTONE = [
+      [1, "Expand to milestone"],
+      [2, "Expand to EPP"],
+      [3, "Expand to feature"],
+      [4, "Expand to story"]
+    ];
+    const LEDE_PRODUCT = "Product → EDP → EPP → Feature → Story. BRPaaS is Power Balancer plus BPO services.";
+    const LEDE_MILESTONE = "M1–M4 for BRPaaS / Power Balancer.";
+
+    function isMilestoneView() { return state.group === "milestone"; }
+
+    function roots() {
+      const tree = window.ROADMAP_TREE || {};
+      if (isMilestoneView()) {
+        const all = tree.milestones || [];
+        if (state.milestone !== "all") return all.filter((m) => m.key === state.milestone);
+        return all;
+      }
+      return tree.products || [];
+    }
 
     function esc(s) {
       return String(s || "").replace(/[&<>"']/g, (c) => ({
@@ -188,8 +231,11 @@
 
     function matchesSelf(node, q) {
       if (!q) return true;
-      const blob = [node.name, node.key, node.title, node.status, node.kind, node.method, node.issuetype]
-        .join(" ").toLowerCase();
+      const blob = [
+        node.name, node.key, node.title, node.status, node.kind, node.method, node.issuetype,
+        node.target, (node.products || []).join(" "),
+        (node.onEdps || []).join(" ")
+      ].join(" ").toLowerCase();
       return blob.includes(q);
     }
 
@@ -244,40 +290,95 @@
       return kids.filter((c) => matchesQuery(c, state.q));
     }
 
+    function timeLabel(node) {
+      const t = node.time;
+      if (!t) return "";
+      const spent = t.rolledSpent || "";
+      if (!spent || spent === "0h") {
+        if ((node.type === "product" || node.type === "milestone") && t.uniqueSpentHours) {
+          return t.uniqueSpentHours + "h unique";
+        }
+        return "";
+      }
+      let s = spent + " spent";
+      if (t.rolledEstimate) s += " / " + t.rolledEstimate + " est";
+      return s;
+    }
+
     function counts(node) {
+      const time = timeLabel(node);
+      const timeBit = time ? " · " + time : "";
       if (node.type === "product") {
-        return shownChildren(node).reduce((n, child) => {
-          if (child.type === "theme") return n + shownChildren(child).length;
-          return n + 1;
-        }, 0) + " EDP";
+        const n = shownChildren(node).reduce((count, child) => {
+          if (child.type === "theme") return count + shownChildren(child).length;
+          return count + 1;
+        }, 0);
+        const uniq = node.uniqueSpentHours ? node.uniqueSpentHours + "h unique" : time;
+        return n + " EDP" + (uniq ? " · " + uniq : "");
+      }
+      if (node.type === "milestone") {
+        const uniq = node.uniqueSpentHours ? node.uniqueSpentHours + "h unique" : time;
+        return [node.eppCount + " EPP", node.featureCount + " feat", node.storyCount + " stories"]
+          .join(" · ") + (uniq ? " · " + uniq : "");
       }
       if (node.type === "theme") {
-        return shownChildren(node).length + " EDP";
+        return shownChildren(node).length + " EDP" + timeBit;
       }
       if (node.type === "edp") {
-        return [node.eppCount + " EPP", node.featureCount + " feat", node.storyCount + " stories"].join(" · ");
+        return [node.eppCount + " EPP", node.featureCount + " feat", node.storyCount + " stories"].join(" · ") + timeBit;
       }
       if (node.type === "epp") {
-        return [node.featureCount + " feat", node.storyCount + " stories"].join(" · ");
+        return [node.featureCount + " feat", node.storyCount + " stories"].join(" · ") + timeBit;
       }
       if (node.type === "feature") {
-        return (node.storyCount || 0) + " stories";
+        return (node.storyCount || 0) + " stories" + timeBit;
       }
-      return "";
+      return time;
     }
 
     function pills(node) {
       const out = [];
+      if (node.type === "milestone") {
+        if (node.target) out.push(`<span class="pill">${esc(node.target)}</span>`);
+      }
       if (node.type === "edp") {
         out.push(`<span class="pill ${esc(node.kind)}">${esc(node.kind || "none")}</span>`);
         if (node.roadmap) out.push(`<span class="pill">${esc(node.roadmap)}</span>`);
         if (node.active) out.push(`<span class="pill">active</span>`);
       }
-      if (node.status) out.push(`<span class="pill">${esc(node.status)}</span>`);
+      if (node.status && node.type !== "milestone") out.push(`<span class="pill">${esc(node.status)}</span>`);
+      if (node.type === "milestone" && node.status) out.push(`<span class="pill">${esc(node.status)}</span>`);
       if (node.issuetype) out.push(`<span class="pill">${esc(node.issuetype)}</span>`);
-      if (node.method && node.type === "epp") out.push(`<span class="pill">${esc(node.method)}</span>`);
+      if (node.method && node.type === "epp" && node.method !== "milestone") {
+        out.push(`<span class="pill">${esc(node.method)}</span>`);
+      }
+      if (node.type === "epp" && node.products && node.products.length) {
+        out.push(`<span class="also">${esc(node.products.join(", "))}</span>`);
+      }
+      if (node.type === "epp" && node.onEdps && node.onEdps.length) {
+        out.push(`<span class="also">on ${esc(node.onEdps.join(", "))}</span>`);
+      }
+      if (node.type === "epp" && node.unlinked) {
+        out.push(`<span class="also">not linked from a PolarIS EDP</span>`);
+      }
       if (node.alsoIn && node.alsoIn.length) {
         out.push(`<span class="also">also in ${esc(node.alsoIn.join(", "))}</span>`);
+      }
+      const t = node.time || {};
+      if (t.ownSpent && t.rolledSpent && t.ownSpent !== t.rolledSpent && t.ownSpent !== "0h") {
+        out.push(`<span class="pill time">this ticket ${esc(t.ownSpent)}</span>`);
+      }
+      if (t.unlistedSpent) {
+        out.push(`<span class="also">incl. ${esc(t.unlistedSpent)} on children not listed</span>`);
+      }
+      if (t.sharedWith && t.sharedWith.length && node.type === "epp") {
+        out.push(`<span class="also">also implements ${esc(t.sharedWith.join(", "))}</span>`);
+      }
+      if (t.sharedWith && t.sharedWith.length && node.type === "edp") {
+        out.push(`<span class="also">includes shared ${esc(t.sharedWith.join(", "))}</span>`);
+      }
+      if (t.rolledPoints != null && t.rolledPoints !== "") {
+        out.push(`<span class="pill">${esc(String(t.rolledPoints))} SP</span>`);
       }
       if (node.suggestedProduct) {
         out.push(`<span class="also">suggests ${esc(node.suggestedProduct)}</span>`);
@@ -291,6 +392,7 @@
     function kicker(node) {
       const map = {
         product: "Product line",
+        milestone: "Milestone",
         theme: "Theme · unclassified",
         edp: "EDP · Idea",
         epp: "EPP · Initiative",
@@ -306,10 +408,12 @@
       const id = idOf(path);
       const kids = node.children || [];
       const isProduct = node.type === "product";
+      const isMilestone = node.type === "milestone";
       if (isProduct && !visibleProduct(node)) return "";
+      if (isMilestone && state.q && !forced && !matchesQuery(node, state.q)) return "";
       if (node.type === "theme" && !visibleTheme(node) && !(state.q && matchesSelf(node, state.q))) return "";
       if (node.type === "edp" && !edpPassesFilters(node)) return "";
-      if (state.q && !forced && !isProduct && !matchesQuery(node, state.q)) return "";
+      if (state.q && !forced && !isProduct && !isMilestone && !matchesQuery(node, state.q)) return "";
       const forceKids = !!(forced || (state.q && matchesSelf(node, state.q)));
       const shownKids = kids.filter((child) => {
         if (isProduct || node.type === "theme") {
@@ -327,7 +431,12 @@
       const hasKids = shownKids.length > 0;
       const open = state.open.has(id);
       const title = node.name || node.title || "(untitled)";
-      const key = node.key ? `<a class="key" href="${esc(node.url || JIRA + node.key)}" target="_blank" rel="noreferrer">${esc(node.key)}</a>` : "";
+      const jiraHref = node.url || (/^[A-Z][A-Z0-9]+-\d+$/.test(node.key || "") ? JIRA + node.key : "");
+      const key = node.key
+        ? (jiraHref
+          ? `<a class="key" href="${esc(jiraHref)}" target="_blank" rel="noreferrer">${esc(node.key)}</a>`
+          : `<span class="key">${esc(node.key)}</span>`)
+        : "";
       const leafClass = hasKids ? "" : " leaf";
       const twist = hasKids ? `<button class="twist" data-id="${esc(id)}" aria-expanded="${open}">${open ? "▾" : "▸"}</button>` : `<span class="twist"></span>`;
       let html = `<li>
@@ -354,13 +463,12 @@
     }
 
     function paint() {
-      const products = (window.ROADMAP_TREE && window.ROADMAP_TREE.products) || [];
-      root.innerHTML = products.map((p) => renderNode(p, [p.name], false)).join("") || "<li class='empty'>No matching items.</li>";
+      const items = roots();
+      root.innerHTML = items.map((p) => renderNode(p, [p.key || p.name], false)).join("") || "<li class='empty'>No matching items.</li>";
     }
 
     function setDepth(level) {
       state.open.clear();
-      const products = (window.ROADMAP_TREE && window.ROADMAP_TREE.products) || [];
       function walk(node, path, depth) {
         const id = idOf(path);
         if (depth < level) state.open.add(id);
@@ -368,13 +476,12 @@
           walk(child, path.concat([child.key || child.name || String(i)]), depth + 1);
         });
       }
-      products.forEach((p) => walk(p, [p.name], 1));
+      roots().forEach((p) => walk(p, [p.key || p.name], 1));
       paint();
     }
 
     function expandMatches() {
       state.open.clear();
-      const products = (window.ROADMAP_TREE && window.ROADMAP_TREE.products) || [];
       function walk(node, path) {
         const kids = node.children || [];
         const self = matchesSelf(node, state.q);
@@ -386,8 +493,32 @@
         if (hit && kids.length) state.open.add(idOf(path));
         return hit;
       }
-      products.forEach((p) => walk(p, [p.name]));
+      roots().forEach((p) => walk(p, [p.key || p.name]));
       paint();
+    }
+
+    function syncChrome() {
+      const milestoneSel = document.getElementById("milestone");
+      const active = document.getElementById("activeOnly");
+      const kind = document.getElementById("kind");
+      const depth = document.getElementById("depth");
+      const lede = document.getElementById("lede");
+      const msView = isMilestoneView();
+      milestoneSel.disabled = !msView;
+      active.disabled = msView;
+      kind.disabled = msView;
+      lede.textContent = msView ? LEDE_MILESTONE : LEDE_PRODUCT;
+      const opts = msView ? DEPTH_MILESTONE : DEPTH_PRODUCT;
+      const prev = depth.value;
+      depth.innerHTML = opts.map(([v, label]) => `<option value="${v}">${label}</option>`).join("");
+      const allowed = opts.map((o) => String(o[0]));
+      depth.value = allowed.includes(prev) ? prev : "2";
+    }
+
+    function applyView() {
+      syncChrome();
+      if (state.q) expandMatches();
+      else setDepth(Number(document.getElementById("depth").value));
     }
 
     root.addEventListener("click", (e) => {
@@ -399,6 +530,14 @@
       paint();
     });
 
+    document.getElementById("group").addEventListener("change", (e) => {
+      state.group = e.target.value;
+      applyView();
+    });
+    document.getElementById("milestone").addEventListener("change", (e) => {
+      state.milestone = e.target.value;
+      applyView();
+    });
     document.getElementById("q").addEventListener("input", (e) => {
       state.q = e.target.value.trim().toLowerCase();
       if (state.q) expandMatches();
@@ -423,6 +562,7 @@
     if (!window.ROADMAP_TREE) {
       root.innerHTML = "<li class='empty'>Missing jira_map/tree_data.js — run python build_mindmap.py</li>";
     } else {
+      syncChrome();
       setDepth(2);
     }
   </script>

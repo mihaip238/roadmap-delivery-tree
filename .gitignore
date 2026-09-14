@@ -14,4 +14,6 @@ jira_map/extra_stories.json
 jira_map/epp_catalog.json
 jira_map/edp_match.json
 jira_map/product_tree.json
+jira_map/time_dumps/
+jira_map/time_audit.json
 excel_items.json
