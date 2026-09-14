@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>E21 delivery tree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,640&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=Source+Code+Pro:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f3ecdf;
+      --paper-2: #e7dcc9;
+      --ink: #1c2430;
+      --ink-soft: #4a5564;
+      --rule: #cbbba3;
+      --navy: #243044;
+      --polaris: #2c6a4a;
+      --inferred: #a85a18;
+      --none: #6e675e;
+      --mixed: #2a5f8a;
+      --chip: #fffaf3;
+      --shadow: 0 1px 0 rgba(28, 36, 48, 0.06);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--paper); color: var(--ink); }
+    body {
+      font-family: "Source Sans 3", sans-serif;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(28,36,48,0.05) 1px, transparent 0);
+      background-size: 22px 22px;
+    }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(243, 236, 223, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+      padding: 18px 28px 14px;
+    }
+    h1 {
+      font-family: Fraunces, serif;
+      font-weight: 640;
+      font-size: 28px;
+      margin: 0 0 4px;
+      letter-spacing: -0.02em;
+    }
+    .lede { color: var(--ink-soft); font-size: 14px; margin: 0 0 14px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    input[type="search"] {
+      flex: 1; min-width: 220px; max-width: 420px;
+      border: 1px solid var(--rule); background: var(--chip);
+      padding: 8px 12px; font: inherit; color: var(--ink);
+      border-radius: 2px;
+    }
+    button, select {
+      font: inherit; border: 1px solid var(--navy); background: transparent;
+      color: var(--navy); padding: 7px 12px; cursor: pointer; border-radius: 2px;
+    }
+    button:hover, select:hover { background: var(--navy); color: var(--paper); }
+    .nav a {
+      color: inherit;
+      font-size: 13px;
+      text-decoration: none;
+      border: 1px solid var(--navy);
+      padding: 7px 12px;
+    }
+    .nav a.current { background: var(--navy); color: var(--paper); }
+    label.chk { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--ink-soft); }
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--ink-soft); }
+    .sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+    .sw.polaris { background: var(--polaris); }
+    .sw.inferred { background: var(--inferred); }
+    .sw.mixed { background: var(--mixed); }
+    .sw.none { background: var(--none); }
+    main { padding: 18px 28px 80px; max-width: 1280px; }
+    .tree { list-style: none; margin: 0; padding: 0; }
+    .tree ul { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 1px solid var(--rule); }
+    .row {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: start;
+      padding: 5px 8px;
+      margin: 2px 0;
+      background: var(--chip);
+      border: 1px solid transparent;
+      box-shadow: var(--shadow);
+    }
+    .row:hover { border-color: var(--rule); }
+    .row.hidden { display: none; }
+    .row.product { background: var(--navy); color: var(--paper); margin: 16px 0 6px; }
+    .row.product .meta, .row.product a { color: #e7dcc9; }
+    .twist {
+      width: 22px; height: 22px; border: 0; background: transparent; color: inherit;
+      font-size: 12px; padding: 0; line-height: 22px; cursor: pointer;
+    }
+    .row.product .twist { color: var(--paper); }
+    .twist:hover { background: transparent; color: inherit; }
+    .body { min-width: 0; }
+    .kicker {
+      font-family: "Source Code Pro", monospace;
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+    .title { font-size: 14.5px; line-height: 1.35; }
+    .row.product .title { font-family: Fraunces, serif; font-size: 20px; }
+    a.key {
+      font-family: "Source Code Pro", monospace;
+      font-size: 12.5px;
+      color: var(--mixed);
+      text-decoration: none;
+      margin-right: 8px;
+    }
+    .row.product a.key { color: #f4d7a8; }
+    a.key:hover { text-decoration: underline; }
+    .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 3px; }
+    .pill {
+      font-size: 11px; border: 1px solid var(--rule); padding: 1px 7px;
+      color: var(--ink-soft); background: transparent;
+    }
+    .pill.polaris { border-color: var(--polaris); color: var(--polaris); }
+    .pill.inferred { border-color: var(--inferred); color: var(--inferred); }
+    .pill.mixed { border-color: var(--mixed); color: var(--mixed); }
+    .pill.none { border-color: var(--none); color: var(--none); }
+    .empty { color: var(--ink-soft); font-size: 13px; padding: 6px 8px 10px 30px; font-style: italic; }
+    .also { font-size: 11px; color: var(--ink-soft); }
+    .counts { font-size: 12px; color: var(--ink-soft); white-space: nowrap; padding-top: 3px; }
+    .row.product .counts { color: #e7dcc9; }
+    .leaf .twist { visibility: hidden; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Roadmap delivery tree</h1>
+  
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Search title or key (EDP-113, aFRR, ETPA…)" />
+      <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active only (Now / Next / Later)</label>
+      <select id="kind">
+        <option value="all">All link kinds</option>
+        <option value="polaris">Polaris</option>
+        <option value="mixed">Mixed</option>
+        <option value="inferred">Inferred</option>
+        <option value="none">None</option>
+      </select>
+      <select id="depth">
+        <option value="1">Expand to product</option>
+        <option value="2" selected>Expand to EDP</option>
+        <option value="3">Expand to EPP</option>
+        <option value="4">Expand to feature</option>
+        <option value="5">Expand to story</option>
+      </select>
+      <button type="button" id="applyDepth">Apply depth</button>
+      <button type="button" class="primary" id="collapse">Collapse all</button>
+      <span class="nav">
+        <a class="current" href="E21_Delivery_Tree.html">List tree</a>
+        <a href="E21_Map.html">Coggle map</a>
+      </span>
+    </div>
+    <div class="legend">
+      <span><i class="sw polaris"></i>Polaris</span>
+      <span><i class="sw mixed"></i>Polaris + inferred</span>
+      <span><i class="sw inferred"></i>Inferred title match</span>
+      <span><i class="sw none"></i>No Jira connection</span>
+      <span>An item tagged with two products appears under both.</span>
+    </div>
+  </header>
+  <main>
+    <ul class="tree" id="root"></ul>
+  </main>
+  <script src="jira_map/tree_data.js"></script>
+  <script>
+    const JIRA = (window.E21_TREE && window.E21_TREE.jiraBase) || "https://eneve.atlassian.net/browse/";
+    const root = document.getElementById("root");
+    const state = { open: new Set(), activeOnly: true, kind: "all", q: "" };
+
+    function esc(s) {
+      return String(s || "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+
+    function kindOf(node) {
+      return node.kind || node.method || "";
+    }
+
+    function matchesSelf(node, q) {
+      if (!q) return true;
+      const blob = [node.name, node.key, node.title, node.status, node.kind, node.method, node.issuetype]
+        .join(" ").toLowerCase();
+      return blob.includes(q);
+    }
+
+    function matchesQuery(node, q) {
+      if (!q) return true;
+      if (matchesSelf(node, q)) return true;
+      return (node.children || []).some((c) => matchesQuery(c, q));
+    }
+
+    function edpPassesFilters(node) {
+      if (state.activeOnly && !node.active) return false;
+      if (state.kind !== "all" && node.kind !== state.kind) return false;
+      return true;
+    }
+
+    function visibleEdp(node) {
+      if (!edpPassesFilters(node)) return false;
+      return matchesQuery(node, state.q);
+    }
+
+    function visibleTheme(node) {
+      return (node.children || []).some(visibleEdp);
+    }
+
+    function visibleProduct(prod) {
+      const kids = prod.children || [];
+      if (kids.some((k) => k.type === "theme")) {
+        if (state.q && matchesSelf(prod, state.q)) return kids.some(visibleTheme) || kids.some((k) => (k.children || []).some(edpPassesFilters));
+        return kids.some(visibleTheme);
+      }
+      if (state.q && matchesSelf(prod, state.q)) {
+        return kids.some(edpPassesFilters);
+      }
+      return kids.some(visibleEdp);
+    }
+
+    function shownChildren(node) {
+      const kids = node.children || [];
+      if (node.type === "product" && kids.some((k) => k.type === "theme")) {
+        const themes = kids.filter(visibleTheme);
+        if (state.q && matchesSelf(node, state.q)) return themes;
+        return themes;
+      }
+      if (node.type === "theme") return kids.filter(visibleEdp);
+      if (!state.q) {
+        return node.type === "product" ? kids.filter(visibleEdp) : kids;
+      }
+      if (matchesSelf(node, state.q)) {
+        return node.type === "product" ? kids.filter(edpPassesFilters) : kids;
+      }
+      if (node.type === "product") return kids.filter(visibleEdp);
+      return kids.filter((c) => matchesQuery(c, state.q));
+    }
+
+    function counts(node) {
+      if (node.type === "product") {
+        return shownChildren(node).reduce((n, child) => {
+          if (child.type === "theme") return n + shownChildren(child).length;
+          return n + 1;
+        }, 0) + " EDP";
+      }
+      if (node.type === "theme") {
+        return shownChildren(node).length + " EDP";
+      }
+      if (node.type === "edp") {
+        return [node.eppCount + " EPP", node.featureCount + " feat", node.storyCount + " stories"].join(" · ");
+      }
+      if (node.type === "epp") {
+        return [node.featureCount + " feat", node.storyCount + " stories"].join(" · ");
+      }
+      if (node.type === "feature") {
+        return (node.storyCount || 0) + " stories";
+      }
+      return "";
+    }
+
+    function pills(node) {
+      const out = [];
+      if (node.type === "edp") {
+        out.push(`<span class="pill ${esc(node.kind)}">${esc(node.kind || "none")}</span>`);
+        if (node.roadmap) out.push(`<span class="pill">${esc(node.roadmap)}</span>`);
+        if (node.active) out.push(`<span class="pill">active</span>`);
+      }
+      if (node.status) out.push(`<span class="pill">${esc(node.status)}</span>`);
+      if (node.issuetype) out.push(`<span class="pill">${esc(node.issuetype)}</span>`);
+      if (node.method && node.type === "epp") out.push(`<span class="pill">${esc(node.method)}</span>`);
+      if (node.alsoIn && node.alsoIn.length) {
+        out.push(`<span class="also">also in ${esc(node.alsoIn.join(", "))}</span>`);
+      }
+      if (node.suggestedProduct) {
+        out.push(`<span class="also">suggests ${esc(node.suggestedProduct)}</span>`);
+      }
+      if (node.titleMismatch) {
+        out.push(`<span class="also">title suggests ${esc(node.titleMismatch)}</span>`);
+      }
+      return out.join("");
+    }
+
+    function kicker(node) {
+      const map = {
+        product: "Product line",
+        theme: "Theme · unclassified",
+        edp: "EDP · Idea",
+        epp: "EPP · Initiative",
+        feature: "Feature",
+        story: "Story"
+      };
+      return map[node.type] || node.type;
+    }
+
+    function idOf(path) { return path.join("/"); }
+
+    function renderNode(node, path, forced) {
+      const id = idOf(path);
+      const kids = node.children || [];
+      const isProduct = node.type === "product";
+      if (isProduct && !visibleProduct(node)) return "";
+      if (node.type === "theme" && !visibleTheme(node) && !(state.q && matchesSelf(node, state.q))) return "";
+      if (node.type === "edp" && !edpPassesFilters(node)) return "";
+      if (state.q && !forced && !isProduct && !matchesQuery(node, state.q)) return "";
+      const forceKids = !!(forced || (state.q && matchesSelf(node, state.q)));
+      const shownKids = kids.filter((child) => {
+        if (isProduct || node.type === "theme") {
+          if (child.type === "theme") {
+            if (!state.q || forceKids || matchesSelf(node, state.q)) return visibleTheme(child) || matchesSelf(child, state.q);
+            return visibleTheme(child);
+          }
+          if (!edpPassesFilters(child)) return false;
+          if (!state.q || forceKids) return true;
+          return visibleEdp(child);
+        }
+        if (!state.q || forceKids) return true;
+        return matchesQuery(child, state.q);
+      });
+      const hasKids = shownKids.length > 0;
+      const open = state.open.has(id);
+      const title = node.name || node.title || "(untitled)";
+      const key = node.key ? `<a class="key" href="${esc(node.url || JIRA + node.key)}" target="_blank" rel="noreferrer">${esc(node.key)}</a>` : "";
+      const leafClass = hasKids ? "" : " leaf";
+      const twist = hasKids ? `<button class="twist" data-id="${esc(id)}" aria-expanded="${open}">${open ? "▾" : "▸"}</button>` : `<span class="twist"></span>`;
+      let html = `<li>
+        <div class="row ${esc(node.type)}${leafClass}">
+          ${twist}
+          <div class="body">
+            <div class="kicker">${kicker(node)}</div>
+            <div class="title">${key}${esc(title)}</div>
+            <div class="meta">${pills(node)}</div>
+          </div>
+          <div class="counts">${esc(counts(node))}</div>
+        </div>`;
+      if (hasKids && open) {
+        html += "<ul>";
+        shownKids.forEach((child, i) => {
+          html += renderNode(child, path.concat([child.key || child.name || String(i)]), forceKids);
+        });
+        html += "</ul>";
+      } else if (node.type === "edp" && !kids.length) {
+        html += `<div class="empty">No EPP / feature / story attached</div>`;
+      }
+      html += "</li>";
+      return html;
+    }
+
+    function paint() {
+      const products = (window.E21_TREE && window.E21_TREE.products) || [];
+      root.innerHTML = products.map((p) => renderNode(p, [p.name], false)).join("") || "<li class='empty'>No matching items.</li>";
+    }
+
+    function setDepth(level) {
+      state.open.clear();
+      const products = (window.E21_TREE && window.E21_TREE.products) || [];
+      function walk(node, path, depth) {
+        const id = idOf(path);
+        if (depth < level) state.open.add(id);
+        (node.children || []).forEach((child, i) => {
+          walk(child, path.concat([child.key || child.name || String(i)]), depth + 1);
+        });
+      }
+      products.forEach((p) => walk(p, [p.name], 1));
+      paint();
+    }
+
+    function expandMatches() {
+      state.open.clear();
+      const products = (window.E21_TREE && window.E21_TREE.products) || [];
+      function walk(node, path) {
+        const kids = node.children || [];
+        const self = matchesSelf(node, state.q);
+        let childHit = false;
+        kids.forEach((child, i) => {
+          if (walk(child, path.concat([child.key || child.name || String(i)]))) childHit = true;
+        });
+        const hit = self || childHit;
+        if (hit && kids.length) state.open.add(idOf(path));
+        return hit;
+      }
+      products.forEach((p) => walk(p, [p.name]));
+      paint();
+    }
+
+    root.addEventListener("click", (e) => {
+      const btn = e.target.closest(".twist");
+      if (!btn || !btn.dataset.id) return;
+      const id = btn.dataset.id;
+      if (state.open.has(id)) state.open.delete(id);
+      else state.open.add(id);
+      paint();
+    });
+
+    document.getElementById("q").addEventListener("input", (e) => {
+      state.q = e.target.value.trim().toLowerCase();
+      if (state.q) expandMatches();
+      else setDepth(Number(document.getElementById("depth").value));
+    });
+    document.getElementById("activeOnly").addEventListener("change", (e) => {
+      state.activeOnly = e.target.checked;
+      paint();
+    });
+    document.getElementById("kind").addEventListener("change", (e) => {
+      state.kind = e.target.value;
+      paint();
+    });
+    document.getElementById("applyDepth").addEventListener("click", () => {
+      setDepth(Number(document.getElementById("depth").value));
+    });
+    document.getElementById("collapse").addEventListener("click", () => {
+      state.open.clear();
+      paint();
+    });
+
+    if (!window.E21_TREE) {
+      root.innerHTML = "<li class='empty'>Missing jira_map/tree_data.js — run python build_mindmap.py</li>";
+    } else {
+      setDepth(2);
+    }
+  </script>
+</body>
+</html>

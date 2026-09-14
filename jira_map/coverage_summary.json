@@ -1,0 +1,337 @@
+{
+  "excel_ebase": 94,
+  "excel_non_ebase": 31,
+  "epp_catalog_size": 343,
+  "features_loaded": 230,
+  "stories_loaded": 675,
+  "counts": {
+    "inferred": 27,
+    "active_inferred": 16,
+    "no_delivery_work": 65,
+    "none": 47,
+    "polaris": 14,
+    "active_polaris": 6,
+    "active_none": 7,
+    "active_no_delivery_work": 13,
+    "mixed": 6,
+    "active_mixed": 3,
+    "non_none": 30,
+    "non_inferred": 1
+  },
+  "active_unlinked": [
+    {
+      "edp": "EDP-157",
+      "summary": "aFRR Energy Bidding (XML)",
+      "roadmap": "Next",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-132",
+        "EPP-72",
+        "EPP-78",
+        "EPP-144"
+      ],
+      "features": 27,
+      "stories": 29
+    },
+    {
+      "edp": "EDP-173",
+      "summary": "BRP Simulator (Proxy)",
+      "roadmap": "Now",
+      "link_kind": "none",
+      "inferred": [],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-162",
+      "summary": "BRPaaS Financial Realizations Dashboard: Total Costs per ISP",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-311"
+      ],
+      "features": 3,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-160",
+      "summary": "BRPaaS Nominations - E-Prog and GLMD",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-309"
+      ],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-105",
+      "summary": "BRPaaS Position Management Dashboards: Forecasts vs Total Trades",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-299",
+        "EPP-304"
+      ],
+      "features": 2,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-109",
+      "summary": "BRPaaS Realization Dashboards: Forecasting Quality and Imbalance",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-310",
+        "EPP-302"
+      ],
+      "features": 2,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-110",
+      "summary": "BRPaaS Reconciliation Dashboards: Volumes and Financials",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-300"
+      ],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-155",
+      "summary": "Congestion Management - Tranche 1",
+      "roadmap": "Later",
+      "link_kind": "none",
+      "inferred": [],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-174",
+      "summary": "EBASE (road to) Cloud Architecture",
+      "roadmap": "Now",
+      "link_kind": "none",
+      "inferred": [],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-68",
+      "summary": "EBASE API  - PUT Time-series",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-59",
+        "EPP-69"
+      ],
+      "features": 7,
+      "stories": 26
+    },
+    {
+      "edp": "EDP-169",
+      "summary": "EPM Light (Tenor)",
+      "roadmap": "Next",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-184"
+      ],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-114",
+      "summary": "ETPA Trading Integration (via Jules microservice)",
+      "roadmap": "Next",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-377",
+        "EPP-209"
+      ],
+      "features": 11,
+      "stories": 24
+    },
+    {
+      "edp": "EDP-161",
+      "summary": "Ex-Post Forecasting and Position Management",
+      "roadmap": "Later",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-299",
+        "EPP-304"
+      ],
+      "features": 2,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-108",
+      "summary": "Extend Critical Process Alerts",
+      "roadmap": "Now",
+      "link_kind": "none",
+      "inferred": [],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-164",
+      "summary": "Generation Load Market Document (GLMD) - Expansion of Functionality",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-309"
+      ],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-121",
+      "summary": "IAM: Logging & monitoring",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-9",
+        "EPP-356",
+        "EPP-378"
+      ],
+      "features": 3,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-22",
+      "summary": "Implement IAM (Identity and Access Management)",
+      "roadmap": "Now",
+      "link_kind": "mixed",
+      "inferred": [
+        "EPP-356",
+        "EPP-378",
+        "EPP-185"
+      ],
+      "features": 3,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-104",
+      "summary": "Implement Steering Signal in ID (re-)forecasting",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-306"
+      ],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-97",
+      "summary": "Intake (floating) scripts and protocols into EBASE product scope",
+      "roadmap": "Later",
+      "link_kind": "none",
+      "inferred": [],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-98",
+      "summary": "Intake C-AR scripts for Power Balancer",
+      "roadmap": "Now",
+      "link_kind": "none",
+      "inferred": [],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-116",
+      "summary": "New UI framework (BaaS)",
+      "roadmap": "Now",
+      "link_kind": "mixed",
+      "inferred": [
+        "EPP-173"
+      ],
+      "features": 3,
+      "stories": 6
+    },
+    {
+      "edp": "EDP-158",
+      "summary": "Shadow Forecasting - Prognosis for Suppliers",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-303"
+      ],
+      "features": 4,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-99",
+      "summary": "Standard administration setup for B2C and B2B",
+      "roadmap": "Now",
+      "link_kind": "none",
+      "inferred": [],
+      "features": 0,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-159",
+      "summary": "Standard B2B GV (TMT) Forecast Model",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-303"
+      ],
+      "features": 4,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-102",
+      "summary": "Standard B2C KV (SMA/PRF) Forecast Model",
+      "roadmap": "Now",
+      "link_kind": "mixed",
+      "inferred": [
+        "EPP-303"
+      ],
+      "features": 4,
+      "stories": 0
+    },
+    {
+      "edp": "EDP-106",
+      "summary": "Standard influence factor imports",
+      "roadmap": "Now",
+      "link_kind": "inferred",
+      "inferred": [
+        "EPP-305"
+      ],
+      "features": 0,
+      "stories": 0
+    }
+  ],
+  "inferred_epps_missing_children": [
+    "EPP-105",
+    "EPP-144",
+    "EPP-146",
+    "EPP-173",
+    "EPP-184",
+    "EPP-185",
+    "EPP-19",
+    "EPP-2",
+    "EPP-22",
+    "EPP-232",
+    "EPP-272",
+    "EPP-3",
+    "EPP-300",
+    "EPP-304",
+    "EPP-305",
+    "EPP-306",
+    "EPP-309",
+    "EPP-310",
+    "EPP-33",
+    "EPP-37",
+    "EPP-375",
+    "EPP-43",
+    "EPP-44",
+    "EPP-45",
+    "EPP-49",
+    "EPP-62",
+    "EPP-72",
+    "EPP-9"
+  ]
+}

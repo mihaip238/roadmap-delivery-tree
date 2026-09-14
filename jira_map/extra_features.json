@@ -1,0 +1,30 @@
+{
+  "note": "Features compacted from Jira parent searches that were not in the full dump. ETPA under EPP-209/377. BRPaaS M3 screens under EPP-299/302 and FC admin under EPP-303.",
+  "issues": [
+    {"key": "EBASE-12398", "summary": "Fetch ETPA Trade deals from the Jules Intraday MicroService (Jules ID MS) and store them in EBASE", "issuetype": "Feature", "status": "In Test", "project": "EBASE", "parent_key": "EPP-209"},
+    {"key": "EBASE-12400", "summary": "Feed ETPA position in the nomination flow", "issuetype": "Feature", "status": "Released", "project": "EBASE", "parent_key": "EPP-209"},
+    {"key": "JTP-11454", "summary": "PowerBalancer Forecasting: ETPA Intraday trades and active orders via Jules", "issuetype": "Feature", "status": "Closed", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "JTP-11455", "summary": "PowerBalancer: ETPA Ex-Post trading via Jules APIs", "issuetype": "Feature", "status": "Acceptance Testing", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "JTP-11456", "summary": "PowerBalancer: ETPA Day Ahead trading via Jules at 15-minute granularity", "issuetype": "Feature", "status": "On Hold", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "JTP-11457", "summary": "Deploy ETPA Intraday, Ex-Post, and Day Ahead microservices to Azure for Tier 3 BRP PowerBalancer", "issuetype": "Feature", "status": "In Progress", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "JTP-11508", "summary": "EBASE aggregated quarter APIs — XBID & Ex-Post orders and trades (4 endpoints)", "issuetype": "Feature", "status": "Acceptance Testing", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "JTP-11509", "summary": "EBASE individual order & trade list APIs — XBID & Ex-Post (4 endpoints)", "issuetype": "Feature", "status": "Acceptance Testing", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "JTP-11510", "summary": "Azure Service Bus aggregated open-order queues — XBID & Ex-Post (2 new queues)", "issuetype": "Feature", "status": "Acceptance Testing", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "JTP-11511", "summary": "Ex-Post SSE processing, order status mapping, and Swagger alignment", "issuetype": "Feature", "status": "Acceptance Testing", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "JTP-11512", "summary": "Azure AKS deployment & configuration for Ex-Post EBASE integration (JTP-10714)", "issuetype": "Feature", "status": "Acceptance Testing", "project": "JTP", "parent_key": "EPP-377"},
+    {"key": "AURORA-738", "summary": "Realization Cost Dashboard", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-311"},
+    {"key": "AURORA-739", "summary": "Imbalance Cost Dashboard", "issuetype": "Feature", "status": "In Preparation", "project": "AURORA", "parent_key": "EPP-311"},
+    {"key": "AURORA-740", "summary": "Reconciliation Cost Dashboard", "issuetype": "Feature", "status": "Backlog", "project": "AURORA", "parent_key": "EPP-311"},
+    {"key": "AURORA-775", "summary": "Position Management Dashboard", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-299"},
+    {"key": "AURORA-776", "summary": "Trading Overview", "issuetype": "Feature", "status": "Backlog", "project": "AURORA", "parent_key": "EPP-299"},
+    {"key": "AURORA-777", "summary": "Forecast Overview", "issuetype": "Feature", "status": "In Preparation", "project": "AURORA", "parent_key": "EPP-302"},
+    {"key": "AURORA-778", "summary": "Forecast Quality Analysis", "issuetype": "Feature", "status": "Cancelled", "project": "AURORA", "parent_key": "EPP-302"},
+    {"key": "EBASE-14710", "summary": "Script number codes", "issuetype": "Technical Implementation", "status": "Done", "project": "EBASE", "parent_key": "EPP-303"},
+    {"key": "EBASE-14712", "summary": "D_LINKEDTIMESERIES removal scope for expired supply contract connections", "issuetype": "Feature", "status": "Open", "project": "EBASE", "parent_key": "EPP-303"},
+    {"key": "EBASE-14713", "summary": "Process configuration for Script 1: M3 FC Admin Maintain", "issuetype": "Feature", "status": "In Design", "project": "EBASE", "parent_key": "EPP-303"},
+    {"key": "EBASE-14714", "summary": "Process configuration for Script 2: M3 FC Prognosis Calculate", "issuetype": "Feature", "status": "Open", "project": "EBASE", "parent_key": "EPP-303"},
+    {"key": "EBASE-14108", "summary": "Masterdata REST API v2 in IAM for PowerBalancer (Foundation and GRID CRUDL)", "issuetype": "Feature", "status": "In Development", "project": "EBASE", "parent_key": "EPP-378"},
+    {"key": "EBASE-14109", "summary": "Timeseries REST API in IAM for PowerBalancer", "issuetype": "Feature", "status": "In Development", "project": "EBASE", "parent_key": "EPP-356"},
+    {"key": "EBASE-14110", "summary": "IAM role management for Timeseries API", "issuetype": "Feature", "status": "In Development", "project": "EBASE", "parent_key": "EPP-356"}
+  ]
+}

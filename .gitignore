@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+*.xlsx
+sheet_dump.txt
+xlsx_listing.txt
+workbook_analysis.json
+workbook_summary.md
+jira_map/delivery_tree.json
+jira_map/delivery_tree.csv
+jira_map/features_under_linked_epps.json
+jira_map/extra_stories.json
+jira_map/epp_catalog.json
+jira_map/edp_match.json
+jira_map/product_tree.json
+excel_items.json

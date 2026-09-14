@@ -1,0 +1,287 @@
+{
+  "checkedOn": "2026-09-14",
+  "uniqueItems": 124,
+  "duplicateExcelRowsDropped": [
+    "EDP-150"
+  ],
+  "productField": "Live Jira Product Name (customfield_10331) matches the July Excel Product Name on every matched EDP. Empty in Excel is also empty in Jira.",
+  "officialProducts": [
+    {
+      "name": "BRP as a Service",
+      "edpCount": 16,
+      "activeCount": 15
+    },
+    {
+      "name": "Power Balancer",
+      "edpCount": 11,
+      "activeCount": 7
+    },
+    {
+      "name": "Gas Shipper",
+      "edpCount": 3,
+      "activeCount": 1
+    },
+    {
+      "name": "Platform",
+      "edpCount": 6,
+      "activeCount": 5
+    },
+    {
+      "name": "Portfolio Management",
+      "edpCount": 2,
+      "activeCount": 1
+    },
+    {
+      "name": "Supply",
+      "edpCount": 3,
+      "activeCount": 1
+    },
+    {
+      "name": "Ecedo",
+      "edpCount": 26,
+      "activeCount": 26
+    },
+    {
+      "name": "Jules",
+      "edpCount": 3,
+      "activeCount": 3
+    },
+    {
+      "name": "Gridhub",
+      "edpCount": 2,
+      "activeCount": 2
+    }
+  ],
+  "unclassifiedThemes": [
+    {
+      "name": "Ancillary services",
+      "edpCount": 4,
+      "activeCount": 3
+    },
+    {
+      "name": "Allocation & market messages",
+      "edpCount": 8,
+      "activeCount": 0
+    },
+    {
+      "name": "Other / ungrouped",
+      "edpCount": 11,
+      "activeCount": 0
+    },
+    {
+      "name": "Gas",
+      "edpCount": 2,
+      "activeCount": 0
+    },
+    {
+      "name": "Platform enablers",
+      "edpCount": 8,
+      "activeCount": 0
+    },
+    {
+      "name": "Workers & migrations",
+      "edpCount": 12,
+      "activeCount": 0
+    },
+    {
+      "name": "Time-series & APIs",
+      "edpCount": 8,
+      "activeCount": 0
+    },
+    {
+      "name": "Portfolio / EPM",
+      "edpCount": 3,
+      "activeCount": 0
+    }
+  ],
+  "activeUnclassified": [
+    {
+      "key": "EDP-157",
+      "title": "aFRR Energy Bidding (XML)",
+      "theme": "Ancillary services",
+      "kind": "inferred",
+      "roadmap": "Next"
+    },
+    {
+      "key": "EDP-155",
+      "title": "Congestion Management - Tranche 1",
+      "theme": "Ancillary services",
+      "kind": "none",
+      "roadmap": "Later"
+    },
+    {
+      "key": "EDP-129",
+      "title": "mFRR Energy Bidding (XML)",
+      "theme": "Ancillary services",
+      "kind": "polaris",
+      "roadmap": "Now"
+    }
+  ],
+  "suggestedTags": [
+    {
+      "key": "EDP-157",
+      "title": "aFRR Energy Bidding (XML)",
+      "suggestedProduct": "Power Balancer",
+      "reason": "Title is balancing / ancillary",
+      "active": true,
+      "roadmap": "Next",
+      "theme": "Ancillary services"
+    },
+    {
+      "key": "EDP-155",
+      "title": "Congestion Management - Tranche 1",
+      "suggestedProduct": "Power Balancer",
+      "reason": "Title is balancing / ancillary",
+      "active": true,
+      "roadmap": "Later",
+      "theme": "Ancillary services"
+    },
+    {
+      "key": "EDP-76",
+      "title": "EBASE Asset Steering: FRR messaging",
+      "suggestedProduct": "Power Balancer",
+      "reason": "Title is balancing / ancillary",
+      "active": false,
+      "roadmap": "",
+      "theme": "Ancillary services"
+    },
+    {
+      "key": "EDP-129",
+      "title": "mFRR Energy Bidding (XML)",
+      "suggestedProduct": "Power Balancer",
+      "reason": "Title is balancing / ancillary",
+      "active": true,
+      "roadmap": "Now",
+      "theme": "Ancillary services"
+    },
+    {
+      "key": "EDP-74",
+      "title": "Allocation 2.0 Supply messages in EMS",
+      "suggestedProduct": "Supply",
+      "reason": "Title is a Supply line",
+      "active": false,
+      "roadmap": "",
+      "theme": "Allocation & market messages"
+    },
+    {
+      "key": "EDP-152",
+      "title": "BE Gas Shipper",
+      "suggestedProduct": "Gas Shipper",
+      "reason": "Title names Gas Shipper",
+      "active": false,
+      "roadmap": "",
+      "theme": "Gas"
+    },
+    {
+      "key": "EDP-92",
+      "title": "Import aggregated trade deals - gas shipper",
+      "suggestedProduct": "Gas Shipper",
+      "reason": "Title names Gas Shipper",
+      "active": false,
+      "roadmap": "",
+      "theme": "Gas"
+    },
+    {
+      "key": "EDP-64",
+      "title": "Database Partitioning R&D",
+      "suggestedProduct": "Platform",
+      "reason": "Title is a platform enabler",
+      "active": false,
+      "roadmap": "",
+      "theme": "Platform enablers"
+    },
+    {
+      "key": "EDP-43",
+      "title": "EMS Evolution (Recovery, Logging and Operation Improvements)",
+      "suggestedProduct": "Platform",
+      "reason": "Title is a platform enabler",
+      "active": false,
+      "roadmap": "",
+      "theme": "Platform enablers"
+    },
+    {
+      "key": "EDP-87",
+      "title": "Generic connection with datalake's for reporting",
+      "suggestedProduct": "Platform",
+      "reason": "Title is a platform enabler",
+      "active": false,
+      "roadmap": "",
+      "theme": "Platform enablers"
+    },
+    {
+      "key": "EDP-15",
+      "title": "Implement Multi-tenancy",
+      "suggestedProduct": "Platform",
+      "reason": "Title is a platform enabler",
+      "active": false,
+      "roadmap": "",
+      "theme": "Platform enablers"
+    },
+    {
+      "key": "EDP-93",
+      "title": "Message monitoring - ArcESB",
+      "suggestedProduct": "Platform",
+      "reason": "Title is a platform enabler",
+      "active": false,
+      "roadmap": "",
+      "theme": "Platform enablers"
+    },
+    {
+      "key": "EDP-128",
+      "title": "Self-built alternative for ArcESB",
+      "suggestedProduct": "Platform",
+      "reason": "Title is a platform enabler",
+      "active": false,
+      "roadmap": "",
+      "theme": "Platform enablers"
+    },
+    {
+      "key": "EDP-63",
+      "title": "Staging Enviroment Setup (PI Freeze and Release Environment)",
+      "suggestedProduct": "Platform",
+      "reason": "Title is a platform enabler",
+      "active": false,
+      "roadmap": "",
+      "theme": "Platform enablers"
+    },
+    {
+      "key": "EDP-167",
+      "title": "Energy Product Management (ENPRDM)",
+      "suggestedProduct": "Portfolio Management",
+      "reason": "Title is EPM / SPM / portfolio",
+      "active": false,
+      "roadmap": "",
+      "theme": "Portfolio / EPM"
+    },
+    {
+      "key": "EDP-62",
+      "title": "Phase-out WinGUI Sales Portfolio Management (SPM) and old OS10 WebGUI screens",
+      "suggestedProduct": "Portfolio Management",
+      "reason": "Title is EPM / SPM / portfolio",
+      "active": false,
+      "roadmap": "",
+      "theme": "Portfolio / EPM"
+    }
+  ],
+  "titleMismatches": [
+    {
+      "key": "EDP-110",
+      "title": "BRPaaS Reconciliation Dashboards: Volumes and Financials",
+      "currentProduct": "Power Balancer",
+      "titleSuggests": "BRP as a Service",
+      "reason": "Title names BRPaaS / BaaS",
+      "active": true,
+      "roadmap": "Now"
+    },
+    {
+      "key": "EDP-101",
+      "title": "Standardize ArcESB flows",
+      "currentProduct": "Power Balancer",
+      "titleSuggests": "Platform",
+      "reason": "Title is a platform enabler",
+      "active": false,
+      "roadmap": "On Hold"
+    }
+  ],
+  "rule": "Official product comes only from Jira/Excel Product Name. Unclassified items are grouped by title theme for navigation; that theme is not a Product Name. Suggested tags are review hints only and are not applied."
+}
