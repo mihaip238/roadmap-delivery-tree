@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roadmap map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Fraunces:opsz,wght@9..144,600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #f4efe4;
+      --ink: #1c1915;
+      --muted: #6a6358;
+      --line: #d5ccbb;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--paper); color: var(--ink); }
+    body {
+      font-family: "Source Sans 3", sans-serif;
+      overflow: hidden;
+      background-image:
+        radial-gradient(circle at 1px 1px, rgba(28,25,21,0.045) 1px, transparent 0);
+      background-size: 18px 18px;
+    }
+    header {
+      position: absolute; top: 0; left: 0; right: 0; z-index: 4;
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+      padding: 14px 18px 12px;
+      background: linear-gradient(180deg, rgba(244,239,228,0.97), rgba(244,239,228,0.82) 70%, transparent);
+      pointer-events: none;
+    }
+    header > * { pointer-events: auto; }
+    h1 {
+      font-family: Fraunces, serif;
+      font-size: 26px; font-weight: 600; margin: 0 12px 0 0;
+      letter-spacing: -0.03em;
+    }
+    .lede { margin: 0 16px 0 0; color: var(--muted); font-size: 13px; max-width: 520px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    input[type="search"] {
+      min-width: 200px; border: 1px solid var(--line); background: #fffaf2;
+      padding: 7px 10px; font: inherit; border-radius: 999px;
+    }
+    button, .nav a {
+      font: inherit; border: 1px solid var(--ink); background: transparent;
+      color: var(--ink); padding: 6px 11px; cursor: pointer; text-decoration: none;
+      border-radius: 999px;
+    }
+    button:hover, .nav a:hover { background: var(--ink); color: var(--paper); }
+    .nav a.current { background: var(--ink); color: var(--paper); }
+    label.chk { display: flex; gap: 6px; align-items: center; font-size: 13px; color: var(--muted); }
+    #stage { width: 100%; height: 100%; display: block; cursor: grab; }
+    #stage.drag { cursor: grabbing; }
+    .hint {
+      position: absolute; bottom: 14px; left: 18px; z-index: 4;
+      color: var(--muted); font-size: 12px; pointer-events: none;
+    }
+    .branch { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .label {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-weight: 500;
+      paint-order: stroke fill;
+      stroke: var(--paper);
+      stroke-width: 6px;
+      stroke-linejoin: round;
+      cursor: pointer;
+    }
+    .label.root {
+      font-family: Fraunces, serif;
+      font-weight: 600;
+      font-size: 22px;
+      stroke-width: 10px;
+    }
+    .label.product { font-size: 16px; font-weight: 700; }
+    .label.theme { font-size: 14px; font-style: italic; }
+    .label.edp { font-size: 13px; }
+    .label.epp { font-size: 12.5px; }
+    .label.feature, .label.story { font-size: 12px; }
+    .hub {
+      fill: #fffaf2; stroke: var(--ink); stroke-width: 1.5;
+    }
+    .plus {
+      fill: #fffaf2; stroke-width: 1.5; cursor: pointer;
+    }
+    .node {
+      fill: #fffaf2; stroke-width: 1.6; cursor: pointer;
+    }
+    aside {
+      position: absolute; top: 72px; right: 14px; width: min(360px, 92vw);
+      max-height: calc(100vh - 96px); overflow: auto; z-index: 5;
+      background: #fffaf2; border: 1px solid var(--ink); padding: 16px 16px 20px;
+      display: none;
+    }
+    aside.open { display: block; }
+    aside h2 { font-family: Fraunces, serif; font-size: 18px; margin: 0 0 8px; }
+    aside p, aside li { font-size: 13px; line-height: 1.45; color: #3c3832; }
+    aside ul { padding-left: 18px; margin: 8px 0; }
+    aside .k { font-family: "Bricolage Grotesque", sans-serif; font-size: 12px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Roadmap map</h1>
+    <p class="lede">Organic view of the same delivery tree. Official products from Jira. Click a branch to expand. Drag the paper, scroll to zoom.</p>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Find a key or title" />
+      <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active only</label>
+      <button type="button" id="reviewBtn">Classification</button>
+      <button type="button" id="reset">Reset view</button>
+      <span class="nav">
+        <a href="Roadmap_Delivery_Tree.html">List tree</a>
+        <a class="current" href="Roadmap_Map.html">Coggle map</a>
+      </span>
+    </div>
+  </header>
+  <aside id="review"></aside>
+  <svg id="stage" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div class="hint">Click a label to expand · double-click a key to open Jira · unclassified themes are not Product Names</div>
+  <script src="jira_map/tree_data.js"></script>
+  <script>
+    const PALETTE = {
+      "BRP as a Service": "#c4452c",
+      "Power Balancer": "#1e6f8a",
+      "Gas Shipper": "#b56a12",
+      "Platform": "#3c4b9a",
+      "Portfolio Management": "#6b3d91",
+      "Supply": "#2c7a4a",
+      "Ecedo": "#9a3b68",
+      "Jules": "#1f8a7a",
+      "Gridhub": "#5a6b3d",
+      "Unclassified": "#6a635a"
+    };
+    const WIDTH = { root: 10, product: 7.5, theme: 5.5, edp: 4.2, epp: 2.8, feature: 2, story: 1.4 };
+    const JIRA = (window.ROADMAP_TREE && window.ROADMAP_TREE.jiraBase) || "https://eneve.atlassian.net/browse/";
+    const svg = document.getElementById("stage");
+    const state = {
+      open: new Set(["roadmap"]),
+      activeOnly: true,
+      q: "",
+      panX: 0, panY: 0, zoom: 1,
+      drag: false, px: 0, py: 0
+    };
+
+    function esc(s) {
+      return String(s || "").replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[c]));
+    }
+
+    function blob(node) {
+      return [node.name, node.key, node.title, node.status, node.kind, node.method, node.theme]
+        .join(" ").toLowerCase();
+    }
+
+    function selfMatch(node, q) {
+      if (!q) return true;
+      return blob(node).includes(q);
+    }
+
+    function deepMatch(node, q) {
+      if (!q) return true;
+      if (selfMatch(node, q)) return true;
+      return (node.children || []).some((c) => deepMatch(c, q));
+    }
+
+    function idOf(node, parent) {
+      if (node.type === "root") return "roadmap";
+      if (node.type === "product") return "P/" + node.name;
+      if (node.type === "theme") return (parent && parent._id ? parent._id : "P/" + ((parent && parent.name) || "x")) + "/T/" + node.name;
+      const key = node.key || node.name || node.title;
+      const pid = parent && parent._id ? parent._id : "x";
+      return pid + "/" + (node.type || "n") + "/" + key;
+    }
+
+    function clip(text, maxChars) {
+      const t = String(text || "").replace(/\s+/g, " ").trim();
+      if (t.length <= maxChars) return t;
+      return t.slice(0, Math.max(4, maxChars - 1)).trimEnd() + "…";
+    }
+
+    function buildScene() {
+      const products = ((window.ROADMAP_TREE && window.ROADMAP_TREE.products) || [])
+        .map((p) => ({ ...p, type: "product" }))
+        .filter((p) => {
+          const fake = { ...p, children: p.children };
+          return visibleChildren(fake).length > 0 || (state.q && selfMatch(p, state.q));
+        });
+      const root = { type: "root", name: "Roadmap", title: "Roadmap", _id: "roadmap", x: 0, y: 0, angle: 0, depth: 0, color: "#1c1915" };
+      root._open = true;
+      const vis = products.map((p) => decorate(p, root, PALETTE[p.name] || "#6a635a"));
+      root._kids = vis;
+      const mid = Math.ceil(vis.length / 2);
+      placeChildren(0, 0, 0, vis.slice(0, mid), 1.45, 1);
+      placeChildren(0, 0, Math.PI, vis.slice(mid), 1.45, 1);
+      return root;
+    }
+
+    function decorate(node, parent, color) {
+      const copy = { ...node, parent, color: color || node.color };
+      copy._id = idOf(copy, parent);
+      copy._open = state.open.has(copy._id);
+      copy._kids = copy._open ? visibleChildren(copy).map((ch) => decorate(ch, copy, color)) : [];
+      return copy;
+    }
+
+    function visibleChildren(node) {
+      const kids = node.children || [];
+      return kids.filter((child) => {
+        if (child.type === "edp" && state.activeOnly && !child.active) return false;
+        if (child.type === "theme") {
+          const inner = (child.children || []).filter((e) => !(state.activeOnly && !e.active));
+          return inner.length > 0 && (!state.q || deepMatch(child, state.q));
+        }
+        if (state.q) return deepMatch(child, state.q);
+        return true;
+      });
+    }
+
+    function gapFor(node) {
+      if (node.type === "story") return 16;
+      if (node.type === "feature") return 18;
+      if (node.type === "edp") return 22;
+      return 26;
+    }
+
+    function placeChildren(px, py, angle, kids, spread, depth) {
+      const n = kids.length;
+      if (!n) return;
+      const dist = 168 + depth * 16 + Math.max(0, n - 2) * 12 + (depth === 1 ? 36 : 0);
+      const fan = n === 1 ? Math.min(spread, 0.22) : Math.min(2.15, Math.max(spread, 0.26 + n * 0.1));
+      kids.forEach((child, i) => {
+        const t = n === 1 ? 0.5 : i / (n - 1);
+        const a = angle - fan / 2 + t * fan;
+        child.x = px + Math.cos(a) * dist;
+        child.y = py + Math.sin(a) * dist;
+        child.angle = a;
+        child.depth = depth;
+      });
+      for (let pass = 0; pass < 8; pass++) {
+        kids.sort((a, b) => a.y - b.y);
+        for (let i = 1; i < kids.length; i++) {
+          const need = Math.max(gapFor(kids[i]), gapFor(kids[i - 1]));
+          const dy = kids[i].y - kids[i - 1].y;
+          if (dy < need) {
+            const push = (need - dy) / 2;
+            kids[i - 1].y -= push;
+            kids[i].y += push;
+          }
+        }
+      }
+      kids.forEach((child) => {
+        child.angle = Math.atan2(child.y - py, child.x - px);
+        if (child._open && child._kids && child._kids.length) {
+          const childSpread = Math.min(1.55, Math.max(0.34, fan / Math.sqrt(Math.max(n, 1))));
+          placeChildren(child.x, child.y, child.angle, child._kids, childSpread, depth + 1);
+        }
+      });
+    }
+
+    function flatten(node, out) {
+      out.push(node);
+      (node._kids || []).forEach((c) => flatten(c, out));
+      return out;
+    }
+
+    function curve(a, b) {
+      const len = Math.hypot(b.x - a.x, b.y - a.y) || 1;
+      const a0 = a.angle == null ? Math.atan2(b.y - a.y, b.x - a.x) : a.angle;
+      const a1 = b.angle == null ? a0 : b.angle;
+      const c1x = a.x + Math.cos(a0) * len * 0.42;
+      const c1y = a.y + Math.sin(a0) * len * 0.42;
+      const c2x = b.x - Math.cos(a1) * len * 0.38;
+      const c2y = b.y - Math.sin(a1) * len * 0.38;
+      return `M${a.x},${a.y} C${c1x},${c1y} ${c2x},${c2y} ${b.x},${b.y}`;
+    }
+
+    function titleOf(node) {
+      if (node.type === "root") return "Roadmap";
+      if (node.name) return node.name;
+      const key = node.key ? node.key + "  " : "";
+      return key + (node.title || "");
+    }
+
+    function fitWorld(nodes) {
+      if (!nodes.length) return;
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      nodes.forEach((n) => {
+        minX = Math.min(minX, n.x);
+        minY = Math.min(minY, n.y);
+        maxX = Math.max(maxX, n.x);
+        maxY = Math.max(maxY, n.y);
+      });
+      minX -= 120;
+      maxX += 300;
+      minY -= 56;
+      maxY += 48;
+      const w = svg.clientWidth || window.innerWidth;
+      const h = svg.clientHeight || window.innerHeight;
+      const bw = Math.max(maxX - minX, 1);
+      const bh = Math.max(maxY - minY, 1);
+      const zoom = Math.min(1.05, Math.max(0.32, Math.min((w - 48) / bw, (h - 110) / bh)));
+      state.zoom = zoom;
+      state.panX = w / 2 - ((minX + maxX) / 2) * zoom;
+      state.panY = (h / 2 + 18) - ((minY + maxY) / 2) * zoom;
+      state._init = true;
+    }
+
+    function paint(opts) {
+      const root = buildScene();
+      const nodes = flatten(root, []);
+      const w = svg.clientWidth || window.innerWidth;
+      const h = svg.clientHeight || window.innerHeight;
+      if (!state._init) {
+        state.panX = w / 2;
+        state.panY = h / 2;
+        state.zoom = 0.92;
+        state._init = true;
+      }
+      if (opts && opts.fit) fitWorld(nodes);
+      const parts = [];
+      nodes.forEach((n) => {
+        (n._kids || []).forEach((c) => {
+          const sw = WIDTH[c.type] || 2;
+          parts.push(`<path class="branch" d="${curve(n, c)}" stroke="${esc(c.color)}" stroke-width="${sw}" />`);
+        });
+      });
+      nodes.forEach((n) => {
+        const right = Math.cos(n.angle || 0) >= 0 || n.type === "root";
+        const anchor = n.type === "root" ? "middle" : (right ? "start" : "end");
+        const dx = n.type === "root" ? 0 : (right ? 14 : -14);
+        const maxChars = n.type === "product" ? 28 : n.type === "theme" ? 32 : n.type === "edp" ? 42 : 38;
+        const shown = n.type === "root" ? titleOf(n) : clip(titleOf(n), maxChars);
+        const cls = "label " + (n.type || "");
+        const url = n.url || (n.key ? JIRA + n.key : "");
+        const canOpen = (n.children || []).length > 0 && !n._open && n.type !== "root";
+        if (n.type === "root") {
+          parts.push(`<ellipse class="hub" cx="${n.x}" cy="${n.y}" rx="78" ry="36" />`);
+        } else {
+          const r = n.type === "product" ? 6.5 : 5;
+          parts.push(`<circle class="node" data-id="${esc(n._id)}" cx="${n.x}" cy="${n.y}" r="${r}" stroke="${esc(n.color)}" />`);
+          if (canOpen) {
+            parts.push(`<text class="label" data-id="${esc(n._id)}" x="${n.x}" y="${n.y + 4}" text-anchor="middle" fill="${esc(n.color)}" style="font-size:11px;stroke-width:4px">+</text>`);
+          }
+        }
+        parts.push(
+          `<text class="${cls}" data-id="${esc(n._id)}" data-url="${esc(url)}" text-anchor="${anchor}" x="${n.x + dx}" y="${n.y + 4}" fill="${esc(n.color)}">` +
+          `<title>${esc(titleOf(n))}</title>${esc(shown)}</text>`
+        );
+      });
+      svg.innerHTML = `<g id="world" transform="translate(${state.panX},${state.panY}) scale(${state.zoom})">${parts.join("")}</g>`;
+    }
+
+    function toggle(id) {
+      if (!id || id === "roadmap") return;
+      if (state.open.has(id)) state.open.delete(id);
+      else state.open.add(id);
+      paint({ fit: true });
+    }
+
+    svg.addEventListener("click", (e) => {
+      const t = e.target.closest("[data-id]");
+      if (!t) return;
+      toggle(t.getAttribute("data-id"));
+    });
+    svg.addEventListener("dblclick", (e) => {
+      const t = e.target.closest("[data-id]");
+      if (!t) return;
+      const url = t.getAttribute("data-url");
+      if (url) window.open(url, "_blank", "noopener");
+    });
+    svg.addEventListener("pointerdown", (e) => {
+      if (e.target.closest("[data-id]")) return;
+      state.drag = true;
+      state.px = e.clientX; state.py = e.clientY;
+      svg.classList.add("drag");
+      svg.setPointerCapture(e.pointerId);
+    });
+    svg.addEventListener("pointermove", (e) => {
+      if (!state.drag) return;
+      state.panX += e.clientX - state.px;
+      state.panY += e.clientY - state.py;
+      state.px = e.clientX; state.py = e.clientY;
+      const g = document.getElementById("world");
+      if (g) g.setAttribute("transform", `translate(${state.panX},${state.panY}) scale(${state.zoom})`);
+    });
+    svg.addEventListener("pointerup", () => { state.drag = false; svg.classList.remove("drag"); });
+    svg.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const factor = e.deltaY < 0 ? 1.08 : 0.92;
+      const nz = Math.min(2.4, Math.max(0.28, state.zoom * factor));
+      const rect = svg.getBoundingClientRect();
+      const cx = e.clientX - rect.left;
+      const cy = e.clientY - rect.top;
+      const x = (cx - state.panX) / state.zoom;
+      const y = (cy - state.panY) / state.zoom;
+      state.zoom = nz;
+      state.panX = cx - x * nz;
+      state.panY = cy - y * nz;
+      paint();
+    }, { passive: false });
+
+    document.getElementById("q").addEventListener("input", (e) => {
+      state.q = e.target.value.trim().toLowerCase();
+      if (state.q) {
+        function openHits(node, parent) {
+          const id = node.type === "product" ? "P/" + node.name : idOf(node, parent);
+          const kids = node.children || [];
+          let hit = selfMatch(node, state.q);
+          kids.forEach((c) => { if (openHits(c, node)) hit = true; });
+          if (hit && kids.length) state.open.add(node.type === "product" ? "P/" + node.name : id);
+          return hit;
+        }
+        (window.ROADMAP_TREE.products || []).forEach((p) => openHits(p, null));
+      }
+      paint({ fit: true });
+    });
+    document.getElementById("activeOnly").addEventListener("change", (e) => {
+      state.activeOnly = e.target.checked;
+      paint({ fit: true });
+    });
+    function seedOpen() {
+      state.open = new Set(["roadmap"]);
+    }
+    document.getElementById("reset").addEventListener("click", () => {
+      state._init = false;
+      seedOpen();
+      paint();
+    });
+    document.getElementById("reviewBtn").addEventListener("click", () => {
+      document.getElementById("review").classList.toggle("open");
+    });
+
+    function fillReview() {
+      const r = (window.ROADMAP_TREE && window.ROADMAP_TREE.review) || {};
+      const active = (r.activeUnclassified || []).map((x) =>
+        `<li><span class="k">${esc(x.key)}</span> ${esc(x.title)} — theme ${esc(x.theme)} (${esc(x.kind)})</li>`
+      ).join("");
+      const themes = (r.unclassifiedThemes || []).map((t) =>
+        `<li>${esc(t.name)} · ${t.edpCount} items (${t.activeCount} active)</li>`
+      ).join("");
+      const suggested = (r.suggestedTags || []).map((x) =>
+        `<li><span class="k">${esc(x.key)}</span> ${esc(x.title)} → <b>${esc(x.suggestedProduct)}</b> (${esc(x.reason)}${x.active ? "; active" : ""})</li>`
+      ).join("");
+      const mismatches = (r.titleMismatches || []).map((x) =>
+        `<li><span class="k">${esc(x.key)}</span> ${esc(x.title)} is <b>${esc(x.currentProduct)}</b>, title suggests ${esc(x.titleSuggests)}</li>`
+      ).join("");
+      document.getElementById("review").innerHTML = `
+        <h2>Classification check</h2>
+        <p>${esc(r.productField || "")}</p>
+        <p>${esc(r.rule || "")}</p>
+        <p><span class="k">Unique items</span> ${r.uniqueItems || "—"}
+           ${r.duplicateExcelRowsDropped && r.duplicateExcelRowsDropped.length
+             ? " · dropped duplicate " + esc(r.duplicateExcelRowsDropped.join(", "))
+             : ""}</p>
+        <h2>Active items with no Product Name</h2>
+        <ul>${active || "<li>None. Every active EDP already has a Jira product.</li>"}</ul>
+        <h2>Likely Jira tags to set</h2>
+        <p>Hints from the title only. Nothing was moved on the map.</p>
+        <ul>${suggested || "<li>No strong title hints on unclassified items.</li>"}</ul>
+        <h2>Title vs current Product Name</h2>
+        <ul>${mismatches || "<li>No official item whose title names a different product.</li>"}</ul>
+        <h2>Unclassified themes</h2>
+        <ul>${themes}</ul>
+      `;
+    }
+
+    window.addEventListener("resize", () => paint());
+    if (!window.ROADMAP_TREE) {
+      svg.innerHTML = "<text x='40' y='80'>Missing jira_map/tree_data.js</text>";
+    } else {
+      fillReview();
+      seedOpen();
+      paint();
+    }
+  </script>
+</body>
+</html>

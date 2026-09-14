@@ -344,7 +344,7 @@ def main() -> None:
     }
     OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT_JS.write_text(
-        "window.E21_TREE = " + json.dumps(payload, ensure_ascii=False) + ";\n",
+        "window.ROADMAP_TREE = " + json.dumps(payload, ensure_ascii=False) + ";\n",
         encoding="utf-8",
     )
     print("products", [(p["name"], p["edpCount"], p["activeCount"]) for p in products])
@@ -461,7 +461,7 @@ function label(key: string | undefined, title: string | undefined) {
 }
 
 export default function ProductDeliveryTree() {
-  const [mode, setMode] = useCanvasState<Kind>("e21-tree-mode", "active");
+  const [mode, setMode] = useCanvasState<Kind>("roadmap-tree-mode", "active");
 
   return (
     <Stack gap={16}>
@@ -480,7 +480,7 @@ export default function ProductDeliveryTree() {
       </Row>
 
       <Callout tone="info" title="Full diagram with Jira links">
-        Open E21_Delivery_Tree.html in the kpisss folder. That page expands
+        Open Roadmap_Delivery_Tree.html in the kpisss folder. That page expands
         through stories and every key is a Jira link.
       </Callout>
 

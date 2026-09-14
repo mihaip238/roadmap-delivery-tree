@@ -10,8 +10,8 @@ from openpyxl.utils import get_column_letter
 
 ROOT = Path(r"C:\Users\MihaiPostolache\Downloads\kpisss")
 SRC = ROOT / "jira_map" / "delivery_tree.json"
-OUT = ROOT / "E21_Jira_Delivery_Map.xlsx"
-OUT_COPY = ROOT / "jira_map" / "E21_Jira_Delivery_Map.xlsx"
+OUT = ROOT / "Roadmap_Jira_Delivery_Map.xlsx"
+OUT_COPY = ROOT / "jira_map" / "Roadmap_Jira_Delivery_Map.xlsx"
 
 JIRA = "https://eneve.atlassian.net/browse/"
 
@@ -86,7 +86,7 @@ def main() -> None:
     # --- Read me ---
     intro = wb.active
     intro.title = "Read_me"
-    intro["A1"] = "E21 Jira delivery map"
+    intro["A1"] = "Roadmap Jira delivery map"
     intro["A1"].font = Font(bold=True, size=16)
     lines = [
         "",
