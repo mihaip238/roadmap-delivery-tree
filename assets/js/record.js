@@ -70,6 +70,7 @@
       <span class="qty"></span>
       <span class="hrs dim">—</span>
       <span class="hrs">${esc(num(loggedHours(st)))}</span>
+      <span class="unit-act"></span>
     </div>`;
   }
 
@@ -87,6 +88,7 @@
         <span class="qty">${n ? esc(String(n)) : ""}</span>
         <span class="hrs dim">—</span>
         <span class="hrs">${esc(num(loggedHours(feat)))}</span>
+        <span class="unit-act"></span>
       </header>
       ${bar(loggedHours(feat), openSet && openSet.maxHours)}
       ${open && n ? `<div class="unit-b">${kids.map(storyLine).join("")}</div>` : ""}
@@ -104,10 +106,9 @@
     const shared = ((epp.time || {}).sharedWith || []).filter(Boolean);
     const act = actionsFn ? actionsFn(epp) : "";
     const cls = ["unit", "unit-epp", pending ? "is-pending" : "", rejected ? "is-rejected" : ""].filter(Boolean).join(" ");
-    const qty = [(epp.featureCount || feats.length) || "", (epp.storyCount || 0) || ""]
-      .map((n) => n === "" || n === 0 ? "" : String(n))
-      .filter(Boolean);
-    const qtyLabel = qty.length === 2 ? qty[0] + "·" + qty[1] : (qty[0] || "");
+    const f = Number(epp.featureCount || feats.length || 0);
+    const s = Number(epp.storyCount || 0);
+    const qtyLabel = (f || s) ? (f + "/" + s) : "";
     return `<article class="${cls}" data-unit="${esc(id)}">
       <header class="unit-h" data-toggle="${esc(id)}">
         ${chip("epp")}
@@ -120,17 +121,17 @@
         </span>
         <span class="qty">${esc(qtyLabel)}</span>
         <span class="hrs ${cost == null ? "dim" : ""}">${esc(cost == null ? "—" : num(cost))}</span>
-        <span class="hrs dim">${esc(num(logged))}</span>
+        <span class="hrs">${esc(num(logged))}</span>
+        <span class="unit-act">${act}</span>
       </header>
       ${bar(logged, openSet && openSet.maxHours)}
-      ${act ? `<div class="unit-act">${act}</div>` : ""}
-      ${open && feats.length ? `<div class="unit-b">${feats.map((f) => featureBlock(f, openSet)).join("")}</div>` : ""}
+      ${open && feats.length ? `<div class="unit-b">${feats.map((feat) => featureBlock(feat, openSet)).join("")}</div>` : ""}
     </article>`;
   }
 
   function cols() {
     return `<div class="unit-cols">
-      <span>Type</span><span>Key</span><span></span><span></span><span></span><span>Cost</span><span>Logged</span>
+      <span>Type</span><span>Key</span><span></span><span></span><span>F/S</span><span>Cost</span><span>Logged</span><span></span>
     </div>`;
   }
 
@@ -169,8 +170,8 @@
     const epps = edp.children || [];
     if (!epps.length) return;
     const seen = primed(openSet);
-    if (seen["edp:" + edp.key]) return;
-    seen["edp:" + edp.key] = true;
+    if (seen["edp:" + (edp.key || edp.title)]) return;
+    seen["edp:" + (edp.key || edp.title)] = true;
     const first = epps[0];
     openSet.add("epp:" + first.key);
     const feat = (first.children || [])[0];
@@ -191,9 +192,9 @@
       ? `<a class="soft-link" href="${esc(opts.mappingHref)}">Mapping</a>`
       : "";
     if (!ordered.length) {
-      return edpHead(edp, extra) + `<div class="empty-mini">—</div>`;
+      return edpHead(edp, extra) + (opts.afterHead || "") + `<div class="empty-mini">—</div>`;
     }
-    return edpHead(edp, extra) + cols() + ordered.map((e) => eppBlock(e, openSet, opts.actions)).join("");
+    return edpHead(edp, extra) + (opts.afterHead || "") + cols() + ordered.map((e) => eppBlock(e, openSet, opts.actions)).join("");
   }
 
   function eppView(epp, opts) {

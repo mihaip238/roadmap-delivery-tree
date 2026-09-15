@@ -17,8 +17,7 @@
   let selected = { kind: null, key: null };
 
   function hashKey() {
-    const h = decodeURIComponent((location.hash || "").replace(/^#/, "")).trim();
-    return /^[A-Z][A-Z0-9]+-\d+$/.test(h) ? h : "";
+    return decodeURIComponent((location.hash || "").replace(/^#/, "")).trim();
   }
 
   function setHash(key) {
@@ -31,6 +30,10 @@
     const names = (Hours.tree().products || []).map((p) => p.name);
     els.product.innerHTML = '<option value="">Product</option>' +
       names.map((n) => `<option>${Hours.esc(n)}</option>`).join("");
+  }
+
+  function edpId(edp) {
+    return edp.key || edp.title || "";
   }
 
   function matchesEdp(edp) {
@@ -59,8 +62,7 @@
       return;
     }
     const edps = Hours.uniqueEdps().filter(matchesEdp);
-    const hours = edps.reduce((s, e) => s + Number((e.time || {}).uniqueSpentHours || 0), 0);
-    els.navMeta.textContent = edps.length + " · " + Hours.fmtNum(hours);
+    els.navMeta.textContent = String(edps.length);
     const byProd = {};
     edps.forEach((e) => {
       const p = e.productLabel || "—";
@@ -70,10 +72,10 @@
       const list = byProd[p];
       const h = list.reduce((s, e) => s + Number((e.time || {}).uniqueSpentHours || 0), 0);
       const rows = list.map((e) => {
-        const on = selected.kind === "edp" && selected.key === e.key;
+        const on = selected.kind === "edp" && selected.key === edpId(e);
         const health = Hours.health(e);
-        return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-kind="edp" data-key="${Hours.esc(e.key)}">
-          <span class="nav-edp-k">${Hours.esc(e.key)}</span>
+        return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-kind="edp" data-key="${Hours.esc(edpId(e))}">
+          <span class="nav-edp-k">${Hours.esc(e.key || "—")}</span>
           <span class="nav-edp-t">${Hours.esc(e.title)}</span>
           <span class="nav-edp-h mono">${Hours.fmtNum((e.time || {}).uniqueSpentHours)}</span>
           <span class="nav-edp-st st-${Hours.esc(health)}"></span>
@@ -119,7 +121,7 @@
     if (selected.kind === "edp") {
       const edp = Hours.findEdp(selected.key);
       els.pane.innerHTML = edp
-        ? Record.edpView(edp, { open, mappingHref: "mapping.html#" + encodeURIComponent(edp.key) })
+        ? Record.edpView(edp, { open, mappingHref: "mapping.html#" + encodeURIComponent(edpId(edp)) })
         : `<div class="empty-mini">—</div>`;
       return;
     }
@@ -135,41 +137,83 @@
     pickDefault();
   }
 
+  function visibleEdps() {
+    return Hours.uniqueEdps().filter(matchesEdp);
+  }
+
+  function visibleEpps() {
+    const q = (els.search.value || "").trim().toLowerCase();
+    const out = [];
+    (Hours.tree().milestones || []).forEach((m) => {
+      (m.children || []).forEach((e) => {
+        if (!q || (e.key + " " + e.title).toLowerCase().includes(q)) out.push(e);
+      });
+    });
+    return out;
+  }
+
   function pickDefault() {
     if (view === "milestone") {
-      const first = ((Hours.tree().milestones || [])[0] || {}).children || [];
-      if (first[0]) select("epp", first[0].key);
+      const first = visibleEpps()[0];
+      if (first) select("epp", first.key);
       else els.pane.innerHTML = `<div class="empty-mini">—</div>`;
       return;
     }
-    const list = Hours.uniqueEdps().filter(matchesEdp);
+    const list = visibleEdps();
     const first = list.find((e) => (e.children || []).length) || list[0];
-    if (first) select("edp", first.key);
+    if (first) select("edp", edpId(first));
     else els.pane.innerHTML = `<div class="empty-mini">—</div>`;
+  }
+
+  function keepVisible() {
+    if (view === "milestone") {
+      const keys = visibleEpps().map((e) => e.key);
+      if (selected.kind === "epp" && keys.indexOf(selected.key) >= 0) {
+        renderNav();
+        return;
+      }
+      if (keys[0]) select("epp", keys[0]);
+      else { selected = { kind: null, key: null }; renderNav(); renderPane(); }
+      return;
+    }
+    const ids = visibleEdps().map(edpId);
+    if (selected.kind === "edp" && ids.indexOf(selected.key) >= 0) {
+      renderNav();
+      return;
+    }
+    pickDefault();
   }
 
   function applyHash() {
     const key = hashKey();
     if (!key) return false;
-    if (key.indexOf("EDP-") === 0 && Hours.findEdp(key)) {
+    const edp = Hours.findEdp(key);
+    if (edp) {
       view = "product";
       els.view.value = "product";
       localStorage.setItem(LS_VIEW, view);
-      select("edp", key);
+      syncChrome();
+      select("edp", edpId(edp));
       return true;
     }
-    if (key.indexOf("EPP-") === 0 && Hours.findEpp(key)) {
+    if (Hours.findEpp(key)) {
+      if (view === "milestone") {
+        syncChrome();
+        select("epp", key);
+        return true;
+      }
       const owners = Hours.edpsForEpp(key);
-      if (view !== "milestone" && owners[0]) {
+      if (owners[0]) {
         view = "product";
         els.view.value = "product";
         open.add("epp:" + key);
-        select("edp", owners[0].key);
+        select("edp", edpId(owners[0]));
         return true;
       }
       view = "milestone";
       els.view.value = "milestone";
       localStorage.setItem(LS_VIEW, view);
+      syncChrome();
       select("epp", key);
       return true;
     }
@@ -178,23 +222,41 @@
 
   function syncChrome() {
     const ms = view === "milestone";
+    els.product.hidden = ms;
+    els.status.hidden = ms;
+    els.active.hidden = ms;
     els.product.disabled = ms;
     els.status.disabled = ms;
     els.active.disabled = ms;
   }
 
+  function relatedEpp(edpKey) {
+    const edp = Hours.findEdp(edpKey);
+    const kid = ((edp && edp.children) || [])[0];
+    return kid ? kid.key : "";
+  }
+
   els.view.addEventListener("change", () => {
+    const prev = selected;
     view = els.view.value;
     localStorage.setItem(LS_VIEW, view);
-    selected = { kind: null, key: null };
     open.clear();
     syncChrome();
+    if (view === "milestone" && prev.kind === "edp") {
+      const eppKey = relatedEpp(prev.key);
+      if (eppKey) { select("epp", eppKey); return; }
+    }
+    if (view === "product" && prev.kind === "epp") {
+      const owners = Hours.edpsForEpp(prev.key);
+      if (owners[0]) { select("edp", edpId(owners[0])); return; }
+    }
+    selected = { kind: null, key: null };
     renderNav();
     renderPane();
   });
   [els.search, els.status, els.product, els.active].forEach((el) => {
-    el.addEventListener("input", () => { renderNav(); });
-    el.addEventListener("change", () => { renderNav(); });
+    el.addEventListener("input", keepVisible);
+    el.addEventListener("change", keepVisible);
   });
 
   Record.bindToggle(els.pane, open, renderPane);

@@ -385,7 +385,11 @@ table.data input[type="number"] {
   font-weight: 400;
 }
 .nav-edp:hover { background: var(--hover); }
-.nav-edp.is-on { background: var(--canvas); box-shadow: inset 2px 0 0 var(--ink); }
+.nav-edp.is-on {
+  background: #f4efe6;
+  box-shadow: inset 2px 0 0 var(--ink);
+}
+.nav-edp.is-on .nav-edp-k { color: var(--ink); }
 .nav-edp-k {
   font-family: var(--mono);
   font-size: 11px;
@@ -441,7 +445,13 @@ table.data input[type="number"] {
 }
 
 /* —— record —— */
-.record-head { padding: 22px 28px 0; }
+.record-head {
+  padding: 22px 28px 0;
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--canvas);
+}
 .record-id {
   display: flex;
   flex-wrap: wrap;
@@ -464,6 +474,7 @@ table.data input[type="number"] {
   border-top: 1px solid var(--line-strong);
   border-bottom: 1px solid var(--line-strong);
   margin: 0 -28px;
+  background: var(--canvas);
 }
 .metric {
   padding: 14px 28px 12px;
@@ -542,7 +553,7 @@ a.key:hover { text-decoration: underline; }
 
 .unit-cols, .unit-h, .line {
   display: grid;
-  grid-template-columns: 44px 96px minmax(0, 1fr) 110px 56px 64px 64px;
+  grid-template-columns: 44px 96px minmax(0, 1fr) minmax(72px, 120px) 48px 64px 64px minmax(0, 132px);
   gap: 8px;
   align-items: center;
 }
@@ -554,6 +565,7 @@ a.key:hover { text-decoration: underline; }
   color: var(--muted);
   margin-top: 8px;
 }
+.unit-cols span:nth-child(5),
 .unit-cols span:nth-child(6),
 .unit-cols span:nth-child(7),
 .hrs, .qty { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
@@ -601,17 +613,18 @@ a.key:hover { text-decoration: underline; }
 
 .unit-act {
   display: flex;
+  justify-content: flex-end;
   gap: 6px;
-  padding: 0 28px 8px;
+  min-height: 0;
 }
 .unit-act button { height: 26px; padding: 0 8px; font-size: 11px; }
 
 .add-row {
   display: flex;
   gap: 8px;
-  padding: 16px 28px 32px;
-  border-top: 1px solid var(--line);
-  margin-top: 8px;
+  padding: 12px 28px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--canvas);
 }
 .add-row input { width: 140px; }
 

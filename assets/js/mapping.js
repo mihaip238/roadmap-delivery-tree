@@ -105,12 +105,11 @@
 
   function renderNav() {
     const edps = Hours.uniqueEdps().filter(matches);
-    const pending = edps.filter((e) => Hours.health(e) === "pending").length;
-    els.navMeta.textContent = edps.length + (pending ? " · " + pending : "");
+    els.navMeta.textContent = String(edps.length);
     els.nav.innerHTML = edps.map((e) => {
-      const on = e.key === selected;
-      return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-edp="${Hours.esc(e.key)}">
-        <span class="nav-edp-k">${Hours.esc(e.key)}</span>
+      const on = (e.key || e.title) === selected;
+      return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-edp="${Hours.esc(e.key || e.title)}">
+        <span class="nav-edp-k">${Hours.esc(e.key || "—")}</span>
         <span class="nav-edp-t">${Hours.esc(e.title)}</span>
         <span class="nav-edp-h mono">${Hours.fmtNum((e.time || {}).uniqueSpentHours)}</span>
         <span class="nav-edp-st st-${Hours.esc(Hours.health(e))}"></span>
@@ -124,11 +123,14 @@
       els.pane.innerHTML = `<div class="empty-mini">—</div>`;
       return;
     }
-    els.pane.innerHTML = Record.edpView(edp, { open, actions: actions(edp) }) +
-      `<div class="add-row">
+    els.pane.innerHTML = Record.edpView(edp, {
+      open,
+      actions: actions(edp),
+      afterHead: `<div class="add-row">
         <input type="text" id="addKey" placeholder="EPP-311" autocomplete="off" />
         <button type="button" id="addBtn">Add</button>
-      </div>`;
+      </div>`,
+    });
   }
 
   function select(key) {

@@ -155,7 +155,7 @@
   }
 
   function findEdp(key) {
-    return uniqueEdps().find((e) => e.key === key) || null;
+    return uniqueEdps().find((e) => e.key === key || (!e.key && e.title === key)) || null;
   }
 
   function findEpp(key) {

@@ -39,8 +39,8 @@
       .sort((a, b) => Number((b.time || {}).rolledSpentHours || 0) - Number((a.time || {}).rolledSpentHours || 0))
       .slice(0, 16);
     document.getElementById("inbox-list").innerHTML = pending.map((e) =>
-      `<a class="inbox-row" href="mapping.html#${Hours.esc(e.key)}">
-        <span class="mono">${Hours.esc(e.key)}</span>
+      `<a class="inbox-row" href="mapping.html#${encodeURIComponent(e.key || e.title)}">
+        <span class="mono">${Hours.esc(e.key || "—")}</span>
         <span class="grow">${Hours.esc(e.title)}</span>
         <span class="mono">${Hours.fmtNum((e.time || {}).rolledSpentHours)}</span>
         <span class="nav-edp-st st-pending"></span>
