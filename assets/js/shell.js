@@ -20,27 +20,21 @@
     const id = pageId();
     const header = document.getElementById("shell-header");
     const footer = document.getElementById("shell-footer");
+    const when = fetched();
     if (header) {
-      header.className = "site-header";
-      header.innerHTML = `<div class="bar">
-        <a class="wordmark" href="index.html">Hours Control</a>
+      header.className = "sidebar";
+      header.innerHTML = `<a class="wordmark" href="index.html">Hours Control</a>
         <nav class="nav">${PAGES.map((p) => {
           const cur = p.id === id ? ' aria-current="page"' : "";
           return `<a href="${p.href}"${cur}>${p.label}</a>`;
         }).join("")}</nav>
-      </div>`;
+        <div class="sidebar-foot">
+          Hours, not euros. Unique tickets count once.<br />
+          ${when ? "Worklogs " + when : "Refresh Jira, then apply_overlay.py."}<br />
+          <a href="Roadmap_Map.html">Map</a>
+        </div>`;
     }
-    if (footer) {
-      footer.className = "site-footer";
-      const when = fetched();
-      footer.innerHTML = `<div class="bar">
-        <span>Hours, not euros. Unique tickets count once. Overlay is source of truth.</span>
-        <span>${when ? "Worklogs as of " + when : "Run python apply_overlay.py after a Jira refresh."}
-          · <a href="Roadmap_Map.html">Map</a>
-          · <a href="docs/REQUIREMENTS.md">Requirements</a>
-        </span>
-      </div>`;
-    }
+    if (footer) footer.hidden = true;
   }
 
   window.Shell = { mount, pageId };

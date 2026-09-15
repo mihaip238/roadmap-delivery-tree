@@ -1,9 +1,9 @@
 (function () {
-  const ink = "#161616";
-  const muted = "#5c574e";
-  const rule = "#e2ddd4";
-  const copper = "#8c4a2f";
-  const copperSoft = "#c4a090";
+  const ink = "#1d1d1f";
+  const muted = "#6e6e73";
+  const rule = "rgba(29, 29, 31, 0.08)";
+  const copper = "#0071e3";
+  const copperSoft = "#c7c7cc";
 
   function maxOf(rows, keys) {
     let m = 0;
@@ -39,7 +39,7 @@
         const v = Number(r[s.key] || 0);
         const bw = Math.max(0, (v / max) * inner);
         const yy = y + 4 + si * (band + 2);
-        bars += `<rect class="bar" fill="${s.fill}" x="${padL}" y="${yy}" width="${bw}" height="${band}"></rect>`;
+        bars += `<rect class="bar" fill="${s.fill}" x="${padL}" y="${yy}" width="${bw}" height="${band}" rx="3"></rect>`;
       });
     });
     let grid = "";
@@ -71,7 +71,7 @@
     const fills = [ink, copper, copperSoft, rule];
     segs.forEach((seg, i) => {
       const bw = ((Number(seg.value) || 0) / total) * (w - pad * 2);
-      rects += `<rect x="${x}" y="24" width="${Math.max(bw, 0)}" height="18" fill="${fills[i % fills.length]}"></rect>`;
+      rects += `<rect x="${x}" y="24" width="${Math.max(bw, 0)}" height="18" rx="3" fill="${fills[i % fills.length]}"></rect>`;
       x += bw;
     });
     const legend = segs.map((s, i) => `${s.label} ${s.value}`).join(" · ");

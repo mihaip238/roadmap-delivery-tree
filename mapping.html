@@ -4,17 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mapping — Hours Control</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/app.css" />
 </head>
 <body>
   <div id="shell-header"></div>
   <main class="page">
-    <p class="kicker">Overlay · no Jira writes</p>
     <h1>Mapping</h1>
-    <p class="lede">Confirm inferred EPPs, reject PolarIS mistakes, or add an EPP by key. Cost only counts PolarIS not rejected plus overlay adds. GitHub Pages cannot save — run <span class="key">python serve.py</span> locally.</p>
+    <p class="lede">Confirm, reject, or add EPPs for an EDP. Saving writes overlay JSON only — Jira is not updated. Use <span class="key">python serve.py</span> to save locally.</p>
     <div class="toolbar">
       <input type="search" id="q" placeholder="Filter EDPs" />
       <button type="button" class="primary" id="save">Save overlay</button>
