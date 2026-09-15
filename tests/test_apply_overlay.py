@@ -137,7 +137,19 @@ class OverlayMembershipTests(unittest.TestCase):
         self.assertEqual(out["hoursControl"]["pendingInferredActive"], 1)
 
 
-class UniqueHelperTests(unittest.TestCase):
+    def test_program_hours_do_not_double_count_milestone_rollup(self):
+        payload = {
+            "products": [{"type": "product", "name": "A", "children": []}],
+            "milestones": [{
+                "type": "milestone",
+                "key": "M1",
+                "time": {"ownSpentSec": 3600},
+                "children": [epp("EPP-1", "milestone", own=3600)],
+            }],
+            "totals": {"time": {}},
+        }
+        out = apply_payload(payload, {"links": []}, {"edps": {}, "products": {}, "milestones": {}})
+        self.assertEqual(out["hoursControl"]["programUniqueHours"], 1.0)
     def test_cost_only_skips_pending(self):
         nodes = [
             edp("EDP-1", [

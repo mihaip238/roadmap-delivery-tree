@@ -457,7 +457,8 @@ def hours_control_summary(payload: dict, shared: dict[str, list[str]]) -> dict:
                 polaris_active += 1
     program_acc: dict[str, int] = {}
     for ms in payload.get("milestones") or []:
-        collect_own_spent(ms, program_acc, cost_only=False)
+        for epp in ms.get("children") or []:
+            collect_own_spent(epp, program_acc, cost_only=False)
     fetched = ((payload.get("totals") or {}).get("time") or {}).get("fetchedAt")
     return {
         "costUniqueHours": round(sum(cost_acc.values()) / 3600, 2),
