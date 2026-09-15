@@ -108,6 +108,21 @@
     });
   }
 
+  function lineMaxHours() {
+    return productRows().reduce((m, p) => Math.max(m, Number(p.uniqueSpentHours) || 0), 0);
+  }
+
+  function lineBar(hours, max) {
+    const pct = max > 0 ? Math.min(100, ((Number(hours) || 0) / max) * 100) : 0;
+    return `<span class="line-bar" aria-hidden="true"><i style="width:${pct.toFixed(2)}%"></i></span>`;
+  }
+
+  function lineHref(name, page) {
+    const base = page || "delivery.html";
+    if (!name) return base;
+    return base + "?line=" + encodeURIComponent(name);
+  }
+
   function milestoneRows() {
     return (tree().milestones || []).map((m) => {
       const env = envelope(m.uniqueSpentHours, m.budgetHours);
@@ -310,6 +325,9 @@
     envelope,
     overview,
     productRows,
+    lineMaxHours,
+    lineBar,
+    lineHref,
     milestoneRows,
     edpRows,
     findEdp,

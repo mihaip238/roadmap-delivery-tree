@@ -41,12 +41,16 @@
 
   function paintProducts() {
     const rows = Hours.productRows();
+    const max = Hours.lineMaxHours();
     document.getElementById("products").innerHTML = `<table class="data">
-      <thead><tr><th>Product</th><th class="num">Cost</th><th class="num">Budget</th><th class="num">Left</th><th class="num">%</th></tr></thead>
+      <thead><tr><th></th><th class="num">Cost</th><th class="num">Budget</th><th class="num">Left</th><th class="num">%</th></tr></thead>
       <tbody>${rows.map((r) => {
         const env = Hours.envelope(r.uniqueSpentHours, budgets.products[r.name] != null ? budgets.products[r.name] : r.budget);
         return `<tr>
-          <td>${Hours.esc(r.name)}</td>
+          <td>
+            <a class="line-name" href="${Hours.esc(Hours.lineHref(r.name))}">${Hours.esc(r.name)}</a>
+            ${Hours.lineBar(r.uniqueSpentHours, max)}
+          </td>
           <td class="num mono">${Hours.esc(Hours.fmtNum(r.uniqueSpentHours))}</td>
           <td class="num">${budgetInput("products", r.name, budgets.products[r.name])}</td>
           <td class="num mono">${remainingCell(env)}</td>
@@ -80,15 +84,24 @@
       if (q && !(r.key + " " + r.title + " " + r.product).toLowerCase().includes(q)) return false;
       return true;
     });
-    document.getElementById("edps").innerHTML = `<table class="data">
+    const grouped = [];
+    Hours.productRows().forEach((prod) => {
+      const list = rows.filter((r) => r.product === prod.name);
+      if (!list.length) return;
+      grouped.push({ line: prod.name, rows: list });
+    });
+    document.getElementById("edps").innerHTML = grouped.map((g) => `
+      <div class="pending-line-h cost-line">${Hours.esc(g.line)}</div>
+      <table class="data">
       <thead><tr><th>EDP</th><th></th><th></th><th class="num">Cost</th><th class="num">Logged</th><th class="num">Budget</th><th class="num">Left</th><th></th></tr></thead>
-      <tbody>${rows.map((r) => {
+      <tbody>${g.rows.map((r) => {
         const env = Hours.envelope(r.uniqueSpentHours, budgets.edps[r.key] != null ? budgets.edps[r.key] : r.budget);
         const shared = (r.sharedWith || []).length
           ? `<span class="copper">${Hours.esc(r.sharedWith.join(" "))}</span>`
           : "";
+        const href = Hours.lineHref(r.product) + (r.key ? "#" + encodeURIComponent(r.key) : "");
         return `<tr>
-          <td class="mono"><a href="delivery.html#${Hours.esc(r.key)}">${Hours.esc(r.key)}</a></td>
+          <td class="mono"><a href="${Hours.esc(href)}">${Hours.esc(r.key || "—")}</a></td>
           <td>${Hours.esc(r.title)}</td>
           <td><span class="pip st-${Hours.esc(r.health)}"></span></td>
           <td class="num mono">${Hours.esc(Hours.fmtNum(r.uniqueSpentHours))}</td>
@@ -97,7 +110,7 @@
           <td class="num mono">${remainingCell(env)}</td>
           <td>${shared}</td>
         </tr>`;
-      }).join("")}</tbody></table>`;
+      }).join("")}</tbody></table>`).join("") || `<div class="empty-mini">—</div>`;
   }
 
   function readInputs() {

@@ -4,15 +4,17 @@
     updatedAt: null,
     links: [],
   };
+  const LS_LINE = "hours.delivery.line";
   const open = new Set();
   let selected = "";
+  let line = "";
   let dirty = false;
   let writer = false;
 
   const els = {
     search: document.getElementById("map-search"),
     status: document.getElementById("map-status"),
-    product: document.getElementById("map-product"),
+    lineSwitch: document.getElementById("line-switch"),
     nav: document.getElementById("nav-list"),
     navMeta: document.getElementById("nav-meta"),
     pane: document.getElementById("record-pane"),
@@ -64,22 +66,23 @@
     return owners;
   }
 
-  function fillProducts() {
-    const names = (Hours.tree().products || []).map((p) => p.name);
-    els.product.innerHTML = '<option value="">Product</option>' +
-      names.map((n) => `<option>${Hours.esc(n)}</option>`).join("");
+  function persistLine() {
+    localStorage.setItem(LS_LINE, line);
+    const url = new URL(location.href);
+    if (line) url.searchParams.set("line", line);
+    else url.searchParams.delete("line");
+    history.replaceState(null, "", url.pathname + url.search + (location.hash || ""));
   }
 
   function matches(edp) {
     if (!edp.active) return false;
     const q = (els.search.value || "").trim().toLowerCase();
     const st = els.status.value;
-    const prod = els.product.value;
     const h = Hours.health(edp);
     if (st === "inbox") {
       if (!(h === "pending" || h === "none" || Hours.pendingChildren(edp).length)) return false;
     } else if (st && h !== st) return false;
-    if (prod && edp.productLabel !== prod) return false;
+    if (line && edp.productLabel !== line && !(edp.alsoIn || []).includes(line)) return false;
     if (!q) return true;
     const hay = (edp.key + " " + edp.title).toLowerCase();
     if (hay.includes(q)) return true;
@@ -103,17 +106,52 @@
     };
   }
 
+  function renderLineSwitch() {
+    const rows = Hours.productRows();
+    const max = Hours.lineMaxHours();
+    const all = `<button type="button" class="line-item${!line ? " is-on" : ""}" data-line="">
+      <span class="line-name">All</span>
+    </button>`;
+    const items = rows.map((p) => `<button type="button" class="line-item${line === p.name ? " is-on" : ""}" data-line="${Hours.esc(p.name)}">
+      <span class="line-name">${Hours.esc(p.name)}</span>
+      <span class="line-h mono">${Hours.fmtNum(p.uniqueSpentHours)}</span>
+      ${Hours.lineBar(p.uniqueSpentHours, max)}
+    </button>`).join("");
+    els.lineSwitch.innerHTML = all + items;
+  }
+
+  function edpButton(e) {
+    const on = (e.key || e.title) === selected;
+    return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-edp="${Hours.esc(e.key || e.title)}">
+      <span class="nav-edp-k">${Hours.esc(e.key || "—")}</span>
+      <span class="nav-edp-t">${Hours.esc(e.title)}</span>
+      <span class="nav-edp-h mono">${Hours.fmtNum((e.time || {}).uniqueSpentHours)}</span>
+      <span class="nav-edp-st st-${Hours.esc(Hours.health(e))}"></span>
+    </button>`;
+  }
+
   function renderNav() {
     const edps = Hours.uniqueEdps().filter(matches);
     els.navMeta.textContent = String(edps.length);
-    els.nav.innerHTML = edps.map((e) => {
-      const on = (e.key || e.title) === selected;
-      return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-edp="${Hours.esc(e.key || e.title)}">
-        <span class="nav-edp-k">${Hours.esc(e.key || "—")}</span>
-        <span class="nav-edp-t">${Hours.esc(e.title)}</span>
-        <span class="nav-edp-h mono">${Hours.fmtNum((e.time || {}).uniqueSpentHours)}</span>
-        <span class="nav-edp-st st-${Hours.esc(Hours.health(e))}"></span>
-      </button>`;
+    if (line) {
+      els.nav.innerHTML = edps.map(edpButton).join("") || `<div class="empty-mini">—</div>`;
+      return;
+    }
+    const byProd = {};
+    edps.forEach((e) => {
+      const p = e.productLabel || "—";
+      (byProd[p] ||= []).push(e);
+    });
+    els.nav.innerHTML = Hours.productRows().map((prod) => {
+      const list = byProd[prod.name];
+      if (!list || !list.length) return "";
+      return `<div class="nav-prod">
+        <button type="button" class="nav-prod-h" data-line="${Hours.esc(prod.name)}">
+          <span>${Hours.esc(prod.name)}</span>
+          <span class="mono">${list.length}</span>
+        </button>
+        ${list.map(edpButton).join("")}
+      </div>`;
     }).join("") || `<div class="empty-mini">—</div>`;
   }
 
@@ -135,9 +173,26 @@
 
   function select(key) {
     selected = key;
-    if (key) history.replaceState(null, "", "#" + encodeURIComponent(key));
+    if (key) {
+      const url = new URL(location.href);
+      history.replaceState(null, "", url.pathname + url.search + "#" + encodeURIComponent(key));
+    }
+    renderLineSwitch();
     renderNav();
     renderPane();
+  }
+
+  function setLine(name) {
+    line = name || "";
+    persistLine();
+    renderLineSwitch();
+    const list = Hours.uniqueEdps().filter(matches);
+    if (selected && list.some((e) => (e.key || e.title) === selected)) {
+      renderNav();
+      return;
+    }
+    const first = list.find((e) => (e.children || []).length) || list[0];
+    select(first ? (first.key || first.title) : "");
   }
 
   function applyAct(edp, epp, act) {
@@ -183,6 +238,11 @@
   }
 
   els.nav.addEventListener("click", (ev) => {
+    const lineBtn = ev.target.closest("[data-line]");
+    if (lineBtn) {
+      setLine(lineBtn.getAttribute("data-line") || "");
+      return;
+    }
     const btn = ev.target.closest("[data-edp]");
     if (btn) select(btn.getAttribute("data-edp"));
   });
@@ -209,9 +269,14 @@
 
   Record.bindToggle(els.pane, open, renderPane);
 
-  [els.search, els.status, els.product].forEach((el) => {
-    el.addEventListener("input", renderNav);
-    el.addEventListener("change", renderNav);
+  [els.search, els.status].forEach((el) => {
+    el.addEventListener("input", () => { renderLineSwitch(); renderNav(); });
+    el.addEventListener("change", () => { renderLineSwitch(); renderNav(); });
+  });
+
+  els.lineSwitch.addEventListener("click", (ev) => {
+    const btn = ev.target.closest("[data-line]");
+    if (btn) setLine(btn.getAttribute("data-line") || "");
   });
 
   els.save.addEventListener("click", save);
@@ -233,7 +298,10 @@
 
   async function boot() {
     writer = await Save.available();
-    fillProducts();
+    const q = new URLSearchParams(location.search).get("line");
+    if (q != null) line = q;
+    else line = localStorage.getItem(LS_LINE) || "";
+    persistLine();
     try {
       const r = await fetch("jira_map/overlay_links.json", { cache: "no-store" });
       if (r.ok) {
@@ -247,11 +315,17 @@
     if (hash && Hours.findEdp(hash)) {
       selected = hash;
       els.status.value = "";
+      const edp = Hours.findEdp(hash);
+      if (edp && edp.productLabel && !new URLSearchParams(location.search).has("line")) {
+        line = edp.productLabel;
+        persistLine();
+      }
     } else {
       const list = Hours.uniqueEdps().filter(matches);
       const first = list.find((e) => (e.children || []).length) || list[0];
-      selected = first ? first.key : "";
+      selected = first ? (first.key || first.title) : "";
     }
+    renderLineSwitch();
     renderNav();
     renderPane();
   }

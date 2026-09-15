@@ -141,15 +141,20 @@
     const logged = Number(t.rolledSpentHours) || 0;
     const env = Hours.envelope(cost, edp.budgetHours);
     const health = Hours.health(edp);
+    const lines = [edp.productLabel].concat(edp.alsoIn || []).filter(Boolean);
+    const lineHtml = lines.length
+      ? `<div class="record-line">${lines.map((n, i) =>
+          `<a href="${esc(Hours.lineHref(n))}"${i ? ` class="is-also"` : ""}>${esc(n)}</a>`
+        ).join("")}</div>`
+      : "";
     return `<header class="record-head">
+      ${lineHtml}
       <div class="record-id">
         ${chip("edp")}
         ${keyLink(edp)}
         <span class="pip st-${esc(health)}"></span>
         ${edp.roadmap ? `<span class="pill">${esc(edp.roadmap)}</span>` : ""}
         ${edp.status ? `<span class="pill">${esc(edp.status)}</span>` : ""}
-        ${edp.productLabel ? `<span class="soft">${esc(edp.productLabel)}</span>` : ""}
-        ${(edp.alsoIn || []).map((p) => `<span class="soft">${esc(p)}</span>`).join("")}
         ${extra || ""}
       </div>
       <h1>${esc(edp.title || "")}</h1>
@@ -208,17 +213,23 @@
       openSet.add("feat:" + (feats[0].key || feats[0].title));
     }
     const logged = loggedHours(epp);
-    const parents = (epp.onEdps || []).map((k) =>
-      `<a class="chip-btn" href="delivery.html#${esc(k)}">${esc(k)}</a>`
-    ).join("");
-    const products = (epp.products || []).map((p) => `<span class="soft">${esc(p)}</span>`).join("");
+    const lineHtml = (epp.products || []).length
+      ? `<div class="record-line">${(epp.products || []).map((n) =>
+          `<a href="${esc(Hours.lineHref(n))}">${esc(n)}</a>`
+        ).join("")}</div>`
+      : "";
+    const parents = (epp.onEdps || []).map((k) => {
+      const owner = Hours.findEdp(k);
+      const href = Hours.lineHref(owner && owner.productLabel) + "#" + encodeURIComponent(k);
+      return `<a class="chip-btn" href="${esc(href)}">${esc(k)}</a>`;
+    }).join("");
     return `<header class="record-head">
+      ${lineHtml}
       <div class="record-id">
         ${chip("epp")}
         ${keyLink(epp)}
         <span class="pill">${esc(status(epp))}</span>
         ${methodMark(epp)}
-        ${products}
         ${parents}
       </div>
       <h1>${esc(epp.title || "")}</h1>

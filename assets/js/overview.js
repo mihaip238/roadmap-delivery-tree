@@ -13,14 +13,16 @@
       `<div class="kpi"><div class="kpi-v">${Hours.esc(v)}</div><div class="kpi-k">${Hours.esc(l)}</div></div>`
     )).join("");
 
-    const products = Hours.productRows().filter((p) => p.name !== "Unclassified");
-    document.getElementById("product-table").innerHTML = `<table class="data">
-      <thead><tr><th>Product</th><th class="num">EDPs</th><th class="num">Cost</th></tr></thead>
-      <tbody>${products.map((p) => `<tr>
-        <td>${Hours.esc(p.name)}</td>
-        <td class="num mono">${p.activeCount || p.edpCount || ""}</td>
-        <td class="num mono">${Hours.esc(Hours.fmtNum(p.uniqueSpentHours))}</td>
-      </tr>`).join("")}</tbody></table>`;
+    const products = Hours.productRows();
+    const max = Hours.lineMaxHours();
+    document.getElementById("product-table").innerHTML = products.map((p) =>
+      `<a class="line-item is-dir" href="${Hours.esc(Hours.lineHref(p.name))}">
+        <span class="line-name">${Hours.esc(p.name)}</span>
+        <span class="line-n mono">${p.activeCount || p.edpCount || ""}</span>
+        <span class="line-h mono">${Hours.esc(Hours.fmtNum(p.uniqueSpentHours))}</span>
+        ${Hours.lineBar(p.uniqueSpentHours, max)}
+      </a>`
+    ).join("");
 
     const ms = Hours.milestoneRows();
     document.getElementById("program-table").innerHTML = `<table class="data">
@@ -36,16 +38,27 @@
 
     const pending = Hours.uniqueEdps()
       .filter((e) => e.active && Hours.health(e) === "pending")
-      .sort((a, b) => Number((b.time || {}).rolledSpentHours || 0) - Number((a.time || {}).rolledSpentHours || 0))
-      .slice(0, 16);
-    document.getElementById("inbox-list").innerHTML = pending.map((e) =>
-      `<a class="inbox-row" href="mapping.html#${encodeURIComponent(e.key || e.title)}">
-        <span class="mono">${Hours.esc(e.key || "—")}</span>
-        <span class="grow">${Hours.esc(e.title)}</span>
-        <span class="mono">${Hours.fmtNum((e.time || {}).rolledSpentHours)}</span>
-        <span class="nav-edp-st st-pending"></span>
-      </a>`
-    ).join("") || `<div class="empty-mini">—</div>`;
+      .sort((a, b) => Number((b.time || {}).rolledSpentHours || 0) - Number((a.time || {}).rolledSpentHours || 0));
+    const byProd = {};
+    pending.forEach((e) => {
+      const p = e.productLabel || "—";
+      (byProd[p] ||= []).push(e);
+    });
+    document.getElementById("inbox-list").innerHTML = Hours.productRows().map((prod) => {
+      const list = (byProd[prod.name] || []).slice(0, 8);
+      if (!list.length) return "";
+      return `<div class="pending-line">
+        <a class="pending-line-h" href="${Hours.esc(Hours.lineHref(prod.name, "mapping.html"))}">${Hours.esc(prod.name)}</a>
+        ${list.map((e) =>
+          `<a class="inbox-row" href="mapping.html?line=${encodeURIComponent(prod.name)}#${encodeURIComponent(e.key || e.title)}">
+            <span class="mono">${Hours.esc(e.key || "—")}</span>
+            <span class="grow">${Hours.esc(e.title)}</span>
+            <span class="mono">${Hours.fmtNum((e.time || {}).rolledSpentHours)}</span>
+            <span class="nav-edp-st st-pending"></span>
+          </a>`
+        ).join("")}
+      </div>`;
+    }).join("") || `<div class="empty-mini">—</div>`;
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", paint);

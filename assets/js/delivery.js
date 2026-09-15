@@ -1,35 +1,48 @@
 (function () {
   const LS_VIEW = "hours.delivery.view";
+  const LS_LINE = "hours.delivery.line";
   const open = new Set();
 
   const els = {
     view: document.getElementById("view-toggle"),
     search: document.getElementById("tree-search"),
     status: document.getElementById("status-filter"),
-    product: document.getElementById("product-filter"),
     active: document.getElementById("active-only"),
+    lineSwitch: document.getElementById("line-switch"),
     nav: document.getElementById("nav-list"),
     navMeta: document.getElementById("nav-meta"),
     pane: document.getElementById("record-pane"),
   };
 
   let view = localStorage.getItem(LS_VIEW) || "product";
+  let line = "";
   let selected = { kind: null, key: null };
 
   function hashKey() {
     return decodeURIComponent((location.hash || "").replace(/^#/, "")).trim();
   }
 
+  function persistLine() {
+    localStorage.setItem(LS_LINE, line);
+    const url = new URL(location.href);
+    if (line) url.searchParams.set("line", line);
+    else url.searchParams.delete("line");
+    history.replaceState(null, "", url.pathname + url.search + (location.hash || ""));
+  }
+
   function setHash(key) {
     if (!key) return;
     const next = "#" + encodeURIComponent(key);
-    if (location.hash !== next) history.replaceState(null, "", next);
+    if (location.hash !== next) {
+      const url = new URL(location.href);
+      history.replaceState(null, "", url.pathname + url.search + next);
+    }
   }
 
-  function fillProducts() {
-    const names = (Hours.tree().products || []).map((p) => p.name);
-    els.product.innerHTML = '<option value="">Product</option>' +
-      names.map((n) => `<option>${Hours.esc(n)}</option>`).join("");
+  function readLine() {
+    const q = new URLSearchParams(location.search).get("line");
+    if (q != null) return q;
+    return localStorage.getItem(LS_LINE) || "";
   }
 
   function edpId(edp) {
@@ -39,10 +52,9 @@
   function matchesEdp(edp) {
     const q = (els.search.value || "").trim().toLowerCase();
     const st = els.status.value;
-    const prod = els.product.value;
     if (els.active.checked && !edp.active) return false;
     if (st && Hours.health(edp) !== st) return false;
-    if (prod && edp.productLabel !== prod && !(edp.alsoIn || []).includes(prod)) return false;
+    if (line && edp.productLabel !== line && !(edp.alsoIn || []).includes(line)) return false;
     if (!q) return true;
     const hay = (edp.key + " " + edp.title + " " + (edp.productLabel || "")).toLowerCase();
     if (hay.includes(q)) return true;
@@ -52,8 +64,49 @@
   function select(kind, key) {
     selected = { kind, key };
     setHash(key);
+    renderLineSwitch();
     renderNav();
     renderPane();
+  }
+
+  function setLine(name) {
+    line = name || "";
+    persistLine();
+    renderLineSwitch();
+    keepVisible();
+  }
+
+  function renderLineSwitch() {
+    if (view === "milestone") {
+      els.lineSwitch.hidden = true;
+      els.lineSwitch.innerHTML = "";
+      return;
+    }
+    els.lineSwitch.hidden = false;
+    const rows = Hours.productRows();
+    const max = Hours.lineMaxHours();
+    const total = rows.reduce((s, p) => s + (Number(p.uniqueSpentHours) || 0), 0);
+    const all = `<button type="button" class="line-item${!line ? " is-on" : ""}" data-line="">
+      <span class="line-name">All</span>
+      <span class="line-h mono">${Hours.fmtNum(total)}</span>
+    </button>`;
+    const items = rows.map((p) => `<button type="button" class="line-item${line === p.name ? " is-on" : ""}" data-line="${Hours.esc(p.name)}">
+      <span class="line-name">${Hours.esc(p.name)}</span>
+      <span class="line-h mono">${Hours.fmtNum(p.uniqueSpentHours)}</span>
+      ${Hours.lineBar(p.uniqueSpentHours, max)}
+    </button>`).join("");
+    els.lineSwitch.innerHTML = all + items;
+  }
+
+  function edpButton(e) {
+    const on = selected.kind === "edp" && selected.key === edpId(e);
+    const health = Hours.health(e);
+    return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-kind="edp" data-key="${Hours.esc(edpId(e))}">
+      <span class="nav-edp-k">${Hours.esc(e.key || "—")}</span>
+      <span class="nav-edp-t">${Hours.esc(e.title)}</span>
+      <span class="nav-edp-h mono">${Hours.fmtNum((e.time || {}).uniqueSpentHours)}</span>
+      <span class="nav-edp-st st-${Hours.esc(health)}"></span>
+    </button>`;
   }
 
   function renderNav() {
@@ -63,27 +116,25 @@
     }
     const edps = Hours.uniqueEdps().filter(matchesEdp);
     els.navMeta.textContent = String(edps.length);
+    if (line) {
+      els.nav.innerHTML = edps.map(edpButton).join("") || `<div class="empty-mini">—</div>`;
+      return;
+    }
     const byProd = {};
     edps.forEach((e) => {
       const p = e.productLabel || "—";
       (byProd[p] ||= []).push(e);
     });
-    const html = Object.keys(byProd).sort().map((p) => {
-      const list = byProd[p];
+    const html = Hours.productRows().map((prod) => {
+      const list = byProd[prod.name];
+      if (!list || !list.length) return "";
       const h = list.reduce((s, e) => s + Number((e.time || {}).uniqueSpentHours || 0), 0);
-      const rows = list.map((e) => {
-        const on = selected.kind === "edp" && selected.key === edpId(e);
-        const health = Hours.health(e);
-        return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-kind="edp" data-key="${Hours.esc(edpId(e))}">
-          <span class="nav-edp-k">${Hours.esc(e.key || "—")}</span>
-          <span class="nav-edp-t">${Hours.esc(e.title)}</span>
-          <span class="nav-edp-h mono">${Hours.fmtNum((e.time || {}).uniqueSpentHours)}</span>
-          <span class="nav-edp-st st-${Hours.esc(health)}"></span>
-        </button>`;
-      }).join("");
       return `<div class="nav-prod">
-        <div class="nav-prod-h"><span>${Hours.esc(p)}</span><span class="mono">${Hours.fmtNum(h)}</span></div>
-        ${rows}
+        <button type="button" class="nav-prod-h" data-line="${Hours.esc(prod.name)}">
+          <span>${Hours.esc(prod.name)}</span>
+          <span class="mono">${Hours.fmtNum(h)}</span>
+        </button>
+        ${list.map(edpButton).join("")}
       </div>`;
     }).join("");
     els.nav.innerHTML = html || `<div class="empty-mini">—</div>`;
@@ -108,7 +159,7 @@
         </button>`;
       }).join("");
       return `<div class="nav-prod">
-        <div class="nav-prod-h">
+        <div class="nav-prod-h is-static">
           <span>${Hours.esc(m.key)} ${Hours.esc(m.name || m.title)}</span>
           <span class="mono">${Hours.fmtNum(m.uniqueSpentHours)}</span>
         </div>
@@ -162,7 +213,12 @@
     const list = visibleEdps();
     const first = list.find((e) => (e.children || []).length) || list[0];
     if (first) select("edp", edpId(first));
-    else els.pane.innerHTML = `<div class="empty-mini">—</div>`;
+    else {
+      selected = { kind: null, key: null };
+      renderLineSwitch();
+      renderNav();
+      els.pane.innerHTML = `<div class="empty-mini">—</div>`;
+    }
   }
 
   function keepVisible() {
@@ -178,6 +234,7 @@
     }
     const ids = visibleEdps().map(edpId);
     if (selected.kind === "edp" && ids.indexOf(selected.key) >= 0) {
+      renderLineSwitch();
       renderNav();
       return;
     }
@@ -192,6 +249,10 @@
       view = "product";
       els.view.value = "product";
       localStorage.setItem(LS_VIEW, view);
+      if (edp.productLabel) {
+        line = edp.productLabel;
+        persistLine();
+      }
       syncChrome();
       select("edp", edpId(edp));
       return true;
@@ -207,6 +268,10 @@
         view = "product";
         els.view.value = "product";
         open.add("epp:" + key);
+        if (!line) {
+          line = owners[0].productLabel || "";
+          persistLine();
+        }
         select("edp", edpId(owners[0]));
         return true;
       }
@@ -222,14 +287,13 @@
 
   function syncChrome() {
     const ms = view === "milestone";
-    els.product.hidden = ms;
     els.status.hidden = ms;
     const activeLabel = els.active.closest("label");
     if (activeLabel) activeLabel.hidden = ms;
     els.active.hidden = ms;
-    els.product.disabled = ms;
     els.status.disabled = ms;
     els.active.disabled = ms;
+    renderLineSwitch();
   }
 
   function relatedEpp(edpKey) {
@@ -250,20 +314,39 @@
     }
     if (view === "product" && prev.kind === "epp") {
       const owners = Hours.edpsForEpp(prev.key);
-      if (owners[0]) { select("edp", edpId(owners[0])); return; }
+      if (owners[0]) {
+        if (!line) {
+          line = owners[0].productLabel || "";
+          persistLine();
+        }
+        select("edp", edpId(owners[0]));
+        return;
+      }
     }
     selected = { kind: null, key: null };
+    renderLineSwitch();
     renderNav();
     renderPane();
   });
-  [els.search, els.status, els.product, els.active].forEach((el) => {
+  [els.search, els.status, els.active].forEach((el) => {
     el.addEventListener("input", keepVisible);
     el.addEventListener("change", keepVisible);
+  });
+
+  els.lineSwitch.addEventListener("click", (ev) => {
+    const btn = ev.target.closest("[data-line]");
+    if (!btn) return;
+    setLine(btn.getAttribute("data-line") || "");
   });
 
   Record.bindToggle(els.pane, open, renderPane);
 
   document.addEventListener("click", (ev) => {
+    const lineBtn = ev.target.closest("#nav-list [data-line]");
+    if (lineBtn) {
+      setLine(lineBtn.getAttribute("data-line") || "");
+      return;
+    }
     const btn = ev.target.closest("[data-kind][data-key]");
     if (!btn) return;
     if (!els.nav.contains(btn) && !els.pane.contains(btn)) return;
@@ -273,6 +356,11 @@
       view = "product";
       els.view.value = "product";
       localStorage.setItem(LS_VIEW, view);
+      const edp = Hours.findEdp(key);
+      if (edp && edp.productLabel && line && line !== edp.productLabel) {
+        line = edp.productLabel;
+        persistLine();
+      }
       syncChrome();
       select("edp", key);
     } else if (kind === "epp") {
@@ -282,10 +370,11 @@
 
   window.addEventListener("hashchange", () => applyHash());
 
-  fillProducts();
+  line = readLine();
   els.view.value = view;
   syncChrome();
   if (!applyHash()) {
+    renderLineSwitch();
     renderNav();
     renderPane();
   }
