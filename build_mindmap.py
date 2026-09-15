@@ -6,10 +6,11 @@ import re
 from collections import OrderedDict
 from pathlib import Path
 
+from apply_overlay import apply_payload, load_budgets, load_overlay
 from jira_time import format_jira_time
 from milestones import build_milestone_tree
 
-ROOT = Path(r"C:\Users\MihaiPostolache\Downloads\kpisss")
+ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "jira_map" / "delivery_tree.json"
 OUT_JSON = ROOT / "jira_map" / "product_tree.json"
 OUT_JS = ROOT / "jira_map" / "tree_data.js"
@@ -412,6 +413,7 @@ def main() -> None:
             "time": data.get("time") or {},
         },
     }
+    payload = apply_payload(payload, load_overlay(), load_budgets())
     OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT_JS.write_text(
         "window.ROADMAP_TREE = " + json.dumps(payload, ensure_ascii=False) + ";\n",
@@ -419,6 +421,7 @@ def main() -> None:
     )
     print("products", [(p["name"], p["edpCount"], p["activeCount"]) for p in products])
     print("milestones", [(m["key"], m["eppCount"], m["featureCount"], m["storyCount"]) for m in milestones])
+    print("hoursControl", payload.get("hoursControl"))
     print("wrote", OUT_JSON, "js", OUT_JS.stat().st_size)
     write_canvas(payload)
 
@@ -510,6 +513,8 @@ def write_canvas(payload: dict) -> None:
     canvas = Path(
         r"C:\Users\MihaiPostolache\.cursor\projects\c-Users-MihaiPostolache-Downloads-kpisss\canvases\product-delivery-tree.canvas.tsx"
     )
+    if not canvas.parent.exists():
+        return
     canvas.write_text(CANVAS_HEAD + blob + CANVAS_TAIL, encoding="utf-8")
     print("wrote canvas", canvas)
 

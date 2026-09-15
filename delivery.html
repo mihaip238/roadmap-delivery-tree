@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-page="delivery">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delivery — Hours Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body>
+  <div id="shell-header"></div>
+  <main class="page">
+    <p class="kicker">True view</p>
+    <h1>Delivery</h1>
+    <p class="lede">Product line is EDP-first. BRPaaS program is milestone-first. Inferred EPPs stay visible as pending and do not count as cost.</p>
+    <div class="toolbar">
+      <input type="search" id="q" placeholder="Search title or key" />
+      <select id="group">
+        <option value="product">Group by product line</option>
+        <option value="milestone">Group by BRPaaS milestone</option>
+      </select>
+      <select id="product">
+        <option value="all">All product lines</option>
+      </select>
+      <select id="milestone">
+        <option value="all">All milestones (M1–M4)</option>
+      </select>
+      <select id="health">
+        <option value="all">All link health</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="pending">Pending inferred</option>
+        <option value="none">None</option>
+      </select>
+      <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active only</label>
+    </div>
+    <div class="split">
+      <ul class="tree" id="root"></ul>
+      <aside class="panel" id="detail">
+        <p class="muted">Select an EDP for the true view — members, unique vs rolled, pending, budget.</p>
+      </aside>
+    </div>
+  </main>
+  <div id="shell-footer"></div>
+  <script src="jira_map/tree_data.js"></script>
+  <script src="assets/js/hours.js"></script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/delivery.js"></script>
+</body>
+</html>

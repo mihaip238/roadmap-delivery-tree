@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-page="cost">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cost — Hours Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body>
+  <div id="shell-header"></div>
+  <main class="page">
+    <p class="kicker">Envelopes · hours</p>
+    <h1>Cost</h1>
+    <p class="lede">Unique hours are the billable envelope. Shared EPPs are flagged, not split. Unbudgeted rows show a dash, never a fake remaining of zero. The BRPaaS program table is M1–M4, not the BRP as a Service product line.</p>
+    <div class="toolbar">
+      <button type="button" class="primary" id="save">Save budgets</button>
+      <button type="button" class="ghost" id="download">Download JSON</button>
+      <span class="status" id="status"></span>
+    </div>
+    <h2 class="section">Product lines</h2>
+    <div class="table-wrap" id="products"></div>
+    <h2 class="section">BRPaaS program milestones</h2>
+    <div class="table-wrap" id="milestones"></div>
+    <h2 class="section">EDPs</h2>
+    <div class="toolbar">
+      <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active only</label>
+      <input type="search" id="q" placeholder="Filter EDPs" />
+    </div>
+    <div class="table-wrap" id="edps"></div>
+  </main>
+  <div id="shell-footer"></div>
+  <script src="jira_map/tree_data.js"></script>
+  <script src="assets/js/hours.js"></script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/save.js"></script>
+  <script src="assets/js/cost.js"></script>
+</body>
+</html>

@@ -1,16 +1,45 @@
-# Roadmap delivery views
+# Hours Control
 
-Static pages over the roadmap delivery tree (EDP → EPP → Feature → Story).
+Static app over the roadmap delivery tree. Overlay JSON is the EDP↔EPP source of truth. PolarIS is never written. Cost is **hours** (finance converts to euros).
 
-- [List tree](Roadmap_Delivery_Tree.html)
-- [Coggle map](Roadmap_Map.html)
+## Pages
 
-GitHub Pages serves this folder. PolarIS links are the Jira Product Discovery “is implemented by” relationship. Inferred links are title matches, not PolarIS.
+- [Overview](index.html)
+- [Delivery](delivery.html) — product line and BRPaaS milestone trees
+- [Mapping](mapping.html) — confirm / reject / add links
+- [Cost](cost.html) — hour envelopes
+- [Reports](reports.html) — unique hours by product and by M1–M4
 
-Time spent and original estimate come from native Jira worklogs (`timespent`, `timeoriginalestimate`, `aggregatetimespent`). Jira’s calendar is 8 hours = 1 day. Feature totals include child defects; EPP totals add the epic’s own worklogs to those feature totals. Shared EPPs are flagged so hours are not mistaken as exclusive to one EDP.
+The Coggle [map](Roadmap_Map.html) is still in the repo; it is not in the primary nav.
 
-Refresh local time data with `python fetch_time.py` then `python apply_time.py` then `python build_mindmap.py`.
+GitHub Pages serves this folder as a **read-only snapshot**. Do not treat the repository as private.
 
-Delivery milestones (M1–M4, EET / VanHelder) group BRPaaS and Power Balancer EPPs. Refresh those trees with `python fetch_milestone_epps.py` then `python build_mindmap.py`. On the list tree, switch **Group by delivery milestone**.
+## Overlay rules
 
-Do not treat this repo as private. A free GitHub Pages site requires a public repository.
+PolarIS is in cost unless overlay rejects it. Overlay adds EPPs PolarIS missed. Inferred title matches are inbox, not cost. Unique hours de-duplicate tickets. Shared EPPs are flagged, not split 50/50.
+
+Product-line reports stay EDP-first. BRPaaS **program** reports stay milestone-first (Power Balancer plus BPO). Do not mix those cuts into one “BRPaaS hours” number.
+
+Living spec: [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md), [docs/ROADMAP.md](docs/ROADMAP.md).
+
+## Refresh
+
+```
+python assemble_tree.py
+python fetch_time.py
+python apply_time.py
+python apply_overlay.py
+python build_mindmap.py
+```
+
+Milestone EPP trees: `python fetch_milestone_epps.py` then `python build_mindmap.py`.
+
+Time spent comes from native Jira worklogs (`timespent`, `aggregatetimespent`). Jira’s calendar is 8 hours = 1 day.
+
+## Edit mapping and budgets locally
+
+```
+python serve.py
+```
+
+Open http://127.0.0.1:8765/ — POST `/overlay` and `/budgets` write JSON and re-run `apply_overlay.py`. On GitHub Pages, download the JSON, commit it, and run the refresh locally.

@@ -17,3 +17,4 @@ jira_map/product_tree.json
 jira_map/time_dumps/
 jira_map/time_audit.json
 excel_items.json
+*.tmp

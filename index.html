@@ -1,49 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-page="overview">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Roadmap delivery views</title>
+  <title>Hours Control</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,640&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
-  <style>
-    :root { --paper: #f3ecdf; --ink: #1c2430; --soft: #4a5564; --navy: #243044; --chip: #fffaf3; --rule: #cbbba3; }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; font-family: "Source Sans 3", sans-serif;
-      background: var(--paper); color: var(--ink);
-      background-image: radial-gradient(circle at 1px 1px, rgba(28,36,48,0.05) 1px, transparent 0);
-      background-size: 22px 22px;
-      display: grid; place-items: center; padding: 32px 20px;
-    }
-    main { max-width: 640px; }
-    h1 { font-family: Fraunces, serif; font-size: 36px; margin: 0 0 8px; letter-spacing: -0.03em; }
-    p { color: var(--soft); line-height: 1.5; margin: 0 0 22px; }
-    .cards { display: grid; gap: 12px; }
-    a.card {
-      display: block; background: var(--chip); color: inherit; text-decoration: none;
-      border: 1px solid var(--navy); padding: 18px 20px;
-    }
-    a.card:hover { background: var(--navy); color: var(--paper); }
-    a.card strong { font-family: Fraunces, serif; font-size: 22px; display: block; margin-bottom: 4px; }
-    a.card span { font-size: 14px; opacity: 0.85; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/app.css" />
 </head>
 <body>
-  <main>
-    <h1>Roadmap delivery views</h1>
-    <p>Same Jira-backed tree in two layouts. Product Name comes from Jira. PolarIS links are ground truth; inferred matches are title-based.</p>
-    <div class="cards">
-      <a class="card" href="Roadmap_Delivery_Tree.html">
-        <strong>List tree</strong>
-        <span>Product → EDP → EPP → Feature → Story. Search, filter, expand.</span>
-      </a>
-      <a class="card" href="Roadmap_Map.html">
-        <strong>Coggle map</strong>
-        <span>Radial map of the same tree. Click a branch, drag, zoom.</span>
-      </a>
-    </div>
+  <div id="shell-header"></div>
+  <main class="page">
+    <p class="kicker">Roadmap hours</p>
+    <h1>True view, in hours.</h1>
+    <p class="lede">Overlay binds roadmap EDPs to the EPPs developers work on. Unique hours are cost. Finance converts to euros elsewhere. Product lines and the BRPaaS program (M1–M4) stay separate cuts.</p>
+    <div class="stats" id="stats"></div>
+    <ul class="jump">
+      <li><a href="delivery.html"><span class="name">Delivery</span><span class="hint">Product and milestone trees. One EDP at a time.</span><span class="go">Open</span></a></li>
+      <li><a href="mapping.html"><span class="name">Mapping</span><span class="hint">Confirm, reject, or add EDP↔EPP links. PolarIS is not written.</span><span class="go">Open</span></a></li>
+      <li><a href="cost.html"><span class="name">Cost</span><span class="hint">Envelopes in hours. Unbudgeted stays blank, not zero.</span><span class="go">Open</span></a></li>
+      <li><a href="reports.html"><span class="name">Reports</span><span class="hint">Unique hours by product line and by BRPaaS milestone.</span><span class="go">Open</span></a></li>
+    </ul>
   </main>
+  <div id="shell-footer"></div>
+  <script src="jira_map/tree_data.js"></script>
+  <script src="assets/js/hours.js"></script>
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/js/overview.js"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@ import json
 from collections import OrderedDict
 from pathlib import Path
 
-ROOT = Path(r"C:\Users\MihaiPostolache\Downloads\kpisss")
+ROOT = Path(__file__).resolve().parent
 FETCHED = ROOT / "jira_map" / "milestone_epps.json"
 JIRA = "https://eneve.atlassian.net/browse/"
 
