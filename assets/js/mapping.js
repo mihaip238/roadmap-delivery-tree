@@ -4,15 +4,26 @@
     updatedAt: null,
     links: [],
   };
+  const open = new Set();
   let selected = "";
   let dirty = false;
   let writer = false;
 
-  const statusEl = document.getElementById("status");
+  const els = {
+    search: document.getElementById("map-search"),
+    status: document.getElementById("map-status"),
+    product: document.getElementById("map-product"),
+    nav: document.getElementById("nav-list"),
+    navMeta: document.getElementById("nav-meta"),
+    pane: document.getElementById("record-pane"),
+    statusEl: document.getElementById("status"),
+    save: document.getElementById("save"),
+    download: document.getElementById("download"),
+  };
 
   function setStatus(msg, kind) {
-    statusEl.textContent = msg || "";
-    statusEl.className = "status" + (kind ? " " + kind : "");
+    els.statusEl.textContent = msg || "";
+    els.statusEl.className = "status" + (kind ? " " + kind : "");
   }
 
   function idx() {
@@ -36,11 +47,6 @@
     overlay.updatedAt = row.updatedAt;
   }
 
-  function actionFor(edp, epp) {
-    const i = idx().get(edp + "|" + epp);
-    return i == null ? null : overlay.links[i];
-  }
-
   function catalogKeys() {
     return new Set(Hours.eppCatalog().map((e) => e.key));
   }
@@ -58,121 +64,95 @@
     return owners;
   }
 
-  function paintLists() {
-    const q = (document.getElementById("q").value || "").trim().toLowerCase();
-    const rows = Hours.uniqueEdps().filter((e) => e.active);
-    function match(e) {
-      if (!q) return true;
-      return (e.key + " " + e.title).toLowerCase().includes(q);
-    }
-    const inbox = rows.filter((e) => {
-      if (!match(e)) return false;
-      const h = Hours.health(e);
-      return h === "pending" || h === "none" || Hours.pendingChildren(e).length;
-    });
-    function item(e) {
-      const active = e.key === selected ? " active" : "";
-      return `<button type="button" class="inbox-item${active}" data-edp="${Hours.esc(e.key)}">
-        <span class="key">${Hours.esc(e.key)}</span> ${Hours.esc(e.title)}
-        <div class="muted">${Hours.esc(Hours.health(e))} · ${Hours.esc(e.roadmap || "")} · ${Hours.fmtHours((e.time || {}).uniqueSpentHours)} unique</div>
-      </button>`;
-    }
-    document.getElementById("inbox").innerHTML = inbox.length
-      ? inbox.map(item).join("")
-      : `<p class="muted">Inbox is empty for this filter.</p>`;
-    document.getElementById("all").innerHTML = rows.filter(match).map(item).join("");
+  function fillProducts() {
+    const names = (Hours.tree().products || []).map((p) => p.name);
+    els.product.innerHTML = '<option value="">Product</option>' +
+      names.map((n) => `<option>${Hours.esc(n)}</option>`).join("");
   }
 
-  function paintInspector() {
-    const el = document.getElementById("inspector");
+  function matches(edp) {
+    if (!edp.active) return false;
+    const q = (els.search.value || "").trim().toLowerCase();
+    const st = els.status.value;
+    const prod = els.product.value;
+    const h = Hours.health(edp);
+    if (st === "inbox") {
+      if (!(h === "pending" || h === "none" || Hours.pendingChildren(edp).length)) return false;
+    } else if (st && h !== st) return false;
+    if (prod && edp.productLabel !== prod) return false;
+    if (!q) return true;
+    const hay = (edp.key + " " + edp.title).toLowerCase();
+    if (hay.includes(q)) return true;
+    return (edp.children || []).some((e) => (e.key + " " + e.title).toLowerCase().includes(q));
+  }
+
+  function actions(edp) {
+    return function (epp) {
+      const method = epp.method || "";
+      if (method === "inferred_pending") {
+        return `<button type="button" data-act="confirm" data-epp="${Hours.esc(epp.key)}">Confirm</button>
+                <button type="button" class="danger" data-act="reject" data-epp="${Hours.esc(epp.key)}">Reject</button>`;
+      }
+      if (method === "rejected") {
+        return `<button type="button" data-act="confirm" data-epp="${Hours.esc(epp.key)}">Restore</button>`;
+      }
+      if (epp.costMember) {
+        return `<button type="button" class="danger" data-act="reject" data-epp="${Hours.esc(epp.key)}">Reject</button>`;
+      }
+      return "";
+    };
+  }
+
+  function renderNav() {
+    const edps = Hours.uniqueEdps().filter(matches);
+    const pending = edps.filter((e) => Hours.health(e) === "pending").length;
+    els.navMeta.textContent = edps.length + (pending ? " · " + pending : "");
+    els.nav.innerHTML = edps.map((e) => {
+      const on = e.key === selected;
+      return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-edp="${Hours.esc(e.key)}">
+        <span class="nav-edp-k">${Hours.esc(e.key)}</span>
+        <span class="nav-edp-t">${Hours.esc(e.title)}</span>
+        <span class="nav-edp-h mono">${Hours.fmtNum((e.time || {}).uniqueSpentHours)}</span>
+        <span class="nav-edp-st st-${Hours.esc(Hours.health(e))}"></span>
+      </button>`;
+    }).join("") || `<div class="empty-mini">—</div>`;
+  }
+
+  function renderPane() {
     const edp = Hours.findEdp(selected);
     if (!edp) {
-      el.innerHTML = `<p class="muted">Select an EDP.</p>`;
+      els.pane.innerHTML = `<div class="empty-mini">—</div>`;
       return;
     }
-    const cost = Hours.costChildren(edp);
-    const pending = Hours.pendingChildren(edp);
-    const rejected = Hours.rejectedChildren(edp);
-    function eppLine(e, buttons) {
-      const act = actionFor(edp.key, e.key);
-      const owners = ownersOf(e.key).filter((k) => k !== edp.key);
-      const share = owners.length ? `<div class="copper">Already on ${Hours.esc(owners.join(", "))}</div>` : "";
-      return `<li>
-        <span class="key">${Hours.esc(e.key)}</span> ${Hours.esc(e.title)}
-        <div class="muted">${Hours.esc(e.method)}${act ? " · overlay " + Hours.esc(act.action) : ""}</div>
-        ${share}
-        <div class="actions">${buttons}</div>
-      </li>`;
-    }
-
-    el.innerHTML = `
-      <p class="kicker">${Hours.esc(edp.key)}</p>
-      <h2>${Hours.esc(edp.title)}</h2>
-      <p class="note">${Hours.fmtHours((edp.time || {}).uniqueSpentHours)} unique if confirmed · health ${Hours.esc(Hours.health(edp))}</p>
-      <h3 class="kicker">Cost members</h3>
-      ${cost.length ? `<ul>${cost.map((e) => eppLine(e,
-        `<button type="button" class="danger" data-act="reject" data-epp="${Hours.esc(e.key)}">Reject</button>`
-      )).join("")}</ul>` : `<p class="muted">None yet.</p>`}
-      <h3 class="kicker">Pending inferred</h3>
-      ${pending.length ? `<ul>${pending.map((e) => eppLine(e,
-        `<button type="button" class="primary" data-act="confirm" data-epp="${Hours.esc(e.key)}">Confirm</button>
-         <button type="button" class="danger" data-act="reject" data-epp="${Hours.esc(e.key)}">Reject</button>`
-      )).join("")}</ul>` : `<p class="muted">None.</p>`}
-      <h3 class="kicker">Rejected PolarIS (audit)</h3>
-      ${rejected.length ? `<ul>${rejected.map((e) => eppLine(e,
-        `<button type="button" data-act="confirm" data-epp="${Hours.esc(e.key)}">Restore</button>`
-      )).join("")}</ul>` : `<p class="muted">None.</p>`}
-      <h3 class="kicker">Add EPP</h3>
-      <div class="actions">
-        <input type="text" id="addKey" placeholder="EPP-311" />
+    els.pane.innerHTML = Record.edpView(edp, { open, actions: actions(edp) }) +
+      `<div class="add-row">
+        <input type="text" id="addKey" placeholder="EPP-311" autocomplete="off" />
         <button type="button" id="addBtn">Add</button>
-      </div>
-      <p class="note" id="addMsg"></p>
-      <p class="note">PolarIS rows above stay as evidence. Reject excludes them from cost without writing Jira.</p>
-    `;
+      </div>`;
+  }
 
-    el.querySelectorAll("[data-act]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const epp = btn.getAttribute("data-epp");
-        const act = btn.getAttribute("data-act");
-        if (act === "confirm" && (Hours.rejectedChildren(edp).some((e) => e.key === epp) || Hours.costChildren(edp).some((e) => e.key === epp))) {
-          // restore rejected polaris: remove reject row, or confirm
-          const existing = (edp.children || []).find((e) => e.key === epp);
-          const origin = (existing && existing.sourceMethod) || "";
-          if (origin.indexOf("polaris") === 0) {
-            overlay.links = overlay.links.filter((r) => !(r.edp === edp.key && r.epp === epp && r.action === "reject"));
-            dirty = true;
-          } else {
-            upsert(edp.key, epp, "confirm", { source: "inbox" });
-          }
-        } else {
-          upsert(edp.key, epp, act === "restore" ? "confirm" : act, { source: act === "confirm" ? "inbox" : "mapping" });
-        }
-        setStatus("Unsaved overlay change.", "warn");
-        paintInspector();
-      });
-    });
-    const addBtn = document.getElementById("addBtn");
-    if (addBtn) {
-      addBtn.addEventListener("click", () => {
-        const raw = (document.getElementById("addKey").value || "").trim().toUpperCase();
-        const msg = document.getElementById("addMsg");
-        if (!/^EPP-\d+$/.test(raw)) {
-          msg.textContent = "Use a key like EPP-311.";
-          return;
-        }
-        if (!catalogKeys().has(raw)) {
-          msg.textContent = raw + " is not in the tree catalog. Refresh Jira fetch first.";
-          return;
-        }
-        const others = ownersOf(raw).filter((k) => k !== edp.key);
-        upsert(edp.key, raw, "add", { source: "mapping" });
-        msg.textContent = others.length
-          ? "Added. Warning: " + raw + " already implements " + others.join(", ") + "."
-          : "Added " + raw + ". Save to rebuild cost.";
-        setStatus("Unsaved overlay change.", "warn");
-      });
+  function select(key) {
+    selected = key;
+    if (key) history.replaceState(null, "", "#" + encodeURIComponent(key));
+    renderNav();
+    renderPane();
+  }
+
+  function applyAct(edp, epp, act) {
+    if (act === "confirm" && (Hours.rejectedChildren(edp).some((e) => e.key === epp) || Hours.costChildren(edp).some((e) => e.key === epp))) {
+      const existing = (edp.children || []).find((e) => e.key === epp);
+      const origin = (existing && existing.sourceMethod) || "";
+      if (origin.indexOf("polaris") === 0) {
+        overlay.links = overlay.links.filter((r) => !(r.edp === edp.key && r.epp === epp && r.action === "reject"));
+        dirty = true;
+      } else {
+        upsert(edp.key, epp, "confirm", { source: "inbox" });
+      }
+    } else {
+      upsert(edp.key, epp, act, { source: act === "confirm" ? "inbox" : "mapping" });
     }
+    setStatus("Unsaved", "warn");
+    renderPane();
   }
 
   function payload() {
@@ -189,20 +169,69 @@
       try {
         await Save.post("/overlay", data);
         dirty = false;
-        setStatus("Saved. Reloading tree…", "ok");
+        setStatus("Saved", "ok");
         location.reload();
         return;
       } catch (err) {
-        setStatus("Writer failed: " + err.message + " — downloading instead.", "warn");
+        setStatus("Failed", "warn");
       }
     }
     Save.download("overlay_links.json", data);
-    setStatus("Downloaded overlay_links.json. Commit it, then run python apply_overlay.py.", "warn");
+    setStatus("Downloaded", "ok");
   }
+
+  els.nav.addEventListener("click", (ev) => {
+    const btn = ev.target.closest("[data-edp]");
+    if (btn) select(btn.getAttribute("data-edp"));
+  });
+
+  els.pane.addEventListener("click", (ev) => {
+    const addBtn = ev.target.closest("#addBtn");
+    if (addBtn) {
+      const edp = Hours.findEdp(selected);
+      if (!edp) return;
+      const raw = ((document.getElementById("addKey") || {}).value || "").trim().toUpperCase();
+      if (!/^EPP-\d+$/.test(raw)) return;
+      if (!catalogKeys().has(raw)) return;
+      upsert(edp.key, raw, "add", { source: "mapping" });
+      setStatus("Unsaved", "warn");
+      renderPane();
+      return;
+    }
+    const btn = ev.target.closest("[data-act]");
+    if (!btn) return;
+    const edp = Hours.findEdp(selected);
+    if (!edp) return;
+    applyAct(edp, btn.getAttribute("data-epp"), btn.getAttribute("data-act"));
+  });
+
+  Record.bindToggle(els.pane, open, renderPane);
+
+  [els.search, els.status, els.product].forEach((el) => {
+    el.addEventListener("input", renderNav);
+    el.addEventListener("change", renderNav);
+  });
+
+  els.save.addEventListener("click", save);
+  els.download.addEventListener("click", () => {
+    Save.download("overlay_links.json", payload());
+    setStatus("Downloaded", "ok");
+  });
+
+  window.addEventListener("hashchange", () => {
+    const h = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+    if (Hours.findEdp(h)) select(h);
+  });
+
+  window.addEventListener("beforeunload", (e) => {
+    if (!dirty) return;
+    e.preventDefault();
+    e.returnValue = "";
+  });
 
   async function boot() {
     writer = await Save.available();
-    setStatus(writer ? "Local writer is up." : "View / download only (start python serve.py to save).", writer ? "ok" : "warn");
+    fillProducts();
     try {
       const r = await fetch("jira_map/overlay_links.json", { cache: "no-store" });
       if (r.ok) {
@@ -213,27 +242,17 @@
       }
     } catch (e) { /* empty overlay */ }
     const hash = decodeURIComponent((location.hash || "").replace(/^#/, ""));
-    if (hash) selected = hash;
-    paintLists();
-    paintInspector();
+    if (hash && Hours.findEdp(hash)) {
+      selected = hash;
+      els.status.value = "";
+    } else {
+      const list = Hours.uniqueEdps().filter(matches);
+      const first = list.find((e) => (e.children || []).length) || list[0];
+      selected = first ? first.key : "";
+    }
+    renderNav();
+    renderPane();
   }
-
-  document.getElementById("inbox").addEventListener("click", onPick);
-  document.getElementById("all").addEventListener("click", onPick);
-  function onPick(e) {
-    const btn = e.target.closest("[data-edp]");
-    if (!btn) return;
-    selected = btn.getAttribute("data-edp") || "";
-    history.replaceState(null, "", "#" + encodeURIComponent(selected));
-    paintLists();
-    paintInspector();
-  }
-  document.getElementById("q").addEventListener("input", paintLists);
-  document.getElementById("save").addEventListener("click", save);
-  document.getElementById("download").addEventListener("click", () => {
-    Save.download("overlay_links.json", payload());
-    setStatus("Downloaded overlay_links.json.", "ok");
-  });
 
   boot();
 })();

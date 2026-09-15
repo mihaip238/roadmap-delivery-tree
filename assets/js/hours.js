@@ -158,6 +158,43 @@
     return uniqueEdps().find((e) => e.key === key) || null;
   }
 
+  function findEpp(key) {
+    let fromProduct = null;
+    let fromMilestone = null;
+    function walk(node, bucket) {
+      if (!node || bucket.node) return;
+      if (node.type === "epp" && node.key === key) {
+        bucket.node = node;
+        return;
+      }
+      (node.children || []).forEach((c) => walk(c, bucket));
+    }
+    const prod = { node: null };
+    const ms = { node: null };
+    (tree().products || []).forEach((n) => walk(n, prod));
+    (tree().milestones || []).forEach((n) => walk(n, ms));
+    fromProduct = prod.node;
+    fromMilestone = ms.node;
+    if (fromProduct && fromMilestone) {
+      return Object.assign({}, fromProduct, {
+        onEdps: fromProduct.onEdps || fromMilestone.onEdps,
+        products: fromProduct.products || fromMilestone.products,
+      });
+    }
+    return fromProduct || fromMilestone;
+  }
+
+  function edpsForEpp(eppKey) {
+    return uniqueEdps().filter((edp) => (edp.children || []).some((e) => e.key === eppKey));
+  }
+
+  function fmtNum(n) {
+    if (n == null || n === "") return "—";
+    const x = Number(n);
+    if (!Number.isFinite(x)) return "—";
+    return x.toLocaleString("en-GB", { maximumFractionDigits: 2, minimumFractionDigits: 0 });
+  }
+
   function eppCatalog() {
     return tree().eppCatalog || [];
   }
@@ -276,6 +313,9 @@
     milestoneRows,
     edpRows,
     findEdp,
+    findEpp,
+    edpsForEpp,
+    fmtNum,
     eppCatalog,
     caption,
     insights,

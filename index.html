@@ -9,15 +9,22 @@
 <body>
   <div id="shell-header"></div>
   <main class="page">
-    <h1>Overview</h1>
-    <p class="lede">Hours spent on roadmap work. Confirm mappings before you treat a number as cost. Product lines and the BRPaaS program (M1–M4) are separate views.</p>
-    <div class="stats" id="stats"></div>
-    <ul class="jump">
-      <li><a href="delivery.html"><span class="name">Delivery</span><span class="hint">Browse the tree by product or milestone</span><span class="go">→</span></a></li>
-      <li><a href="mapping.html"><span class="name">Mapping</span><span class="hint">Confirm which EPPs belong to each EDP</span><span class="go">→</span></a></li>
-      <li><a href="cost.html"><span class="name">Cost</span><span class="hint">Spent vs budget in hours</span><span class="go">→</span></a></li>
-      <li><a href="reports.html"><span class="name">Reports</span><span class="hint">Charts for product lines and M1–M4</span><span class="go">→</span></a></li>
-    </ul>
+    <header class="work-bar in-page">
+      <div class="work-title">Overview</div>
+    </header>
+    <div class="kpis" id="stats"></div>
+    <div class="duo">
+      <div>
+        <div class="panel-k">Product</div>
+        <div id="product-table"></div>
+      </div>
+      <div>
+        <div class="panel-k">Pending</div>
+        <div id="inbox-list"></div>
+      </div>
+    </div>
+    <div class="panel-k">M1–M4</div>
+    <div id="program-table"></div>
   </main>
   <div id="shell-footer"></div>
   <script src="jira_map/tree_data.js"></script>

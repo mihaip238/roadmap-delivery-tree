@@ -21,16 +21,16 @@
     const header = document.getElementById("shell-header");
     const footer = document.getElementById("shell-footer");
     const when = fetched();
+    document.body.classList.add("app");
     if (header) {
-      header.className = "sidebar";
-      header.innerHTML = `<a class="wordmark" href="index.html">Hours Control</a>
+      header.className = "rail";
+      header.innerHTML = `<a class="wordmark" href="index.html"><span>Hours</span><span>Control</span></a>
         <nav class="nav">${PAGES.map((p) => {
           const cur = p.id === id ? ' aria-current="page"' : "";
           return `<a href="${p.href}"${cur}>${p.label}</a>`;
         }).join("")}</nav>
-        <div class="sidebar-foot">
-          Hours, not euros. Unique tickets count once.<br />
-          ${when ? "Worklogs " + when : "Refresh Jira, then apply_overlay.py."}<br />
+        <div class="rail-foot">
+          ${when ? `<time class="mono">${Hours.esc(when)}</time>` : ""}
           <a href="Roadmap_Map.html">Map</a>
         </div>`;
     }

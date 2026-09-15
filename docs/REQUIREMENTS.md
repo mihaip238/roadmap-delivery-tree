@@ -44,12 +44,12 @@ Budgets: `jira_map/overlay_budgets.json` — hours per EDP, optional per product
 
 ## F0 Shell and design
 
-Porcelain ledger: surface `#F6F3EE`, hairline `#E2DDD4`, ink `#161616`, muted `#5C574E`, copper `#8C4A2F`. Instrument Serif for page titles, Instrument Sans for UI, IBM Plex Mono for Jira keys. No dotted grid, no inverted navy bars, no pill rainbow, no card walls.
+Operations console: bone canvas `#E8E2D6`, ink `#161411`, dark rail `#141311`, signal amber `#B45309` for pending only. IBM Plex Sans + IBM Plex Mono. 2px corners, hairlines, no card candy, no Apple blue, no helper copy. Hierarchy is type chips, indent, Cost vs Logged.
 
 | ID | Name | Definition of done |
 | --- | --- | --- |
 | F0.1 | Design tokens | `assets/css/app.css` variables only; pages do not invent palettes. |
-| F0.2 | App shell | Overview, Delivery, Mapping, Cost, Reports. Current page marked. Fetched-at and “hours, not euros” in the footer. |
+| F0.2 | App shell | Overview, Delivery, Mapping, Cost, Reports. Current page marked. Fetched-at on the rail. No explanatory copy. |
 | F0.3 | Overview | Unique hours, active EDPs, pending inferred count, shared EPP count, BRPaaS **program** unique hours (M1–M4). Links into the other four pages. No charts. |
 
 ## F1 Overlay engine
@@ -79,7 +79,7 @@ Porcelain ledger: surface `#F6F3EE`, hairline `#E2DDD4`, ink `#161616`, muted `#
 | --- | --- | --- |
 | F3.1 | Product tree | Product → EDP → EPP → Feature → Story. Filters: active, product, link health (confirmed / pending / none). |
 | F3.2 | Milestone tree | M1–M4, EPP-first, EDPs/products on each EPP, unique hours on the milestone row. |
-| F3.3 | EDP detail | Members, unique vs rolled, pending suggestions, budget if any. |
+| F3.3 | EDP record | Type-marked EDP → EPP → Feature → Story. Cost vs Logged. Pending Cost is a dash. Expand in place. |
 
 ## F4 Cost control
 
@@ -92,7 +92,7 @@ Porcelain ledger: surface `#F6F3EE`, hairline `#E2DDD4`, ink `#161616`, muted `#
 
 ## F5 Reports
 
-Custom SVG. Every chart: title, units (hours), series names, caption `Jira worklogs · unique · as of {fetchedAt}`.
+Custom SVG. Short titles only. No captions, no insight essays.
 
 | ID | Name | Definition of done |
 | --- | --- | --- |
@@ -101,7 +101,7 @@ Custom SVG. Every chart: title, units (hours), series names, caption `Jira workl
 | F5.3 | Spent vs budget | Only rows with a budget. Sort by remaining (risk first). |
 | F5.4 | Mapping health | Confirmed / pending inferred / none for **active** EDPs. Callout if pending > 0. |
 | F5.5 | Concentration | Top EDPs by unique hours; top shared EPPs by hours. |
-| F5.6 | Insight strip | 2–4 sentences from data rules in JS, not an LLM. |
+| F5.6 | Insight strip | Removed. Numbers and charts only. |
 
 ## F6 Local writer
 

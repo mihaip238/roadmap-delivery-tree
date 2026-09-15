@@ -9,21 +9,22 @@
 <body>
   <div id="shell-header"></div>
   <main class="page">
-    <h1>Cost</h1>
-    <p class="lede">Unique hours vs budget. Empty budget shows a dash, not zero. BRPaaS milestones are the program cut, not the BRP as a Service product line.</p>
-    <div class="toolbar">
-      <button type="button" class="primary" id="save">Save budgets</button>
-      <button type="button" class="ghost" id="download">Download JSON</button>
-      <span class="status" id="status"></span>
-    </div>
-    <h2 class="section">Product lines</h2>
+    <header class="work-bar in-page">
+      <div class="work-title">Cost</div>
+      <div class="toolbar">
+        <button type="button" class="primary" id="save">Save</button>
+        <button type="button" class="ghost" id="download">Download</button>
+        <span class="status" id="status"></span>
+      </div>
+    </header>
+    <div class="panel-k">Product</div>
     <div class="table-wrap" id="products"></div>
-    <h2 class="section">BRPaaS program milestones</h2>
+    <div class="panel-k">M1–M4</div>
     <div class="table-wrap" id="milestones"></div>
-    <h2 class="section">EDPs</h2>
+    <div class="panel-k">EDP</div>
     <div class="toolbar">
-      <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active only</label>
-      <input type="search" id="q" placeholder="Filter EDPs" />
+      <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active</label>
+      <input type="search" id="q" placeholder="Search" />
     </div>
     <div class="table-wrap" id="edps"></div>
   </main>

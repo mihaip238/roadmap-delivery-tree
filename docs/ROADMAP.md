@@ -4,7 +4,7 @@ Build order. Each slice is usable alone.
 
 ## R0 — Chrome (F0)
 
-Porcelain ledger tokens, shared shell, Overview wired to `tree_data.js`. Redirect old `Roadmap_*.html` / `E21_*.html` entry points. Coggle map stays in the repo, out of primary nav.
+Operations console (dark rail, bone canvas, IBM Plex). Overview wired to `tree_data.js`. Redirect old `Roadmap_*.html` / `E21_*.html` entry points. Coggle map stays in the repo, out of primary nav.
 
 ## R1 — Overlay brain (F1)
 
@@ -18,7 +18,7 @@ First mapping target: active BRP as a Service / Power Balancer EDPs that are sti
 
 ## R3 — Delivery true view (F3)
 
-Restyle product and milestone trees. EDP detail on overlay membership (unique vs rolled, pending, budget).
+EDP record: type chips, Cost vs Logged, expandable EPP → Feature → Story.
 
 ## R4 — Cost (F4)
 
@@ -26,7 +26,7 @@ Envelopes for product line, EDP, and M1–M4. `overlay_budgets.json` editor. Unb
 
 ## R5 — Reports (F5)
 
-Unique hours by product and by BRPaaS milestone, mapping health, concentration, insight strip.
+Unique hours by product and by BRPaaS milestone, mapping health, concentration. No insight essays.
 
 ## Later (not v1)
 

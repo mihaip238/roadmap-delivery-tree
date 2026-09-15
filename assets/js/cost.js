@@ -25,7 +25,7 @@
   function remainingCell(env) {
     if (env.unbudgeted) return "—";
     const cls = env.remaining < 0 ? "warn" : "";
-    return `<span class="${cls}">${Hours.esc(Hours.fmtHours(env.remaining))}</span>`;
+    return `<span class="${cls}">${Hours.esc(Hours.fmtNum(env.remaining))}</span>`;
   }
 
   function pctCell(env) {
@@ -42,15 +42,15 @@
   function paintProducts() {
     const rows = Hours.productRows();
     document.getElementById("products").innerHTML = `<table class="data">
-      <thead><tr><th>Product line</th><th class="num">Unique spent</th><th class="num">Budget</th><th class="num">Remaining</th><th class="num">Used</th></tr></thead>
+      <thead><tr><th>Product</th><th class="num">Cost</th><th class="num">Budget</th><th class="num">Left</th><th class="num">%</th></tr></thead>
       <tbody>${rows.map((r) => {
         const env = Hours.envelope(r.uniqueSpentHours, budgets.products[r.name] != null ? budgets.products[r.name] : r.budget);
         return `<tr>
           <td>${Hours.esc(r.name)}</td>
-          <td class="num">${Hours.esc(Hours.fmtHours(r.uniqueSpentHours))}</td>
+          <td class="num mono">${Hours.esc(Hours.fmtNum(r.uniqueSpentHours))}</td>
           <td class="num">${budgetInput("products", r.name, budgets.products[r.name])}</td>
-          <td class="num">${remainingCell(env)}</td>
-          <td class="num">${pctCell(env)}</td>
+          <td class="num mono">${remainingCell(env)}</td>
+          <td class="num mono">${pctCell(env)}</td>
         </tr>`;
       }).join("")}</tbody></table>`;
   }
@@ -58,16 +58,16 @@
   function paintMilestones() {
     const rows = Hours.milestoneRows();
     document.getElementById("milestones").innerHTML = `<table class="data">
-      <thead><tr><th>Milestone</th><th>Delivers</th><th class="num">Unique spent</th><th class="num">Budget</th><th class="num">Remaining</th><th class="num">Used</th></tr></thead>
+      <thead><tr><th></th><th></th><th class="num">Cost</th><th class="num">Budget</th><th class="num">Left</th><th class="num">%</th></tr></thead>
       <tbody>${rows.map((r) => {
         const env = Hours.envelope(r.uniqueSpentHours, budgets.milestones[r.key] != null ? budgets.milestones[r.key] : r.budget);
         return `<tr>
-          <td><span class="key">${Hours.esc(r.key)}</span></td>
-          <td>${Hours.esc(r.name)} · ${Hours.esc(r.target || "")}</td>
-          <td class="num">${Hours.esc(Hours.fmtHours(r.uniqueSpentHours))}</td>
+          <td class="mono">${Hours.esc(r.key)}</td>
+          <td>${Hours.esc(r.name)}</td>
+          <td class="num mono">${Hours.esc(Hours.fmtNum(r.uniqueSpentHours))}</td>
           <td class="num">${budgetInput("milestones", r.key, budgets.milestones[r.key])}</td>
-          <td class="num">${remainingCell(env)}</td>
-          <td class="num">${pctCell(env)}</td>
+          <td class="num mono">${remainingCell(env)}</td>
+          <td class="num mono">${pctCell(env)}</td>
         </tr>`;
       }).join("")}</tbody></table>`;
   }
@@ -81,20 +81,20 @@
       return true;
     });
     document.getElementById("edps").innerHTML = `<table class="data">
-      <thead><tr><th>EDP</th><th>Product</th><th>Health</th><th class="num">Unique</th><th class="num">Rolled</th><th class="num">Budget</th><th class="num">Remaining</th><th>Shared</th></tr></thead>
+      <thead><tr><th>EDP</th><th></th><th></th><th class="num">Cost</th><th class="num">Logged</th><th class="num">Budget</th><th class="num">Left</th><th></th></tr></thead>
       <tbody>${rows.map((r) => {
         const env = Hours.envelope(r.uniqueSpentHours, budgets.edps[r.key] != null ? budgets.edps[r.key] : r.budget);
         const shared = (r.sharedWith || []).length
-          ? `<span class="copper">${Hours.esc(r.sharedWith.join(", "))}</span>`
-          : "—";
+          ? `<span class="copper">${Hours.esc(r.sharedWith.join(" "))}</span>`
+          : "";
         return `<tr>
-          <td><a href="delivery.html#${Hours.esc(r.key)}"><span class="key">${Hours.esc(r.key)}</span></a> ${Hours.esc(r.title)}</td>
-          <td>${Hours.esc(r.product)}${(r.alsoIn || []).length ? `<div class="muted">also ${Hours.esc(r.alsoIn.join(", "))}</div>` : ""}</td>
-          <td><span class="health ${Hours.esc(r.health)}">${Hours.esc(r.health)}</span></td>
-          <td class="num">${Hours.esc(Hours.fmtHours(r.uniqueSpentHours))}</td>
-          <td class="num">${Hours.esc(Hours.fmtHours(r.rolledSpentHours))}</td>
+          <td class="mono"><a href="delivery.html#${Hours.esc(r.key)}">${Hours.esc(r.key)}</a></td>
+          <td>${Hours.esc(r.title)}</td>
+          <td><span class="pip st-${Hours.esc(r.health)}"></span></td>
+          <td class="num mono">${Hours.esc(Hours.fmtNum(r.uniqueSpentHours))}</td>
+          <td class="num mono muted">${Hours.esc(Hours.fmtNum(r.rolledSpentHours))}</td>
           <td class="num">${budgetInput("edps", r.key, budgets.edps[r.key])}</td>
-          <td class="num">${remainingCell(env)}</td>
+          <td class="num mono">${remainingCell(env)}</td>
           <td>${shared}</td>
         </tr>`;
       }).join("")}</tbody></table>`;
@@ -133,7 +133,7 @@
     if (!inp) return;
     const n = parseHours(inp.value);
     if (n === undefined) {
-      setStatus("Budgets must be hours ≥ 0 in 0.5 steps.", "warn");
+      setStatus("Unsaved", "warn");
       return;
     }
     const kind = inp.getAttribute("data-kind");
@@ -141,7 +141,7 @@
     if (n == null) delete budgets[kind][key];
     else budgets[kind][key] = n;
     paintAll();
-    setStatus("Unsaved budget change.", "warn");
+    setStatus("Unsaved", "warn");
   }
 
   async function save() {
@@ -150,20 +150,19 @@
     if (writer) {
       try {
         await Save.post("/budgets", data);
-        setStatus("Saved. Reloading tree…", "ok");
+        setStatus("Saved", "ok");
         location.reload();
         return;
       } catch (err) {
-        setStatus("Writer failed: " + err.message + " — downloading instead.", "warn");
+        setStatus("Failed", "warn");
       }
     }
     Save.download("overlay_budgets.json", data);
-    setStatus("Downloaded overlay_budgets.json. Commit it, then run python apply_overlay.py.", "warn");
+    setStatus("Downloaded", "ok");
   }
 
   async function boot() {
     writer = await Save.available();
-    setStatus(writer ? "Local writer is up." : "View / download only (start python serve.py to save).", writer ? "ok" : "warn");
     try {
       const r = await fetch("jira_map/overlay_budgets.json", { cache: "no-store" });
       if (r.ok) {
@@ -180,7 +179,7 @@
   document.getElementById("save").addEventListener("click", save);
   document.getElementById("download").addEventListener("click", () => {
     Save.download("overlay_budgets.json", payload());
-    setStatus("Downloaded overlay_budgets.json.", "ok");
+    setStatus("Downloaded", "ok");
   });
   document.getElementById("activeOnly").addEventListener("change", paintAll);
   document.getElementById("q").addEventListener("input", paintAll);
