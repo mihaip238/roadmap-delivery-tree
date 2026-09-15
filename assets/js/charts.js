@@ -21,7 +21,7 @@
     const series = spec.series || [{ key: "value", label: "Hours", fill: ink }];
     const w = spec.width || 720;
     const rowH = 28;
-    const padL = spec.padL || 168;
+    const padL = spec.padL || 200;
     const padR = 48;
     const padT = 8;
     const padB = 28;

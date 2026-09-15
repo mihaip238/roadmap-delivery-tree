@@ -60,7 +60,8 @@ a:hover { color: var(--copper); }
 .wordmark {
   font-family: var(--serif);
   font-size: 22px;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
+  word-spacing: 0.06em;
   text-decoration: none;
   color: var(--ink);
 }

@@ -15,13 +15,14 @@
   });
 
   const milestones = Hours.milestoneRows().map((m) => ({
-    label: m.key + " " + (m.name || ""),
+    label: m.key + " · " + (m.name || ""),
     value: m.uniqueSpentHours || 0,
   }));
   Charts.hbar(document.getElementById("byMilestone"), {
     title: "Unique hours by BRPaaS program milestone",
     rows: milestones,
     series: [{ key: "value", label: "Unique hours", fill: Charts.ink }],
+    padL: 280,
     caption: cap + ". M1–M4 is the EET / VanHelder program cut (Power Balancer plus BPO), not the BRP as a Service product line.",
   });
 
