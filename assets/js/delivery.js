@@ -224,6 +224,8 @@
     const ms = view === "milestone";
     els.product.hidden = ms;
     els.status.hidden = ms;
+    const activeLabel = els.active.closest("label");
+    if (activeLabel) activeLabel.hidden = ms;
     els.active.hidden = ms;
     els.product.disabled = ms;
     els.status.disabled = ms;
