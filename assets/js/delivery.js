@@ -85,10 +85,10 @@
     els.lineSwitch.hidden = false;
     const rows = Hours.productRows();
     const max = Hours.lineMaxHours();
-    const total = rows.reduce((s, p) => s + (Number(p.uniqueSpentHours) || 0), 0);
+    const allHours = (Hours.overview() || {}).costUniqueHours;
     const all = `<button type="button" class="line-item${!line ? " is-on" : ""}" data-line="">
       <span class="line-name">All</span>
-      <span class="line-h mono">${Hours.fmtNum(total)}</span>
+      <span class="line-h mono">${Hours.fmtNum(allHours)}</span>
     </button>`;
     const items = rows.map((p) => `<button type="button" class="line-item${line === p.name ? " is-on" : ""}" data-line="${Hours.esc(p.name)}">
       <span class="line-name">${Hours.esc(p.name)}</span>
