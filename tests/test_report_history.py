@@ -51,7 +51,7 @@ def fixture() -> dict:
         ),
     ]
     edps[0]["time"].update({"uniqueSpentHours": 2, "sharedWith": ["EPP-A"]})
-    edps[1]["time"].update({"uniqueSpentHours": 0})
+    edps[1]["time"].update({"rolledSpentSec": 0, "rolledSpentHours": 0, "uniqueSpentHours": 0})
     edps[2]["time"].update({"uniqueSpentHours": 0})
     edps[3]["time"].update({"uniqueSpentHours": 2, "sharedWith": ["EPP-A"]})
     return {
