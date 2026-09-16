@@ -73,6 +73,8 @@ Operations console: bone canvas `#E8E2D6`, ink `#161411`, dark rail `#141311`, s
 | F2.4 | Reject PolarIS | Exclude from cost; keep an audit line. |
 | F2.5 | Save | Local writer POST when `python serve.py` is up; otherwise download JSON. GitHub Pages is view + download. |
 
+Mapping uses the same progressive Product line → EDP chrome as Delivery.
+
 ## F3 Delivery (true view)
 
 | ID | Name | Definition of done |

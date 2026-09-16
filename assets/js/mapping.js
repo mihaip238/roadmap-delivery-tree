@@ -106,20 +106,16 @@
   }
 
   function renderLineSwitch() {
-    const rows = Hours.productRows();
-    const max = Hours.lineMaxHours();
-    const all = `<button type="button" class="line-item${!line ? " is-on" : ""}" data-line="">
-      <span class="line-name">All</span>
+    if (!line) {
+      els.lineSwitch.hidden = true;
+      els.lineSwitch.innerHTML = "";
+      return;
+    }
+    els.lineSwitch.hidden = false;
+    els.lineSwitch.innerHTML = `<button type="button" class="nav-back" data-back>
+      <span aria-hidden="true">←</span>
+      <span><small>Product line</small>${Hours.esc(line)}</span>
     </button>`;
-    const items = rows.map((p) => {
-      const zero = !(Number(p.uniqueSpentHours) > 0);
-      return `<button type="button" class="line-item${line === p.name ? " is-on" : ""}${zero ? " is-zero" : ""}" data-line="${Hours.esc(p.name)}">
-      <span class="line-name">${Hours.esc(p.name)}</span>
-      <span class="line-h">${Hours.fmtNum(p.uniqueSpentHours)}</span>
-      ${Hours.lineBar(p.uniqueSpentHours, max)}
-    </button>`;
-    }).join("");
-    els.lineSwitch.innerHTML = all + items;
   }
 
   function edpButton(e) {
@@ -142,21 +138,19 @@
       els.nav.innerHTML = edps.map(edpButton).join("") || `<div class="empty-mini">—</div>`;
       return;
     }
-    const byProd = {};
-    edps.forEach((e) => {
-      const p = e.productLabel || "—";
-      (byProd[p] ||= []).push(e);
-    });
+    const max = Hours.lineMaxHours();
     els.nav.innerHTML = Hours.productRows().map((prod) => {
-      const list = byProd[prod.name];
+      const list = edps.filter((e) => e.productLabel === prod.name || (e.alsoIn || []).includes(prod.name));
       if (!list || !list.length) return "";
-      return `<div class="nav-prod">
-        <button type="button" class="nav-prod-h" data-line="${Hours.esc(prod.name)}">
-          <span>${Hours.esc(prod.name)}</span>
-          <span class="mono">${list.length}</span>
-        </button>
-        ${list.map(edpButton).join("")}
-      </div>`;
+      const zero = !(Number(prod.uniqueSpentHours) > 0);
+      return `<button type="button" class="nav-root${zero ? " is-zero" : ""}" data-line="${Hours.esc(prod.name)}">
+        <span class="nav-root-main">
+          <span class="nav-root-name">${Hours.esc(prod.name)}</span>
+          <span class="nav-root-count mono">${Hours.esc(String(list.length))}</span>
+        </span>
+        <span class="nav-root-cost mono">${Hours.esc(Hours.fmtNum(prod.uniqueSpentHours))}</span>
+        ${Hours.lineBar(prod.uniqueSpentHours, max)}
+      </button>`;
     }).join("") || `<div class="empty-mini">—</div>`;
   }
 
@@ -189,15 +183,12 @@
 
   function setLine(name) {
     line = name || "";
+    selected = "";
+    open.clear();
     persistLine();
     renderLineSwitch();
-    const list = Hours.uniqueEdps().filter(matches);
-    if (selected && list.some((e) => (e.key || e.title) === selected)) {
-      renderNav();
-      return;
-    }
-    const first = list.find((e) => (e.children || []).length) || list[0];
-    select(first ? (first.key || first.title) : "");
+    renderNav();
+    renderPane();
   }
 
   function applyAct(edp, epp, act) {
@@ -289,8 +280,7 @@
   });
 
   els.lineSwitch.addEventListener("click", (ev) => {
-    const btn = ev.target.closest("[data-line]");
-    if (btn) setLine(btn.getAttribute("data-line") || "");
+    if (ev.target.closest("[data-back]")) setLine("");
   });
 
   els.save.addEventListener("click", save);
@@ -334,11 +324,7 @@
         line = edp.productLabel;
         persistLine();
       }
-    } else {
-      const list = Hours.uniqueEdps().filter(matches);
-      const first = list.find((e) => (e.children || []).length) || list[0];
-      selected = first ? (first.key || first.title) : "";
-    }
+    } else selected = "";
     renderLineSwitch();
     renderNav();
     renderPane();

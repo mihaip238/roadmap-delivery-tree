@@ -1057,6 +1057,7 @@ html[data-page="delivery"] .unit-act { display: none; }
     width: 100%;
     height: auto;
     position: relative;
+    flex: 0 0 auto;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
