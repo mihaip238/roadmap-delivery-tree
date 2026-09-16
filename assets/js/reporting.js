@@ -48,6 +48,7 @@
       if (state.milestone && !(row.milestones || []).includes(state.milestone)) return false;
       if (state.health && row.type === "edp" && row.health !== state.health) return false;
       if (!includesText(row, state.q)) return false;
+      if (state.cut === "product" && state.metric === "cost" && !(Number(row.cost) > 0)) return false;
       if (metric.budgeted && row.budget == null) return false;
       if (state.compare === "budget" && row.budget == null) return false;
       return true;
