@@ -16,6 +16,15 @@ global.Hours = {
   reportEppRows() { return []; },
   reportHistory() { return []; },
   uniqueReportHours() { return 42; },
+  uniqueEdps() {
+    return [
+      { key: "EDP-1", active: true, productLabel: "A", alsoIn: [], health: "confirmed" },
+      { key: "EDP-2", active: true, productLabel: "A", alsoIn: ["B"], health: "pending" },
+      { key: "EDP-3", active: true, productLabel: "B", alsoIn: [], health: "confirmed" },
+      { key: "EDP-4", active: true, productLabel: "B", alsoIn: [], health: "none" },
+    ];
+  },
+  health(edp) { return edp.health; },
   tree() { return { products: [{ name: "A", children: [] }, { name: "B", children: [] }] }; },
   flattenEdps(nodes) { return nodes || []; },
   findEpp() { return null; },
@@ -67,8 +76,8 @@ assert.equal(costSummary.average, 7.5);
 assert.equal(costSummary.variance, 24);
 
 const mappingSummary = Reporting.summary([
-  { mapping: 100, activeCount: 1, confirmed: 1 },
-  { mapping: 0, activeCount: 3, confirmed: 1 },
+  { name: "A", mapping: 50, activeCount: 2, confirmed: 1 },
+  { name: "B", mapping: 33.33, activeCount: 3, confirmed: 1 },
 ], {
   cut: "product",
   metric: "mapping",

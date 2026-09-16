@@ -47,7 +47,7 @@ def fixture() -> dict:
         ),
         issue(
             "edp", "EDP-4", 0, [copy.deepcopy(shared)],
-            active=True, health="confirmed", productLabel="A",
+            active=False, health="confirmed", productLabel="A",
         ),
     ]
     edps[0]["time"].update({"uniqueSpentHours": 2, "sharedWith": ["EPP-A"]})
@@ -70,8 +70,8 @@ def fixture() -> dict:
             "fetchedAt": "2026-09-14T10:00:00+00:00",
             "costUniqueHours": 2,
             "programUniqueHours": 0,
-            "activeEdp": 4,
-            "confirmedActive": 2,
+            "activeEdp": 3,
+            "confirmedActive": 1,
             "pendingInferredActive": 1,
             "noneActive": 1,
             "sharedEppCount": 1,
@@ -87,7 +87,9 @@ class ReportHistoryTests(unittest.TestCase):
         self.assertEqual(snapshot["summary"]["logged"], 4)
         self.assertEqual(snapshot["summary"]["pending"], 3)
         self.assertEqual(snapshot["summary"]["sharedDuplication"], 2)
-        self.assertEqual(snapshot["summary"]["mappingCoveragePct"], 50)
+        self.assertEqual(snapshot["summary"]["activeCost"], 2)
+        self.assertEqual(snapshot["summary"]["activeLogged"], 2)
+        self.assertEqual(snapshot["summary"]["mappingCoveragePct"], 33.33)
         self.assertEqual(snapshot["summary"]["budgetCoveragePct"], 100)
 
     def test_epp_snapshot_tracks_cost_owners_and_pending_relations(self):

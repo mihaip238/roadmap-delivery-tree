@@ -39,7 +39,16 @@
 
   function rows(state) {
     const metric = METRICS[state.metric] || METRICS.cost;
-    let data = normalizedRows(state.cut).filter((row) => {
+    let source = normalizedRows(state.cut);
+    if (state.cut === "product" && state.active) {
+      source = source.map((row) => Object.assign({}, row, {
+        cost: row.activeCost,
+        logged: row.activeLogged,
+        pending: row.activePending,
+        count: row.activeCount,
+      }));
+    }
+    let data = source.filter((row) => {
       if (state.active && !row.active) return false;
       if (state.product && state.product !== "all") {
         const products = row.products || [row.product || row.name];
@@ -86,7 +95,9 @@
       if (state.cut === "product") {
         const names = new Set(data.map((row) => row.name));
         (Hours.tree().products || []).forEach((product) => {
-          if (names.has(product.name)) nodes.push(...Hours.flattenEdps(product.children));
+          if (names.has(product.name)) {
+            nodes.push(...Hours.flattenEdps(product.children).filter((edp) => !state.active || edp.active));
+          }
         });
         total = Hours.uniqueReportHours(nodes, true);
       } else if (state.cut === "program") {
@@ -101,13 +112,34 @@
         total = Hours.uniqueReportHours(data.map((row) => Hours.findEpp(row.key)).filter(Boolean), false);
       }
     }
+    if (state.metric === "pending" && data.length) {
+      if (state.cut === "product") {
+        const names = new Set(data.map((row) => row.name));
+        const edps = Hours.uniqueEdps().filter((edp) => {
+          if (state.active && !edp.active) return false;
+          return names.has(edp.productLabel) || (edp.alsoIn || []).some((name) => names.has(name));
+        });
+        total = Hours.pendingUniqueHours(edps);
+      } else if (state.cut === "edp") {
+        total = Hours.pendingUniqueHours(data.map((row) => row.edp));
+      } else if (state.cut === "epp") {
+        total = Hours.uniqueReportHours(
+          data.filter((row) => row.pending > 0).map((row) => Hours.findEpp(row.key)).filter(Boolean),
+          false
+        );
+      }
+    }
     if (state.metric === "mapping") {
       if (!data.length) {
         total = null;
       } else if (state.cut === "product") {
-        const active = data.reduce((sum, row) => sum + Number(row.activeCount || 0), 0);
-        const confirmed = data.reduce((sum, row) => sum + Number(row.confirmed || 0), 0);
-        total = active ? Hours.round2((confirmed / active) * 100) : 0;
+        const names = new Set(data.map((row) => row.name));
+        const edps = Hours.uniqueEdps().filter((edp) =>
+          edp.active && (names.has(edp.productLabel) || (edp.alsoIn || []).some((name) => names.has(name)))
+        );
+        total = edps.length
+          ? Hours.round2((edps.filter((edp) => Hours.health(edp) === "confirmed").length / edps.length) * 100)
+          : 0;
       } else {
         total = Hours.round2(
           (data.filter((row) => row.health === "confirmed").length / data.length) * 100
@@ -141,9 +173,9 @@
     const summaryRow = snapshot.summary || {};
     const noEntityFilter = (!state.product || state.product === "all") && !state.q && !state.health;
     if (noEntityFilter) {
-      if (state.metric === "cost") return state.cut === "program" ? summaryRow.programCost : summaryRow.cost;
-      if (state.metric === "logged") return state.cut === "program" ? summaryRow.programCost : summaryRow.logged;
-      if (state.metric === "pending") return state.cut === "program" ? 0 : summaryRow.pending;
+      if (state.metric === "cost") return state.cut === "program" ? summaryRow.programCost : (state.active ? summaryRow.activeCost : summaryRow.cost);
+      if (state.metric === "logged") return state.cut === "program" ? summaryRow.programCost : (state.active ? summaryRow.activeLogged : summaryRow.logged);
+      if (state.metric === "pending") return state.cut === "program" ? 0 : (state.active ? summaryRow.activePending : summaryRow.pending);
       if (state.metric === "mapping") return state.cut === "program" ? null : summaryRow.mappingCoveragePct;
     }
     const data = (historyRows(snapshot, state.cut) || []).filter((row) => {
@@ -156,7 +188,10 @@
       if (state.health && row.health !== state.health) return false;
       return includesText(row, state.q);
     });
-    const values = data.map((row) => row[state.metric]).filter((value) => value != null).map(Number);
+    const metricKey = state.active && state.cut === "product"
+      ? { cost: "activeCost", logged: "activeLogged", pending: "activePending" }[state.metric] || state.metric
+      : state.metric;
+    const values = data.map((row) => row[metricKey]).filter((value) => value != null).map(Number);
     if (!values.length) return null;
     if (state.metric === "mapping") {
       if (state.cut === "product") {

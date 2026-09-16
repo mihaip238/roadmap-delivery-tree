@@ -38,7 +38,7 @@
 
     const pending = Hours.uniqueEdps()
       .filter((e) => e.active && Hours.health(e) === "pending")
-      .sort((a, b) => Number((b.time || {}).rolledSpentHours || 0) - Number((a.time || {}).rolledSpentHours || 0));
+      .sort((a, b) => Hours.pendingUniqueHours([b]) - Hours.pendingUniqueHours([a]));
     const byProd = {};
     pending.forEach((e) => {
       const p = e.productLabel || "—";
@@ -57,7 +57,7 @@
           return `<div class="inbox-row">
             ${key}
             <a class="grow" href="mapping.html?line=${encodeURIComponent(prod.name)}#${encodeURIComponent(e.key || e.title)}">${Hours.esc(e.title)}</a>
-            <span class="mono">${Hours.fmtNum((e.time || {}).rolledSpentHours)}</span>
+            <span class="mono">${Hours.fmtNum(Hours.pendingUniqueHours([e]))}</span>
             <span class="nav-edp-st st-pending"></span>
           </div>`;
         }).join("")}

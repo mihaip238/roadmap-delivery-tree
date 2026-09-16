@@ -295,8 +295,9 @@
   function reportProductRows() {
     return (tree().products || []).map((product) => {
       const edps = flattenEdps(product.children);
+      const activeEdps = edps.filter((edp) => edp.active);
       const counts = { confirmed: 0, pending: 0, none: 0 };
-      edps.filter((edp) => edp.active).forEach((edp) => {
+      activeEdps.forEach((edp) => {
         const key = health(edp);
         counts[key in counts ? key : "none"] += 1;
       });
@@ -310,6 +311,9 @@
         cost: Number(product.uniqueSpentHours) || 0,
         logged: Number(product.rolledSpentHours) || 0,
         pending: pendingUniqueHours(edps),
+        activeCost: uniqueReportHours(activeEdps, true),
+        activeLogged: round2(activeEdps.reduce((sum, edp) => sum + Number((edp.time || {}).rolledSpentHours || 0), 0)),
+        activePending: pendingUniqueHours(activeEdps),
         active: active > 0,
         activeCount: active,
         count: product.edpCount || edps.length,

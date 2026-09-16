@@ -85,12 +85,16 @@ def product_rows(payload: dict) -> list[dict]:
     rows = []
     for product in payload.get("products") or []:
         edps = flatten_edps(product.get("children") or [])
+        active_edps = [edp for edp in edps if edp.get("active")]
         counts = health_counts(edps)
         rows.append({
             "name": product.get("name") or "",
             "cost": float(product.get("uniqueSpentHours") or 0),
             "logged": float(product.get("rolledSpentHours") or 0),
             "pending": pending_hours(edps),
+            "activeCost": unique_hours(active_edps, cost_only=True),
+            "activeLogged": round(sum(float((edp.get("time") or {}).get("rolledSpentHours") or 0) for edp in active_edps), 2),
+            "activePending": pending_hours(active_edps),
             "budget": nullable_number(product.get("budgetHours")),
             "activeEdp": sum(1 for edp in edps if edp.get("active")),
             "confirmed": counts["confirmed"],
@@ -152,6 +156,7 @@ def epp_rows(payload: dict) -> list[dict]:
                 "pendingOn": [],
                 "products": [],
                 "milestones": [],
+                "active": False,
             })
             row["logged"] = max(row["logged"], float(time_info.get("rolledSpentHours") or 0))
             if epp.get("costMember"):
@@ -160,6 +165,7 @@ def epp_rows(payload: dict) -> list[dict]:
                     row["owners"].append(edp_key)
             if epp.get("method") == "inferred_pending" and edp_key and edp_key not in row["pendingOn"]:
                 row["pendingOn"].append(edp_key)
+            row["active"] = row["active"] or bool(edp.get("active"))
             for product in filter(None, products):
                 if product not in row["products"]:
                     row["products"].append(product)
@@ -179,6 +185,7 @@ def epp_rows(payload: dict) -> list[dict]:
                 "pendingOn": [],
                 "products": epp.get("products") or [],
                 "milestones": [],
+                "active": True,
             })
             if milestone.get("key") not in row["milestones"]:
                 row["milestones"].append(milestone.get("key"))
@@ -194,6 +201,7 @@ def build_snapshot(payload: dict) -> dict:
     if not fetched_at:
         raise ValueError("A Jira fetchedAt timestamp is required for report history")
     edps = unique_edps(payload)
+    active_edps = [edp for edp in edps if edp.get("active")]
     edp_data = edp_rows(payload)
     counts = health_counts(edps)
     active_total = sum(counts.values())
@@ -212,8 +220,11 @@ def build_snapshot(payload: dict) -> dict:
         "summary": {
             "cost": cost,
             "logged": rolled,
+            "activeCost": unique_hours(active_edps, cost_only=True),
+            "activeLogged": round(sum(float((edp.get("time") or {}).get("rolledSpentHours") or 0) for edp in active_edps), 2),
             "programCost": float(summary.get("programUniqueHours") or 0),
             "pending": pending_hours(edps),
+            "activePending": pending_hours(active_edps),
             "sharedDuplication": round(max(0, rolled - cost), 2),
             "activeEdp": active_total,
             "confirmed": counts["confirmed"],

@@ -8,8 +8,11 @@
       "summary": {
         "cost": 10034.45,
         "logged": 10269.7,
+        "activeCost": 8698.62,
+        "activeLogged": 8829.12,
         "programCost": 2954.75,
         "pending": 5987.0,
+        "activePending": 2846.5,
         "sharedDuplication": 235.25,
         "activeEdp": 63,
         "confirmed": 9,
@@ -26,6 +29,9 @@
           "cost": 308.75,
           "logged": 308.75,
           "pending": 724.25,
+          "activeCost": 308.75,
+          "activeLogged": 308.75,
+          "activePending": 724.25,
           "budget": null,
           "activeEdp": 15,
           "confirmed": 2,
@@ -37,6 +43,9 @@
           "cost": 6987.27,
           "logged": 6987.77,
           "pending": 0.0,
+          "activeCost": 6686.77,
+          "activeLogged": 6687.27,
+          "activePending": 0.0,
           "budget": null,
           "activeEdp": 7,
           "confirmed": 3,
@@ -48,6 +57,9 @@
           "cost": 3.0,
           "logged": 3.0,
           "pending": 0.0,
+          "activeCost": 0.0,
+          "activeLogged": 0.0,
+          "activePending": 0.0,
           "budget": null,
           "activeEdp": 1,
           "confirmed": 0,
@@ -59,6 +71,9 @@
           "cost": 640.07,
           "logged": 640.07,
           "pending": 999.0,
+          "activeCost": 640.07,
+          "activeLogged": 640.07,
+          "activePending": 995.0,
           "budget": null,
           "activeEdp": 5,
           "confirmed": 2,
@@ -70,6 +85,9 @@
           "cost": 558.58,
           "logged": 558.58,
           "pending": 4.0,
+          "activeCost": 0.0,
+          "activeLogged": 0.0,
+          "activePending": 4.0,
           "budget": null,
           "activeEdp": 1,
           "confirmed": 0,
@@ -81,6 +99,9 @@
           "cost": 419.28,
           "logged": 549.28,
           "pending": 291.75,
+          "activeCost": 419.28,
+          "activeLogged": 549.28,
+          "activePending": 0.0,
           "budget": null,
           "activeEdp": 1,
           "confirmed": 1,
@@ -92,6 +113,9 @@
           "cost": 0.0,
           "logged": 0.0,
           "pending": 0.0,
+          "activeCost": 0.0,
+          "activeLogged": 0.0,
+          "activePending": 0.0,
           "budget": null,
           "activeEdp": 26,
           "confirmed": 0,
@@ -103,6 +127,9 @@
           "cost": 0.0,
           "logged": 0.0,
           "pending": 0.0,
+          "activeCost": 0.0,
+          "activeLogged": 0.0,
+          "activePending": 0.0,
           "budget": null,
           "activeEdp": 3,
           "confirmed": 0,
@@ -114,6 +141,9 @@
           "cost": 0.0,
           "logged": 0.0,
           "pending": 0.0,
+          "activeCost": 0.0,
+          "activeLogged": 0.0,
+          "activePending": 0.0,
           "budget": null,
           "activeEdp": 2,
           "confirmed": 0,
@@ -125,6 +155,9 @@
           "cost": 1120.5,
           "logged": 1225.25,
           "pending": 4259.75,
+          "activeCost": 643.75,
+          "activeLogged": 643.75,
+          "activePending": 1123.25,
           "budget": null,
           "activeEdp": 3,
           "confirmed": 1,
@@ -1925,7 +1958,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-100",
@@ -1940,7 +1974,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-101",
@@ -1955,7 +1990,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-102",
@@ -1970,7 +2006,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-103",
@@ -1985,7 +2022,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-105",
@@ -2002,7 +2040,8 @@
             "Supply",
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-116",
@@ -2017,7 +2056,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-117",
@@ -2032,7 +2072,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-118",
@@ -2047,7 +2088,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-119",
@@ -2062,7 +2104,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-120",
@@ -2077,7 +2120,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-121",
@@ -2092,7 +2136,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-122",
@@ -2107,7 +2152,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-123",
@@ -2122,7 +2168,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-126",
@@ -2137,7 +2184,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-128",
@@ -2152,7 +2200,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-130",
@@ -2167,7 +2216,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-131",
@@ -2182,7 +2232,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-132",
@@ -2197,7 +2248,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-136",
@@ -2212,7 +2264,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-144",
@@ -2227,7 +2280,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-146",
@@ -2243,7 +2297,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-154",
@@ -2258,7 +2313,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-161",
@@ -2273,7 +2329,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-164",
@@ -2288,7 +2345,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-165",
@@ -2303,7 +2361,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-166",
@@ -2318,7 +2377,8 @@
           "products": [
             "Supply"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-167",
@@ -2331,7 +2391,8 @@
           "products": [],
           "milestones": [
             "M2"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-168",
@@ -2347,7 +2408,8 @@
             "Power Balancer, Gas Shipper",
             "Gas Shipper"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-17",
@@ -2366,7 +2428,8 @@
             "Supply",
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-172",
@@ -2379,7 +2442,8 @@
           "products": [],
           "milestones": [
             "M2"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-173",
@@ -2394,7 +2458,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-178",
@@ -2409,7 +2474,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-18",
@@ -2424,7 +2490,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-183",
@@ -2439,7 +2506,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-184",
@@ -2455,7 +2523,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-185",
@@ -2470,7 +2539,8 @@
           "products": [
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-186",
@@ -2485,7 +2555,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-189",
@@ -2498,7 +2569,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-19",
@@ -2513,7 +2585,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-190",
@@ -2528,7 +2601,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-199",
@@ -2543,7 +2617,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-2",
@@ -2558,7 +2633,8 @@
           "products": [
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-200",
@@ -2573,7 +2649,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-208",
@@ -2588,7 +2665,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-209",
@@ -2603,7 +2681,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-210",
@@ -2618,7 +2697,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-217",
@@ -2631,7 +2711,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-22",
@@ -2646,7 +2727,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-220",
@@ -2661,7 +2743,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-221",
@@ -2676,7 +2759,8 @@
           "products": [
             "Portfolio Management"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-224",
@@ -2689,7 +2773,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-228",
@@ -2702,7 +2787,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-232",
@@ -2719,7 +2805,8 @@
             "Supply",
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-239",
@@ -2734,7 +2821,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-240",
@@ -2749,7 +2837,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-241",
@@ -2764,7 +2853,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-242",
@@ -2779,7 +2869,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-243",
@@ -2794,7 +2885,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-244",
@@ -2809,7 +2901,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-245",
@@ -2824,7 +2917,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-246",
@@ -2839,7 +2933,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-247",
@@ -2854,7 +2949,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-250",
@@ -2869,7 +2965,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-252",
@@ -2882,7 +2979,8 @@
           "products": [],
           "milestones": [
             "M1"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-26",
@@ -2897,7 +2995,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-272",
@@ -2912,7 +3011,8 @@
           "products": [
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-290",
@@ -2925,7 +3025,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-292",
@@ -2938,7 +3039,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-293",
@@ -2951,7 +3053,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-295",
@@ -2964,7 +3067,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-296",
@@ -2979,7 +3083,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-299",
@@ -2997,7 +3102,8 @@
           ],
           "milestones": [
             "M3"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-3",
@@ -3012,7 +3118,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-300",
@@ -3027,7 +3134,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-302",
@@ -3044,7 +3152,8 @@
           ],
           "milestones": [
             "M3"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-303",
@@ -3061,7 +3170,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-304",
@@ -3077,7 +3187,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-305",
@@ -3092,7 +3203,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-306",
@@ -3107,7 +3219,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-309",
@@ -3123,7 +3236,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-31",
@@ -3138,7 +3252,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-310",
@@ -3153,7 +3268,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-311",
@@ -3170,7 +3286,8 @@
           ],
           "milestones": [
             "M3"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-314",
@@ -3183,7 +3300,8 @@
           "products": [],
           "milestones": [
             "M4"
-          ]
+          ],
+          "active": true
         },
         {
           "key": "EPP-32",
@@ -3198,7 +3316,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-33",
@@ -3215,7 +3334,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-34",
@@ -3230,7 +3350,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-35",
@@ -3245,7 +3366,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-356",
@@ -3261,7 +3383,8 @@
           "products": [
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-36",
@@ -3276,7 +3399,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-37",
@@ -3293,7 +3417,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-375",
@@ -3308,7 +3433,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-377",
@@ -3323,7 +3449,8 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-378",
@@ -3339,7 +3466,8 @@
           "products": [
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-38",
@@ -3354,7 +3482,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-42",
@@ -3369,7 +3498,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-43",
@@ -3384,7 +3514,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-44",
@@ -3399,7 +3530,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-45",
@@ -3414,7 +3546,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-48",
@@ -3429,7 +3562,8 @@
           "products": [
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-49",
@@ -3444,7 +3578,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-52",
@@ -3459,7 +3594,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-54",
@@ -3474,7 +3610,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-58",
@@ -3489,7 +3626,8 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-59",
@@ -3507,7 +3645,8 @@
             "Power Balancer",
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-62",
@@ -3522,7 +3661,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-69",
@@ -3537,7 +3677,8 @@
           "products": [
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-72",
@@ -3552,7 +3693,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-78",
@@ -3567,7 +3709,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-9",
@@ -3584,7 +3727,8 @@
           "products": [
             "Platform"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         },
         {
           "key": "EPP-98",
@@ -3599,7 +3743,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "EPP-99",
@@ -3614,7 +3759,8 @@
           "products": [
             "EBASE"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": false
         },
         {
           "key": "JTP-10561",
@@ -3627,7 +3773,8 @@
           "products": [
             "Jules"
           ],
-          "milestones": []
+          "milestones": [],
+          "active": true
         }
       ]
     }

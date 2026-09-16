@@ -114,6 +114,7 @@ Custom SVG. Short titles only. No captions, no insight essays. Complexity comes 
 | F5.11 | KPI definitions | Mapping coverage = confirmed active / active. Budget coverage = unique cost in EDPs with budgets / global unique cost. Pending exposure is unique logged work under inferred pending EPPs and is never cost. Shared duplication = rolled cost-member hours − unique cost. |
 
 Jira-backed EDP and EPP labels link to their source issues. Product lines and M1–M4 remain aggregate, non-Jira entities.
+When Active is selected, product-line Cost, Logged, Pending, counts, and historical series are recomputed from active EDPs; aggregate coverage de-duplicates multi-tagged EDPs.
 
 ## F6 Local writer
 
