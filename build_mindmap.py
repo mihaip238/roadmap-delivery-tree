@@ -361,6 +361,7 @@ def main() -> None:
             if prod not in buckets:
                 buckets[prod] = []
             copy = dict(node)
+            copy["productLabel"] = prod
             copy["alsoIn"] = [p for p in homes if p != prod]
             buckets[prod].append(copy)
 

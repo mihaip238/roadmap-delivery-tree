@@ -29,13 +29,28 @@ def flatten_edps(nodes: Iterable[dict]) -> list[dict]:
 def unique_edps(payload: dict) -> list[dict]:
     seen: set[str] = set()
     out: list[dict] = []
+    valid_products = {
+        product.get("name") for product in payload.get("products") or []
+        if product.get("name")
+    }
     for product in payload.get("products") or []:
         for edp in flatten_edps(product.get("children") or []):
             ident = edp.get("key") or edp.get("title") or ""
             if not ident or ident in seen:
                 continue
             seen.add(ident)
-            out.append(edp)
+            row = dict(edp)
+            declared = [product.get("name"), *(edp.get("alsoIn") or [])]
+            declared.extend(
+                name.strip()
+                for name in str(edp.get("productLabel") or "").replace(";", ",").split(",")
+            )
+            row["productLabel"] = product.get("name") or ""
+            row["alsoIn"] = list(dict.fromkeys(
+                name for name in declared
+                if name and name in valid_products and name != row["productLabel"]
+            ))
+            out.append(row)
     return out
 
 

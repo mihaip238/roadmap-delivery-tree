@@ -15,12 +15,20 @@
   function uniqueEdps() {
     const seen = new Set();
     const rows = [];
+    const validProducts = new Set((tree().products || []).map((product) => product.name));
     (tree().products || []).forEach((prod) => {
       flattenEdps(prod.children).forEach((edp) => {
         const id = edp.key || edp.title;
         if (!id || seen.has(id)) return;
         seen.add(id);
-        rows.push(edp);
+        const declared = [prod.name]
+          .concat(edp.alsoIn || [])
+          .concat(String(edp.productLabel || "").split(/[,;]/).map((name) => name.trim()))
+          .filter((name) => name && validProducts.has(name));
+        rows.push(Object.assign({}, edp, {
+          productLabel: prod.name,
+          alsoIn: Array.from(new Set(declared)).filter((name) => name !== prod.name),
+        }));
       });
     });
     return rows;
