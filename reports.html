@@ -8,11 +8,69 @@
 </head>
 <body>
   <div id="shell-header"></div>
-  <main class="page">
+  <main class="page report-page">
+    <header class="report-controls" aria-label="Report controls">
+      <div class="report-control-main">
+        <label><span>Cut</span><select id="report-cut">
+          <option value="product">Product line</option>
+          <option value="program">Program M1–M4</option>
+          <option value="edp">EDP</option>
+          <option value="epp">EPP</option>
+        </select></label>
+        <label><span>Metric</span><select id="report-metric">
+          <option value="cost">Cost</option>
+          <option value="logged">Logged</option>
+          <option value="budget">Budget</option>
+          <option value="remaining">Left</option>
+          <option value="pending">Pending</option>
+          <option value="mapping">Mapping</option>
+        </select></label>
+        <label><span>Compare</span><select id="report-compare">
+          <option value="none">None</option>
+          <option value="logged">Logged</option>
+          <option value="budget">Budget</option>
+        </select></label>
+        <label><span>Product</span><select id="report-product"><option value="all">All</option></select></label>
+      </div>
+      <div class="report-control-more">
+        <label class="chk"><input type="checkbox" id="report-active" checked /> Active</label>
+        <label><span>Health</span><select id="report-health">
+          <option value="">All</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="pending">Pending</option>
+          <option value="none">None</option>
+        </select></label>
+        <input type="search" id="report-search" placeholder="Search" />
+        <label><span>Rows</span><select id="report-top">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="all">All</option>
+        </select></label>
+        <button type="button" class="ghost" id="report-reset">Reset</button>
+        <button type="button" id="report-export">CSV</button>
+      </div>
+    </header>
+    <div class="report-kpis" id="report-summary"></div>
     <div class="report-hero">
       <div class="chart" id="byProduct"></div>
       <div class="chart" id="byMilestone"></div>
     </div>
+    <section class="report-workbench">
+      <div class="chart report-main-chart" id="workbench-chart"></div>
+      <div class="report-detail" id="workbench-table"></div>
+    </section>
+    <section class="report-history">
+      <div class="report-section-bar">
+        <h2>Trend</h2>
+        <select id="report-range" aria-label="Trend range">
+          <option value="30">30d</option>
+          <option value="90">90d</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+      <div class="chart" id="trend-chart"></div>
+      <div class="history-kpis" id="trend-summary"></div>
+    </section>
     <div class="report-rest">
       <div class="chart" id="spentBudget"></div>
       <div class="chart" id="health"></div>
@@ -22,8 +80,10 @@
   </main>
   <div id="shell-footer"></div>
   <script src="jira_map/tree_data.js"></script>
+  <script src="jira_map/report_history.js"></script>
   <script src="assets/js/hours.js"></script>
   <script src="assets/js/shell.js"></script>
+  <script src="assets/js/reporting.js"></script>
   <script src="assets/js/charts.js"></script>
   <script src="assets/js/reports.js"></script>
 </body>

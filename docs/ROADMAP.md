@@ -26,7 +26,7 @@ Envelopes for product line, EDP, and M1–M4. `overlay_budgets.json` editor. Unb
 
 ## R5 — Reports (F5)
 
-Unique hours by product and by BRPaaS milestone, mapping health, concentration. No insight essays.
+Unique hours by product and by BRPaaS milestone, mapping health, concentration. Interactive KPI workbench, URL-persisted filters, CSV export, underlying tables, dated history, burn rate, and forecast. No insight essays.
 
 ## Later (not v1)
 

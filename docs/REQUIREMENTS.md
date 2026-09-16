@@ -16,6 +16,7 @@ GitHub Pages is read-only. Mapping and budgets are edited locally (`python serve
 - **BRPaaS program** — 2026 EET / VanHelder cut, milestones M1–M4. Power Balancer plus BPO services. Distinct from the product line nicknamed BRPaaS.
 - **Active** — Roadmap Now / Next / Later.
 - **Cost member** — an EPP that counts toward an EDP’s envelope: PolarIS not rejected, or overlay add/confirm. Inferred pending is not a cost member.
+- **Snapshot** — one immutable reporting state per Jira `fetchedAt` UTC date. A later refresh on the same date replaces that date.
 
 ## Overlay rules
 
@@ -96,7 +97,7 @@ Delivery uses progressive navigation: Product line → EDP → record, or Progra
 
 ## F5 Reports
 
-Custom SVG. Short titles only. No captions, no insight essays.
+Custom SVG. Short titles only. No captions, no insight essays. Complexity comes from filters, calculations, drill-down, tooltips, and underlying tables—not more card widgets.
 
 | ID | Name | Definition of done |
 | --- | --- | --- |
@@ -106,6 +107,11 @@ Custom SVG. Short titles only. No captions, no insight essays.
 | F5.4 | Mapping health | Confirmed / pending inferred / none for **active** EDPs. Callout if pending > 0. |
 | F5.5 | Concentration | Top EDPs by unique hours; top shared EPPs by hours. |
 | F5.6 | Insight strip | Removed. Numbers and charts only. |
+| F5.7 | KPI workbench | User selects cut, metric, comparison, scope, product, health, row limit, and search. State is shareable in the URL and exportable as CSV. |
+| F5.8 | Interactions | Chart rows are keyboard-focusable, expose values on hover/focus, and drill Product → EDP or M1–M4 → EPP. Jira keys still open Jira. |
+| F5.9 | History | `report_history.json` stores one dated snapshot per Jira fetch date and is updated by `build_mindmap.py`. |
+| F5.10 | Trend / forecast | Date range drives cumulative trend. Burn rate and 30-day projection require at least 3 snapshots spanning 14 days; otherwise show `—`. |
+| F5.11 | KPI definitions | Mapping coverage = confirmed active / active. Budget coverage = unique cost in EDPs with budgets / global unique cost. Pending exposure is unique logged work under inferred pending EPPs and is never cost. Shared duplication = rolled cost-member hours − unique cost. |
 
 Jira-backed EDP and EPP labels link to their source issues. Product lines and M1–M4 remain aggregate, non-Jira entities.
 

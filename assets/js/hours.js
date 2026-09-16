@@ -278,6 +278,148 @@
     return round2(Object.values(acc).reduce((s, n) => s + n, 0) / 3600);
   }
 
+  function uniqueReportHours(nodes, costOnly) {
+    const acc = {};
+    (nodes || []).forEach((node) => collectOwn(node, acc, !!costOnly));
+    return round2(Object.values(acc).reduce((sum, sec) => sum + Number(sec || 0), 0) / 3600);
+  }
+
+  function pendingUniqueHours(edps) {
+    const acc = {};
+    (edps || uniqueEdps()).forEach((edp) => {
+      pendingChildren(edp).forEach((epp) => collectOwn(epp, acc, false));
+    });
+    return round2(Object.values(acc).reduce((sum, sec) => sum + Number(sec || 0), 0) / 3600);
+  }
+
+  function reportProductRows() {
+    return (tree().products || []).map((product) => {
+      const edps = flattenEdps(product.children);
+      const counts = { confirmed: 0, pending: 0, none: 0 };
+      edps.filter((edp) => edp.active).forEach((edp) => {
+        const key = health(edp);
+        counts[key in counts ? key : "none"] += 1;
+      });
+      const active = counts.confirmed + counts.pending + counts.none;
+      const env = envelope(product.uniqueSpentHours, product.budgetHours);
+      return Object.assign({
+        key: product.name,
+        label: product.name,
+        name: product.name,
+        type: "product",
+        cost: Number(product.uniqueSpentHours) || 0,
+        logged: Number(product.rolledSpentHours) || 0,
+        pending: pendingUniqueHours(edps),
+        active: active > 0,
+        activeCount: active,
+        count: product.edpCount || edps.length,
+        mapping: active ? round2((counts.confirmed / active) * 100) : 0,
+        confirmed: counts.confirmed,
+        pendingCount: counts.pending,
+        none: counts.none,
+        href: lineHref(product.name),
+      }, env);
+    });
+  }
+
+  function reportMilestoneRows() {
+    return (tree().milestones || []).map((milestone) => {
+      const env = envelope(milestone.uniqueSpentHours, milestone.budgetHours);
+      return Object.assign({
+        key: milestone.key,
+        label: milestone.key + "  " + (milestone.name || milestone.title || ""),
+        name: milestone.name || milestone.title || "",
+        type: "milestone",
+        cost: Number(milestone.uniqueSpentHours) || 0,
+        logged: Number((milestone.time || {}).rolledSpentHours) || 0,
+        pending: 0,
+        active: true,
+        count: milestone.eppCount || (milestone.children || []).length,
+        href: "delivery.html?view=milestone&milestone=" + encodeURIComponent(milestone.key || ""),
+      }, env);
+    });
+  }
+
+  function reportEppRows() {
+    const byKey = {};
+    uniqueEdps().forEach((edp) => {
+      (edp.children || []).forEach((epp) => {
+        if (!epp.key) return;
+        const timeInfo = epp.time || {};
+        const row = byKey[epp.key] || {
+          key: epp.key,
+          label: epp.key,
+          title: epp.title || "",
+          type: "epp",
+          cost: 0,
+          logged: 0,
+          pending: 0,
+          active: false,
+          owners: [],
+          pendingOn: [],
+          products: [],
+          milestones: [],
+          href: jiraHref(epp),
+          budget: null,
+          remaining: null,
+          pct: null,
+          unbudgeted: true,
+        };
+        row.logged = Math.max(row.logged, Number(timeInfo.rolledSpentHours) || 0);
+        if (epp.costMember) {
+          row.cost = row.logged;
+          if (edp.key && !row.owners.includes(edp.key)) row.owners.push(edp.key);
+        }
+        if (epp.method === "inferred_pending") {
+          row.pending = Math.max(row.pending, Number(timeInfo.uniqueSpentHours || timeInfo.rolledSpentHours) || 0);
+          if (edp.key && !row.pendingOn.includes(edp.key)) row.pendingOn.push(edp.key);
+        }
+        row.active = row.active || !!edp.active;
+        [edp.productLabel].concat(edp.alsoIn || []).filter(Boolean).forEach((product) => {
+          if (!row.products.includes(product)) row.products.push(product);
+        });
+        byKey[epp.key] = row;
+      });
+    });
+    (tree().milestones || []).forEach((milestone) => {
+      (milestone.children || []).forEach((epp) => {
+        if (!byKey[epp.key]) {
+          const timeInfo = epp.time || {};
+          byKey[epp.key] = {
+            key: epp.key,
+            label: epp.key,
+            title: epp.title || "",
+            type: "epp",
+            cost: Number(timeInfo.uniqueSpentHours || timeInfo.rolledSpentHours) || 0,
+            logged: Number(timeInfo.rolledSpentHours) || 0,
+            pending: 0,
+            active: true,
+            owners: epp.onEdps || [],
+            pendingOn: [],
+            products: epp.products || [],
+            milestones: [],
+            href: jiraHref(epp),
+            budget: null,
+            remaining: null,
+            pct: null,
+            unbudgeted: true,
+          };
+        }
+        if (!byKey[epp.key].milestones.includes(milestone.key)) {
+          byKey[epp.key].milestones.push(milestone.key);
+        }
+      });
+    });
+    return Object.values(byKey).map((row) => {
+      row.cost = row.owners.length ? row.logged : 0;
+      return row;
+    });
+  }
+
+  function reportHistory() {
+    return ((window.REPORT_HISTORY || {}).snapshots || []).slice();
+  }
+
   function topEdps(n) {
     return edpRows().slice().sort((a, b) => b.uniqueSpentHours - a.uniqueSpentHours).slice(0, n || 8);
   }
@@ -352,6 +494,12 @@
     caption,
     insights,
     programUniqueHours,
+    uniqueReportHours,
+    pendingUniqueHours,
+    reportProductRows,
+    reportMilestoneRows,
+    reportEppRows,
+    reportHistory,
     topEdps,
     topSharedEpps,
     healthCounts,
