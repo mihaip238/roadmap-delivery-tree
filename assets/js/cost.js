@@ -46,7 +46,8 @@
       <thead><tr><th></th><th class="num">Cost</th><th class="num">Budget</th><th class="num">Left</th><th class="num">%</th></tr></thead>
       <tbody>${rows.map((r) => {
         const env = Hours.envelope(r.uniqueSpentHours, budgets.products[r.name] != null ? budgets.products[r.name] : r.budget);
-        return `<tr>
+        const zero = !(Number(r.uniqueSpentHours) > 0);
+        return `<tr class="${zero ? "is-zero" : ""}">
           <td>
             <a class="line-name" href="${Hours.esc(Hours.lineHref(r.name))}">${Hours.esc(r.name)}</a>
             ${Hours.lineBar(r.uniqueSpentHours, max)}

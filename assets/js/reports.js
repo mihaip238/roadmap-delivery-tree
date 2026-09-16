@@ -1,6 +1,6 @@
 (function () {
   const products = Hours.productRows()
-    .filter((p) => p.name !== "Unclassified")
+    .filter((p) => p.name !== "Unclassified" && Number(p.uniqueSpentHours) > 0)
     .map((p) => ({ label: p.name, value: p.uniqueSpentHours || 0 }));
   Charts.hbar(document.getElementById("byProduct"), {
     title: "Product",
@@ -18,8 +18,8 @@
     title: "M1–M4",
     rows: milestones,
     series: [{ key: "value", fill: Charts.ink }],
-    rowH: 32,
-    barH: 8,
+    rowH: 44,
+    barH: 12,
     padL: 280,
   });
 
