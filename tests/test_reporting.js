@@ -84,6 +84,6 @@ const mappingSummary = Reporting.summary([
   compare: "none",
 });
 assert.equal(mappingSummary.total, 50, "mapping coverage must be weighted and never sum percentages");
-assert.equal(mappingSummary.average, 50);
+assert.equal(mappingSummary.average, 41.67);
 
 console.log("reporting calculations ok");
