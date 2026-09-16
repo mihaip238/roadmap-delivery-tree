@@ -9,6 +9,11 @@
 <body>
   <div id="shell-header"></div>
   <main class="page report-page">
+    <div class="report-hero">
+      <div class="chart" id="byProduct"></div>
+      <div class="chart" id="byMilestone"></div>
+    </div>
+    <div class="panel-k report-workbench-k">Workbench</div>
     <header class="report-controls" aria-label="Report controls">
       <div class="report-control-main">
         <label><span>Cut</span><select id="report-cut">
@@ -51,10 +56,6 @@
       </div>
     </header>
     <div class="report-kpis" id="report-summary"></div>
-    <div class="report-hero">
-      <div class="chart" id="byProduct"></div>
-      <div class="chart" id="byMilestone"></div>
-    </div>
     <section class="report-workbench">
       <div class="chart report-main-chart" id="workbench-chart"></div>
       <div class="report-detail" id="workbench-table"></div>

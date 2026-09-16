@@ -237,7 +237,7 @@
     const products = Hours.reportProductRows()
       .filter((row) => row.name !== "Unclassified" && row.cost > 0);
     Charts.hbar(document.getElementById("byProduct"), {
-      title: "Product line",
+      title: "Product line · Cost",
       rows: products,
       series: [{ key: "cost", label: "Cost", fill: Charts.ink }],
       rowH: 38,
@@ -248,7 +248,7 @@
       onSelect: drill,
     });
     Charts.hbar(document.getElementById("byMilestone"), {
-      title: "Program M1–M4",
+      title: "Program M1–M4 · Cost",
       rows: Hours.reportMilestoneRows(),
       series: [{ key: "cost", label: "Cost", fill: Charts.ink }],
       rowH: 48,

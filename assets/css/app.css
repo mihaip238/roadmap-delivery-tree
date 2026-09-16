@@ -1033,6 +1033,8 @@ html[data-page="delivery"] .unit-act { display: none; }
 .chart-row.is-selected .chart-hit { fill: var(--active); stroke: var(--ink); stroke-width: 1; }
 .chart-row:focus { outline: 0; }
 .chart-row:focus .chart-hit { stroke: var(--ink); stroke-width: 1; }
+.chart a:focus { outline: 0; }
+.chart a:focus .axis-link { text-decoration-thickness: 2px; font-weight: 600; }
 .trend-line { fill: none; stroke: var(--ink); stroke-width: 2; }
 .chart circle { fill: var(--canvas); stroke: var(--ink); stroke-width: 2; }
 .chart circle:focus { outline: none; stroke-width: 4; }
