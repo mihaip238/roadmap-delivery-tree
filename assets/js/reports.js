@@ -6,6 +6,8 @@
     title: "Product",
     rows: products,
     series: [{ key: "value", fill: Charts.ink }],
+    rowH: 30,
+    barH: 8,
   });
 
   const milestones = Hours.milestoneRows().map((m) => ({
@@ -16,6 +18,8 @@
     title: "M1–M4",
     rows: milestones,
     series: [{ key: "value", fill: Charts.ink }],
+    rowH: 32,
+    barH: 8,
     padL: 280,
   });
 

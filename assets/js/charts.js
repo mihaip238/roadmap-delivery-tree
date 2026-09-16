@@ -20,25 +20,25 @@
     const rows = spec.rows || [];
     const series = spec.series || [{ key: "value", label: "", fill: ink }];
     const w = spec.width || 720;
-    const rowH = 26;
+    const rowH = spec.rowH || 26;
     const padL = spec.padL || 168;
-    const padR = 40;
-    const padT = 4;
+    const padR = spec.padR || 48;
+    const padT = spec.padT || 4;
     const padB = 22;
     const h = padT + Math.max(rows.length, 1) * rowH + padB;
     const max = spec.max || maxOf(rows, series.map((s) => s.key));
     const inner = w - padL - padR;
     const ticks = 4;
     let bars = "";
-    const band = Math.min(9, (rowH - 8) / series.length);
+    const band = spec.barH || Math.min(10, Math.max(5, (rowH - 10) / series.length));
     rows.forEach((r, i) => {
       const y = padT + i * rowH;
       const label = Hours.esc(r.label || r.name || r.key || "");
-      bars += `<text class="axis" x="${padL - 10}" y="${y + 13}" text-anchor="end">${label}</text>`;
+      bars += `<text class="axis" x="${padL - 10}" y="${y + Math.round(rowH * 0.55)}" text-anchor="end">${label}</text>`;
       series.forEach((s, si) => {
         const v = Number(r[s.key] || 0);
         const bw = Math.max(0, (v / max) * inner);
-        const yy = y + 5 + si * (band + 2);
+        const yy = y + Math.round((rowH - band) / 2) + si * (band + 2);
         bars += `<rect class="bar" fill="${s.fill}" x="${padL}" y="${yy}" width="${bw}" height="${band}" rx="0"></rect>`;
       });
     });
@@ -65,7 +65,7 @@
     const fills = [ink, copper, copperSoft, rule];
     segs.forEach((seg, i) => {
       const bw = ((Number(seg.value) || 0) / total) * w;
-      rects += `<rect x="${x}" y="0" width="${Math.max(bw, 0)}" height="10" fill="${fills[i % fills.length]}"></rect>`;
+      rects += `<rect x="${x}" y="4" width="${Math.max(bw, 0)}" height="12" fill="${fills[i % fills.length]}"></rect>`;
       x += bw;
     });
     const legend = segs.map((s) => `${Hours.esc(s.label)} ${Hours.esc(String(s.value))}`).join(" · ");

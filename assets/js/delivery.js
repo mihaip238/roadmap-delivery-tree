@@ -10,7 +10,6 @@
     active: document.getElementById("active-only"),
     lineSwitch: document.getElementById("line-switch"),
     nav: document.getElementById("nav-list"),
-    navMeta: document.getElementById("nav-meta"),
     pane: document.getElementById("record-pane"),
   };
 
@@ -90,11 +89,14 @@
       <span class="line-name">All</span>
       <span class="line-h mono">${Hours.fmtNum(allHours)}</span>
     </button>`;
-    const items = rows.map((p) => `<button type="button" class="line-item${line === p.name ? " is-on" : ""}" data-line="${Hours.esc(p.name)}">
+    const items = rows.map((p) => {
+      const zero = !(Number(p.uniqueSpentHours) > 0);
+      return `<button type="button" class="line-item${line === p.name ? " is-on" : ""}${zero ? " is-zero" : ""}" data-line="${Hours.esc(p.name)}">
       <span class="line-name">${Hours.esc(p.name)}</span>
-      <span class="line-h mono">${Hours.fmtNum(p.uniqueSpentHours)}</span>
+      <span class="line-h">${Hours.fmtNum(p.uniqueSpentHours)}</span>
       ${Hours.lineBar(p.uniqueSpentHours, max)}
-    </button>`).join("");
+    </button>`;
+    }).join("");
     els.lineSwitch.innerHTML = all + items;
   }
 
@@ -115,7 +117,6 @@
       return;
     }
     const edps = Hours.uniqueEdps().filter(matchesEdp);
-    els.navMeta.textContent = String(edps.length);
     if (line) {
       els.nav.innerHTML = edps.map(edpButton).join("") || `<div class="empty-mini">—</div>`;
       return;
@@ -143,7 +144,6 @@
   function renderMilestoneNav() {
     const ms = Hours.tree().milestones || [];
     const q = (els.search.value || "").trim().toLowerCase();
-    els.navMeta.textContent = "M1–M4";
     els.nav.innerHTML = ms.map((m) => {
       const epps = (m.children || []).filter((e) => {
         if (!q) return true;

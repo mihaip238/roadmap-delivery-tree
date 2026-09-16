@@ -113,7 +113,10 @@
   }
 
   function lineBar(hours, max) {
-    const pct = max > 0 ? Math.min(100, ((Number(hours) || 0) / max) * 100) : 0;
+    const n = Number(hours) || 0;
+    const m = Number(max) || 0;
+    if (!(n > 0) || !(m > 0)) return "";
+    const pct = Math.min(100, (n / m) * 100);
     return `<span class="line-bar" aria-hidden="true"><i style="width:${pct.toFixed(2)}%"></i></span>`;
   }
 

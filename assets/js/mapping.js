@@ -16,7 +16,6 @@
     status: document.getElementById("map-status"),
     lineSwitch: document.getElementById("line-switch"),
     nav: document.getElementById("nav-list"),
-    navMeta: document.getElementById("nav-meta"),
     pane: document.getElementById("record-pane"),
     statusEl: document.getElementById("status"),
     save: document.getElementById("save"),
@@ -93,7 +92,7 @@
     return function (epp) {
       const method = epp.method || "";
       if (method === "inferred_pending") {
-        return `<button type="button" data-act="confirm" data-epp="${Hours.esc(epp.key)}">Confirm</button>
+        return `<button type="button" class="primary" data-act="confirm" data-epp="${Hours.esc(epp.key)}">Confirm</button>
                 <button type="button" class="danger" data-act="reject" data-epp="${Hours.esc(epp.key)}">Reject</button>`;
       }
       if (method === "rejected") {
@@ -112,11 +111,14 @@
     const all = `<button type="button" class="line-item${!line ? " is-on" : ""}" data-line="">
       <span class="line-name">All</span>
     </button>`;
-    const items = rows.map((p) => `<button type="button" class="line-item${line === p.name ? " is-on" : ""}" data-line="${Hours.esc(p.name)}">
+    const items = rows.map((p) => {
+      const zero = !(Number(p.uniqueSpentHours) > 0);
+      return `<button type="button" class="line-item${line === p.name ? " is-on" : ""}${zero ? " is-zero" : ""}" data-line="${Hours.esc(p.name)}">
       <span class="line-name">${Hours.esc(p.name)}</span>
-      <span class="line-h mono">${Hours.fmtNum(p.uniqueSpentHours)}</span>
+      <span class="line-h">${Hours.fmtNum(p.uniqueSpentHours)}</span>
       ${Hours.lineBar(p.uniqueSpentHours, max)}
-    </button>`).join("");
+    </button>`;
+    }).join("");
     els.lineSwitch.innerHTML = all + items;
   }
 
@@ -132,7 +134,6 @@
 
   function renderNav() {
     const edps = Hours.uniqueEdps().filter(matches);
-    els.navMeta.textContent = String(edps.length);
     if (line) {
       els.nav.innerHTML = edps.map(edpButton).join("") || `<div class="empty-mini">—</div>`;
       return;

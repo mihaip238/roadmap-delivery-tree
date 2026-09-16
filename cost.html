@@ -10,11 +10,12 @@
   <div id="shell-header"></div>
   <main class="page">
     <header class="work-bar in-page">
-      <div class="work-title">Cost</div>
       <div class="toolbar">
-        <button type="button" class="primary" id="save">Save</button>
-        <button type="button" class="ghost" id="download">Download</button>
         <span class="status" id="status"></span>
+        <div class="toolbar-end">
+          <button type="button" class="ghost" id="download">Download</button>
+          <button type="button" class="primary" id="save">Save</button>
+        </div>
       </div>
     </header>
     <div class="panel-k">Product line</div>
@@ -24,7 +25,9 @@
     <div class="panel-k">EDP</div>
     <div class="toolbar">
       <label class="chk"><input type="checkbox" id="activeOnly" checked /> Active</label>
-      <input type="search" id="q" placeholder="Search" />
+      <div class="toolbar-end">
+        <input type="search" id="q" placeholder="Search" />
+      </div>
     </div>
     <div class="table-wrap" id="edps"></div>
   </main>

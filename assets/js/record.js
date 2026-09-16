@@ -50,7 +50,8 @@
   function bar(value, max) {
     const v = Number(value) || 0;
     const m = Number(max) || 0;
-    const pct = m > 0 ? Math.min(100, (v / m) * 100) : 0;
+    if (!(v > 0) || !(m > 0)) return "";
+    const pct = Math.min(100, (v / m) * 100);
     return `<div class="hbare" aria-hidden="true"><i style="width:${pct}%"></i></div>`;
   }
 
@@ -68,8 +69,8 @@
       <span class="line-title">${esc(st.title || "")}</span>
       <span class="pill">${esc(status(st))}</span>
       <span class="qty"></span>
-      <span class="hrs dim">—</span>
-      <span class="hrs">${esc(num(loggedHours(st)))}</span>
+      <span class="hrs hrs-cost dim">—</span>
+      <span class="hrs hrs-log${loggedHours(st) ? "" : " dim"}">${esc(num(loggedHours(st)))}</span>
       <span class="unit-act"></span>
     </div>`;
   }
@@ -86,8 +87,8 @@
         <span class="line-title">${esc(feat.title || "")}</span>
         <span class="pill">${esc(status(feat) || feat.issuetype || "")}</span>
         <span class="qty">${n ? esc(String(n)) : ""}</span>
-        <span class="hrs dim">—</span>
-        <span class="hrs">${esc(num(loggedHours(feat)))}</span>
+        <span class="hrs hrs-cost dim">—</span>
+        <span class="hrs hrs-log${loggedHours(feat) ? "" : " dim"}">${esc(num(loggedHours(feat)))}</span>
         <span class="unit-act"></span>
       </header>
       ${bar(loggedHours(feat), openSet && openSet.maxHours)}
@@ -120,8 +121,8 @@
           ${shared.length ? `<span class="pill warn">${esc(shared.join(" "))}</span>` : ""}
         </span>
         <span class="qty">${esc(qtyLabel)}</span>
-        <span class="hrs ${cost == null ? "dim" : ""}">${esc(cost == null ? "—" : num(cost))}</span>
-        <span class="hrs">${esc(num(logged))}</span>
+        <span class="hrs hrs-cost${cost == null ? " dim" : ""}">${esc(cost == null ? "—" : num(cost))}</span>
+        <span class="hrs hrs-log${logged ? "" : " dim"}">${esc(num(logged))}</span>
         <span class="unit-act">${act}</span>
       </header>
       ${bar(logged, openSet && openSet.maxHours)}
@@ -159,10 +160,10 @@
       </div>
       <h1>${esc(edp.title || "")}</h1>
       <div class="metrics">
-        <div class="metric"><b>${esc(num(cost))}</b><span>Cost</span></div>
-        <div class="metric"><b>${esc(num(logged))}</b><span>Logged</span></div>
-        <div class="metric"><b>${esc(env.unbudgeted ? "—" : num(env.budget))}</b><span>Budget</span></div>
-        <div class="metric${env.remaining != null && env.remaining < 0 ? " is-over" : ""}"><b>${esc(env.unbudgeted ? "—" : num(env.remaining))}</b><span>Left</span></div>
+        <div class="metric${cost > 0 ? " is-lead" : " is-quiet"}"><b>${esc(num(cost))}</b><span>Cost</span></div>
+        <div class="metric${!(logged > 0) ? " is-quiet" : ""}"><b>${esc(num(logged))}</b><span>Logged</span></div>
+        <div class="metric is-aux"><b>${esc(env.unbudgeted ? "—" : num(env.budget))}</b><span>Budget</span></div>
+        <div class="metric is-aux${env.remaining != null && env.remaining < 0 ? " is-over" : ""}"><b>${esc(env.unbudgeted ? "—" : num(env.remaining))}</b><span>Left</span></div>
       </div>
     </header>`;
   }
@@ -233,10 +234,10 @@
         ${parents}
       </div>
       <h1>${esc(epp.title || "")}</h1>
-      <div class="metrics">
-        <div class="metric"><b>${esc(num(logged))}</b><span>Logged</span></div>
-        <div class="metric"><b>${esc(String(epp.featureCount || feats.length || 0))}</b><span>Features</span></div>
-        <div class="metric"><b>${esc(String(epp.storyCount || 0))}</b><span>Stories</span></div>
+      <div class="metrics metrics-3">
+        <div class="metric${logged > 0 ? " is-lead" : " is-quiet"}"><b>${esc(num(logged))}</b><span>Logged</span></div>
+        <div class="metric is-aux"><b>${esc(String(epp.featureCount || feats.length || 0))}</b><span>Features</span></div>
+        <div class="metric is-aux"><b>${esc(String(epp.storyCount || 0))}</b><span>Stories</span></div>
       </div>
     </header>` + cols() + feats.map((f) => featureBlock(f, openSet)).join("");
   }

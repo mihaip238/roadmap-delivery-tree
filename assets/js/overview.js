@@ -2,27 +2,28 @@
   function paint() {
     const ov = Hours.overview();
     const stats = [
-      [Hours.fmtNum(ov.costUniqueHours), "Cost"],
-      [String(ov.activeEdp || 0), "EDPs"],
-      [String(ov.pendingInferredActive || 0), "Pending"],
-      [String(ov.confirmedActive || 0), "Confirmed"],
-      [String(ov.noneActive || 0), "None"],
-      [Hours.fmtNum(ov.programUniqueHours), "M1–M4"],
+      [Hours.fmtNum(ov.costUniqueHours), "Cost", "is-lead"],
+      [String(ov.activeEdp || 0), "EDPs", "is-support"],
+      [String(ov.pendingInferredActive || 0), "Pending", "is-support" + (ov.pendingInferredActive ? " kpi-warn" : "")],
+      [String(ov.confirmedActive || 0), "Confirmed", "is-support"],
+      [String(ov.noneActive || 0), "None", "is-support"],
+      [Hours.fmtNum(ov.programUniqueHours), "M1–M4", "is-support"],
     ];
-    document.getElementById("stats").innerHTML = stats.map(([v, l]) => (
-      `<div class="kpi"><div class="kpi-v">${Hours.esc(v)}</div><div class="kpi-k">${Hours.esc(l)}</div></div>`
+    document.getElementById("stats").innerHTML = stats.map(([v, l, cls]) => (
+      `<div class="kpi ${cls}"><div class="kpi-v">${Hours.esc(v)}</div><div class="kpi-k">${Hours.esc(l)}</div></div>`
     )).join("");
 
     const products = Hours.productRows();
     const max = Hours.lineMaxHours();
-    document.getElementById("product-table").innerHTML = products.map((p) =>
-      `<a class="line-item is-dir" href="${Hours.esc(Hours.lineHref(p.name))}">
+    document.getElementById("product-table").innerHTML = products.map((p) => {
+      const zero = !(Number(p.uniqueSpentHours) > 0);
+      return `<a class="line-item is-dir${zero ? " is-zero" : ""}" href="${Hours.esc(Hours.lineHref(p.name))}">
         <span class="line-name">${Hours.esc(p.name)}</span>
-        <span class="line-n mono">${p.activeCount || p.edpCount || ""}</span>
-        <span class="line-h mono">${Hours.esc(Hours.fmtNum(p.uniqueSpentHours))}</span>
-        ${Hours.lineBar(p.uniqueSpentHours, max)}
-      </a>`
-    ).join("");
+        <span class="line-n">${p.activeCount || p.edpCount || ""}</span>
+        ${zero ? `<span class="line-bar is-empty" aria-hidden="true"></span>` : Hours.lineBar(p.uniqueSpentHours, max)}
+        <span class="line-h">${Hours.esc(Hours.fmtNum(p.uniqueSpentHours))}</span>
+      </a>`;
+    }).join("");
 
     const ms = Hours.milestoneRows();
     document.getElementById("program-table").innerHTML = `<table class="data">

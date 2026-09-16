@@ -17,20 +17,21 @@
           <option value="milestone">M1–M4</option>
         </select>
         <input type="search" id="tree-search" placeholder="Search" />
-        <select id="status-filter">
-          <option value="">Health</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="pending">Pending</option>
-          <option value="none">None</option>
-        </select>
-        <label class="chk"><input type="checkbox" id="active-only" checked /> Active</label>
+        <div class="toolbar-end">
+          <select id="status-filter">
+            <option value="">Health</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="pending">Pending</option>
+            <option value="none">None</option>
+          </select>
+          <label class="chk"><input type="checkbox" id="active-only" checked /> Active</label>
+        </div>
       </div>
     </header>
     <div class="work-split">
       <aside class="navigator">
         <div class="line-switch" id="line-switch"></div>
         <div class="nav-edps">
-          <div class="nav-meta" id="nav-meta"></div>
           <div class="nav-list" id="nav-list"></div>
         </div>
       </aside>
