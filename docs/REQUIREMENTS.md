@@ -81,6 +81,8 @@ Operations console: bone canvas `#E8E2D6`, ink `#161411`, dark rail `#141311`, s
 | F3.2 | Milestone tree | M1–M4, EPP-first, EDPs/products on each EPP, unique hours on the milestone row. |
 | F3.3 | EDP record | Type-marked EDP → EPP → Feature → Story. Cost vs Logged. Pending Cost is a dash. Expand in place. |
 
+Delivery uses progressive navigation: Product line → EDP → record, or Program M1–M4 → milestone → EPP → record. Selecting a row opens the local breakdown; selecting a Jira key opens the source issue in a new tab. Records start collapsed.
+
 ## F4 Cost control
 
 | ID | Name | Definition of done |
@@ -102,6 +104,8 @@ Custom SVG. Short titles only. No captions, no insight essays.
 | F5.4 | Mapping health | Confirmed / pending inferred / none for **active** EDPs. Callout if pending > 0. |
 | F5.5 | Concentration | Top EDPs by unique hours; top shared EPPs by hours. |
 | F5.6 | Insight strip | Removed. Numbers and charts only. |
+
+Jira-backed EDP and EPP labels link to their source issues. Product lines and M1–M4 remain aggregate, non-Jira entities.
 
 ## F6 Local writer
 

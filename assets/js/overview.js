@@ -2,15 +2,14 @@
   function paint() {
     const ov = Hours.overview();
     const stats = [
-      [Hours.fmtNum(ov.costUniqueHours), "Cost", "is-lead"],
-      [String(ov.activeEdp || 0), "EDPs", "is-support"],
-      [String(ov.pendingInferredActive || 0), "Pending", "is-support" + (ov.pendingInferredActive ? " kpi-warn" : "")],
-      [String(ov.confirmedActive || 0), "Confirmed", "is-support"],
-      [String(ov.noneActive || 0), "None", "is-support"],
-      [Hours.fmtNum(ov.programUniqueHours), "M1–M4", "is-support"],
+      [Hours.fmtNum(ov.costUniqueHours), "Cost", "is-lead", "cost.html"],
+      [String(ov.activeEdp || 0), "EDPs", "is-support", "delivery.html"],
+      [String(ov.pendingInferredActive || 0), "Pending", "is-support" + (ov.pendingInferredActive ? " kpi-warn" : ""), "mapping.html"],
+      [String(ov.sharedEppCount || 0), "Shared", "is-support", "reports.html#shared"],
+      [Hours.fmtNum(ov.programUniqueHours), "Program M1–M4", "is-support", "reports.html"],
     ];
-    document.getElementById("stats").innerHTML = stats.map(([v, l, cls]) => (
-      `<div class="kpi ${cls}"><div class="kpi-v">${Hours.esc(v)}</div><div class="kpi-k">${Hours.esc(l)}</div></div>`
+    document.getElementById("stats").innerHTML = stats.map(([v, l, cls, href]) => (
+      `<a class="kpi ${cls}" href="${Hours.esc(href)}"><div class="kpi-v">${Hours.esc(v)}</div><div class="kpi-k">${Hours.esc(l)}</div></a>`
     )).join("");
 
     const products = Hours.productRows();
@@ -29,8 +28,8 @@
     document.getElementById("program-table").innerHTML = `<table class="data">
       <thead><tr><th></th><th></th><th class="num">Cost</th><th></th></tr></thead>
       <tbody>${ms.map((m) => `<tr>
-        <td class="mono">${Hours.esc(m.key)}</td>
-        <td>${Hours.esc(m.name)}</td>
+        <td class="mono"><a href="delivery.html?view=milestone&amp;milestone=${encodeURIComponent(m.key)}">${Hours.esc(m.key)}</a></td>
+        <td><a href="delivery.html?view=milestone&amp;milestone=${encodeURIComponent(m.key)}">${Hours.esc(m.name)}</a></td>
         <td class="num mono">${Hours.esc(Hours.fmtNum(m.uniqueSpentHours))}</td>
         <td class="mono muted">${Hours.esc(m.target || "")}</td>
       </tr>`).join("")}
@@ -50,14 +49,18 @@
       if (!list.length) return "";
       return `<div class="pending-line">
         <a class="pending-line-h" href="${Hours.esc(Hours.lineHref(prod.name, "mapping.html"))}">${Hours.esc(prod.name)}</a>
-        ${list.map((e) =>
-          `<a class="inbox-row" href="mapping.html?line=${encodeURIComponent(prod.name)}#${encodeURIComponent(e.key || e.title)}">
-            <span class="mono">${Hours.esc(e.key || "—")}</span>
-            <span class="grow">${Hours.esc(e.title)}</span>
+        ${list.map((e) => {
+          const jira = Hours.jiraHref(e);
+          const key = jira
+            ? `<a class="mono key" href="${Hours.esc(jira)}" target="_blank" rel="noreferrer">${Hours.esc(e.key || "—")}</a>`
+            : `<span class="mono">${Hours.esc(e.key || "—")}</span>`;
+          return `<div class="inbox-row">
+            ${key}
+            <a class="grow" href="mapping.html?line=${encodeURIComponent(prod.name)}#${encodeURIComponent(e.key || e.title)}">${Hours.esc(e.title)}</a>
             <span class="mono">${Hours.fmtNum((e.time || {}).rolledSpentHours)}</span>
             <span class="nav-edp-st st-pending"></span>
-          </a>`
-        ).join("")}
+          </div>`;
+        }).join("")}
       </div>`;
     }).join("") || `<div class="empty-mini">—</div>`;
   }

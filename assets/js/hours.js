@@ -46,6 +46,14 @@
       || "";
   }
 
+  function jiraHref(nodeOrKey) {
+    const node = typeof nodeOrKey === "string" ? { key: nodeOrKey } : (nodeOrKey || {});
+    if (node.url) return node.url;
+    const key = node.key || "";
+    if (!/^[A-Z][A-Z0-9]+-\d+$/.test(key)) return "";
+    return (tree().jiraBase || "https://eneve.atlassian.net/browse/") + key;
+  }
+
   function costChildren(edp) {
     return (edp.children || []).filter((e) => e.costMember);
   }
@@ -165,6 +173,7 @@
           pendingCount: edp.pendingCount || pendingChildren(edp).length,
           eppCount: edp.eppCount || costChildren(edp).length,
           sharedWith: shared,
+          href: jiraHref(edp),
           edp: edp,
         }, env));
       });
@@ -286,6 +295,7 @@
             title: epp.title,
             hours: (epp.time || {}).rolledSpentHours || 0,
             edps: shared[epp.key],
+            href: jiraHref(epp),
           };
         }
       });
@@ -318,6 +328,7 @@
     fmtHours,
     fmtWhen,
     fetchedAt,
+    jiraHref,
     costChildren,
     pendingChildren,
     rejectedChildren,

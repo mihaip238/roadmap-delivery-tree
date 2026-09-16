@@ -34,7 +34,10 @@
     rows.forEach((r, i) => {
       const y = padT + i * rowH;
       const label = Hours.esc(r.label || r.name || r.key || "");
-      bars += `<text class="axis" x="${padL - 10}" y="${y + Math.round(rowH * 0.55)}" text-anchor="end">${label}</text>`;
+      const labelText = `<text class="axis${r.href ? " axis-link" : ""}" x="${padL - 10}" y="${y + Math.round(rowH * 0.55)}" text-anchor="end">${label}</text>`;
+      bars += r.href
+        ? `<a href="${Hours.esc(r.href)}" target="_blank" rel="noreferrer">${labelText}</a>`
+        : labelText;
       series.forEach((s, si) => {
         const v = Number(r[s.key] || 0);
         const bw = Math.max(0, (v / max) * inner);

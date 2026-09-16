@@ -101,9 +101,12 @@
           ? `<span class="copper">${Hours.esc(r.sharedWith.join(" "))}</span>`
           : "";
         const href = Hours.lineHref(r.product) + (r.key ? "#" + encodeURIComponent(r.key) : "");
+        const jira = r.href
+          ? `<a class="key" href="${Hours.esc(r.href)}" target="_blank" rel="noreferrer">${Hours.esc(r.key)}</a>`
+          : `<span class="key">${Hours.esc(r.key || "—")}</span>`;
         return `<tr>
-          <td class="mono"><a href="${Hours.esc(href)}">${Hours.esc(r.key || "—")}</a></td>
-          <td>${Hours.esc(r.title)}</td>
+          <td class="mono">${jira}</td>
+          <td><a href="${Hours.esc(href)}">${Hours.esc(r.title)}</a></td>
           <td><span class="pip st-${Hours.esc(r.health)}"></span></td>
           <td class="num mono">${Hours.esc(Hours.fmtNum(r.uniqueSpentHours))}</td>
           <td class="num mono muted">${Hours.esc(Hours.fmtNum(r.rolledSpentHours))}</td>

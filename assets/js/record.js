@@ -1,12 +1,8 @@
 (function () {
-  const JIRA = (window.ROADMAP_TREE && window.ROADMAP_TREE.jiraBase) || "https://eneve.atlassian.net/browse/";
-
   function esc(s) { return Hours.esc(s); }
 
   function hrefOf(node) {
-    if (node.url) return node.url;
-    if (node.key && /^[A-Z][A-Z0-9]+-\d+$/.test(node.key)) return JIRA + node.key;
-    return "";
+    return Hours.jiraHref(node);
   }
 
   function keyLink(node) {
@@ -66,9 +62,10 @@
     return `<div class="line line-story">
       ${chip("story")}
       ${keyLink(st)}
-      <span class="line-title">${esc(st.title || "")}</span>
-      <span class="pill">${esc(status(st))}</span>
-      <span class="qty"></span>
+      <span class="line-main">
+        <span class="line-title">${esc(st.title || "")}</span>
+        ${status(st) ? `<span class="row-meta">${esc(status(st))}</span>` : ""}
+      </span>
       <span class="hrs hrs-cost dim">—</span>
       <span class="hrs hrs-log${loggedHours(st) ? "" : " dim"}">${esc(num(loggedHours(st)))}</span>
       <span class="unit-act"></span>
@@ -84,14 +81,14 @@
       <header class="unit-h" data-toggle="${esc(id)}">
         ${chip("feature")}
         ${keyLink(feat)}
-        <span class="line-title">${esc(feat.title || "")}</span>
-        <span class="pill">${esc(status(feat) || feat.issuetype || "")}</span>
-        <span class="qty">${n ? esc(String(n)) : ""}</span>
+        <span class="line-main">
+          <span class="line-title">${esc(feat.title || "")}</span>
+          <span class="row-meta">${esc(status(feat) || feat.issuetype || "")}${n ? ` · ${esc(String(n))} STY` : ""}</span>
+        </span>
         <span class="hrs hrs-cost dim">—</span>
         <span class="hrs hrs-log${loggedHours(feat) ? "" : " dim"}">${esc(num(loggedHours(feat)))}</span>
         <span class="unit-act"></span>
       </header>
-      ${bar(loggedHours(feat), openSet && openSet.maxHours)}
       ${open && n ? `<div class="unit-b">${kids.map(storyLine).join("")}</div>` : ""}
     </article>`;
   }
@@ -109,30 +106,31 @@
     const cls = ["unit", "unit-epp", pending ? "is-pending" : "", rejected ? "is-rejected" : ""].filter(Boolean).join(" ");
     const f = Number(epp.featureCount || feats.length || 0);
     const s = Number(epp.storyCount || 0);
-    const qtyLabel = (f || s) ? (f + "/" + s) : "";
+    const details = [
+      status(epp),
+      (epp.method || "").replace("inferred_pending", "inferred").replace("inferred_alias", "inferred"),
+      shared.length ? shared.join(" ") : "",
+      (f || s) ? `${f} FTR · ${s} STY` : "",
+    ].filter(Boolean);
     return `<article class="${cls}" data-unit="${esc(id)}">
       <header class="unit-h" data-toggle="${esc(id)}">
         ${chip("epp")}
         ${keyLink(epp)}
-        <span class="line-title">${esc(epp.title || "")}</span>
-        <span class="meta-bits">
-          <span class="pill">${esc(status(epp))}</span>
-          ${methodMark(epp)}
-          ${shared.length ? `<span class="pill warn">${esc(shared.join(" "))}</span>` : ""}
+        <span class="line-main">
+          <span class="line-title">${esc(epp.title || "")}</span>
+          ${details.length ? `<span class="row-meta${pending ? " warn" : ""}">${esc(details.join(" · "))}</span>` : ""}
         </span>
-        <span class="qty">${esc(qtyLabel)}</span>
         <span class="hrs hrs-cost${cost == null ? " dim" : ""}">${esc(cost == null ? "—" : num(cost))}</span>
         <span class="hrs hrs-log${logged ? "" : " dim"}">${esc(num(logged))}</span>
         <span class="unit-act">${act}</span>
       </header>
-      ${bar(logged, openSet && openSet.maxHours)}
       ${open && feats.length ? `<div class="unit-b">${feats.map((feat) => featureBlock(feat, openSet)).join("")}</div>` : ""}
     </article>`;
   }
 
   function cols() {
     return `<div class="unit-cols">
-      <span>Type</span><span>Key</span><span></span><span></span><span>F/S</span><span>Cost</span><span>Logged</span><span></span>
+      <span></span><span></span><span></span><span>Cost</span><span>Logged</span><span></span>
     </div>`;
   }
 
@@ -140,7 +138,6 @@
     const t = edp.time || {};
     const cost = Number(t.uniqueSpentHours) || 0;
     const logged = Number(t.rolledSpentHours) || 0;
-    const env = Hours.envelope(cost, edp.budgetHours);
     const health = Hours.health(edp);
     const lines = [edp.productLabel].concat(edp.alsoIn || []).filter(Boolean);
     const lineHtml = lines.length
@@ -159,35 +156,16 @@
         ${extra || ""}
       </div>
       <h1>${esc(edp.title || "")}</h1>
-      <div class="metrics">
+      <div class="metrics metrics-2">
         <div class="metric${cost > 0 ? " is-lead" : " is-quiet"}"><b>${esc(num(cost))}</b><span>Cost</span></div>
         <div class="metric${!(logged > 0) ? " is-quiet" : ""}"><b>${esc(num(logged))}</b><span>Logged</span></div>
-        <div class="metric is-aux"><b>${esc(env.unbudgeted ? "—" : num(env.budget))}</b><span>Budget</span></div>
-        <div class="metric is-aux${env.remaining != null && env.remaining < 0 ? " is-over" : ""}"><b>${esc(env.unbudgeted ? "—" : num(env.remaining))}</b><span>Left</span></div>
       </div>
     </header>`;
-  }
-
-  function primed(openSet) {
-    return openSet._primed || (openSet._primed = {});
-  }
-
-  function ensureOpen(edp, openSet) {
-    const epps = edp.children || [];
-    if (!epps.length) return;
-    const seen = primed(openSet);
-    if (seen["edp:" + (edp.key || edp.title)]) return;
-    seen["edp:" + (edp.key || edp.title)] = true;
-    const first = epps[0];
-    openSet.add("epp:" + first.key);
-    const feat = (first.children || [])[0];
-    if (feat) openSet.add("feat:" + (feat.key || feat.title));
   }
 
   function edpView(edp, opts) {
     opts = opts || {};
     const openSet = opts.open || new Set();
-    ensureOpen(edp, openSet);
     const epps = edp.children || [];
     openSet.maxHours = epps.reduce((m, e) => Math.max(m, loggedHours(e)), 0);
     const cost = Hours.costChildren(edp);
@@ -208,11 +186,6 @@
     const openSet = opts.open || new Set();
     const feats = epp.children || [];
     openSet.maxHours = feats.reduce((m, f) => Math.max(m, loggedHours(f)), 0);
-    const seen = primed(openSet);
-    if (feats[0] && !seen["eppview:" + (epp.key || "")]) {
-      seen["eppview:" + (epp.key || "")] = true;
-      openSet.add("feat:" + (feats[0].key || feats[0].title));
-    }
     const logged = loggedHours(epp);
     const lineHtml = (epp.products || []).length
       ? `<div class="record-line">${(epp.products || []).map((n) =>
@@ -232,12 +205,11 @@
         <span class="pill">${esc(status(epp))}</span>
         ${methodMark(epp)}
         ${parents}
+        <span class="pill">${esc(String(epp.featureCount || feats.length || 0))} FTR · ${esc(String(epp.storyCount || 0))} STY</span>
       </div>
       <h1>${esc(epp.title || "")}</h1>
-      <div class="metrics metrics-3">
+      <div class="metrics metrics-1">
         <div class="metric${logged > 0 ? " is-lead" : " is-quiet"}"><b>${esc(num(logged))}</b><span>Logged</span></div>
-        <div class="metric is-aux"><b>${esc(String(epp.featureCount || feats.length || 0))}</b><span>Features</span></div>
-        <div class="metric is-aux"><b>${esc(String(epp.storyCount || 0))}</b><span>Stories</span></div>
       </div>
     </header>` + cols() + feats.map((f) => featureBlock(f, openSet)).join("");
   }
@@ -256,6 +228,6 @@
   }
 
   window.Record = {
-    keyLink, chip, num, loggedHours, costHours, edpView, eppView, eppBlock, featureBlock, bindToggle, ensureOpen,
+    keyLink, chip, num, loggedHours, costHours, edpView, eppView, eppBlock, featureBlock, bindToggle,
   };
 })();

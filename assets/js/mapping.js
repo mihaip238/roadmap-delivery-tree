@@ -124,12 +124,16 @@
 
   function edpButton(e) {
     const on = (e.key || e.title) === selected;
-    return `<button type="button" class="nav-edp${on ? " is-on" : ""}" data-edp="${Hours.esc(e.key || e.title)}">
-      <span class="nav-edp-k">${Hours.esc(e.key || "—")}</span>
+    const jira = Hours.jiraHref(e);
+    const key = jira
+      ? `<a class="nav-edp-k" href="${Hours.esc(jira)}" target="_blank" rel="noreferrer">${Hours.esc(e.key || "—")}</a>`
+      : `<span class="nav-edp-k">${Hours.esc(e.key || "—")}</span>`;
+    return `<div class="nav-edp${on ? " is-on" : ""}" role="button" tabindex="0" data-edp="${Hours.esc(e.key || e.title)}">
+      ${key}
       <span class="nav-edp-t">${Hours.esc(e.title)}</span>
       <span class="nav-edp-h mono">${Hours.fmtNum((e.time || {}).uniqueSpentHours)}</span>
       <span class="nav-edp-st st-${Hours.esc(Hours.health(e))}"></span>
-    </button>`;
+    </div>`;
   }
 
   function renderNav() {
@@ -239,6 +243,7 @@
   }
 
   els.nav.addEventListener("click", (ev) => {
+    if (ev.target.closest("a")) return;
     const lineBtn = ev.target.closest("[data-line]");
     if (lineBtn) {
       setLine(lineBtn.getAttribute("data-line") || "");
@@ -246,6 +251,14 @@
     }
     const btn = ev.target.closest("[data-edp]");
     if (btn) select(btn.getAttribute("data-edp"));
+  });
+
+  els.nav.addEventListener("keydown", (ev) => {
+    if (ev.key !== "Enter" && ev.key !== " ") return;
+    const btn = ev.target.closest("[data-edp]");
+    if (!btn || ev.target.closest("a")) return;
+    ev.preventDefault();
+    select(btn.getAttribute("data-edp"));
   });
 
   els.pane.addEventListener("click", (ev) => {
