@@ -101,6 +101,19 @@
         total = Hours.uniqueReportHours(data.map((row) => Hours.findEpp(row.key)).filter(Boolean), false);
       }
     }
+    if (state.metric === "mapping") {
+      if (!data.length) {
+        total = null;
+      } else if (state.cut === "product") {
+        const active = data.reduce((sum, row) => sum + Number(row.activeCount || 0), 0);
+        const confirmed = data.reduce((sum, row) => sum + Number(row.confirmed || 0), 0);
+        total = active ? Hours.round2((confirmed / active) * 100) : 0;
+      } else {
+        total = Hours.round2(
+          (data.filter((row) => row.health === "confirmed").length / data.length) * 100
+        );
+      }
+    }
     const compareTotal = compareValues.length
       ? compareValues.reduce((sum, value) => sum + value, 0)
       : null;
@@ -110,7 +123,7 @@
       median: values.length ? Hours.round2(median(values)) : null,
       maximum: values.length ? Hours.round2(Math.max(...values)) : null,
       coverage: state.metric === "mapping"
-        ? (values.length ? Hours.round2(total / values.length) : null)
+        ? total
         : Hours.round2((data.filter((row) => row.budget != null).length / Math.max(data.length, 1)) * 100),
       variance: total != null && compareTotal != null ? Hours.round2(total - compareTotal) : null,
       count: values.length,

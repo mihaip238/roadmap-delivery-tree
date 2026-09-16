@@ -66,4 +66,15 @@ assert.equal(costSummary.total, 42, "cost summary must use unique ticket union")
 assert.equal(costSummary.average, 7.5);
 assert.equal(costSummary.variance, 24);
 
+const mappingSummary = Reporting.summary([
+  { mapping: 100, activeCount: 1, confirmed: 1 },
+  { mapping: 0, activeCount: 3, confirmed: 1 },
+], {
+  cut: "product",
+  metric: "mapping",
+  compare: "none",
+});
+assert.equal(mappingSummary.total, 50, "mapping coverage must be weighted and never sum percentages");
+assert.equal(mappingSummary.average, 50);
+
 console.log("reporting calculations ok");

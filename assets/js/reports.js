@@ -142,11 +142,11 @@
   function renderSummary(data) {
     const values = Reporting.summary(data, state);
     const cells = [
-      ["Total", values.total, state.metric],
+      [state.metric === "mapping" ? "Coverage" : "Total", values.total, state.metric],
       ["Average", values.average, state.metric],
       ["Median", values.median, state.metric],
       ["Maximum", values.maximum, state.metric],
-      [state.metric === "mapping" ? "Coverage" : "Budgeted", values.coverage, "mapping"],
+      [state.metric === "mapping" ? "Rows" : "Budgeted", state.metric === "mapping" ? values.count : values.coverage, state.metric === "mapping" ? "plain" : "mapping"],
       ["Variance", values.variance, state.metric],
     ];
     els.summary.innerHTML = cells.map(([label, value, metric], index) =>
