@@ -1,0 +1,3635 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-14T14:06:16.184075+00:00",
+  "snapshots": [
+    {
+      "date": "2026-09-14",
+      "fetchedAt": "2026-09-14T14:06:16.184075+00:00",
+      "summary": {
+        "cost": 10034.45,
+        "logged": 10269.7,
+        "programCost": 2954.75,
+        "pending": 5987.0,
+        "sharedDuplication": 235.25,
+        "activeEdp": 63,
+        "confirmed": 9,
+        "pendingEdp": 17,
+        "none": 37,
+        "mappingCoveragePct": 14.29,
+        "budgetCoveragePct": 0.0,
+        "overBudgetEdp": 0,
+        "overBudgetHours": 0
+      },
+      "products": [
+        {
+          "name": "BRP as a Service",
+          "cost": 308.75,
+          "logged": 308.75,
+          "pending": 724.25,
+          "budget": null,
+          "activeEdp": 15,
+          "confirmed": 2,
+          "pendingEdp": 11,
+          "none": 2
+        },
+        {
+          "name": "Power Balancer",
+          "cost": 6987.27,
+          "logged": 6987.77,
+          "pending": 0.0,
+          "budget": null,
+          "activeEdp": 7,
+          "confirmed": 3,
+          "pendingEdp": 1,
+          "none": 3
+        },
+        {
+          "name": "Gas Shipper",
+          "cost": 3.0,
+          "logged": 3.0,
+          "pending": 0.0,
+          "budget": null,
+          "activeEdp": 1,
+          "confirmed": 0,
+          "pendingEdp": 0,
+          "none": 1
+        },
+        {
+          "name": "Platform",
+          "cost": 640.07,
+          "logged": 640.07,
+          "pending": 999.0,
+          "budget": null,
+          "activeEdp": 5,
+          "confirmed": 2,
+          "pendingEdp": 2,
+          "none": 1
+        },
+        {
+          "name": "Portfolio Management",
+          "cost": 558.58,
+          "logged": 558.58,
+          "pending": 4.0,
+          "budget": null,
+          "activeEdp": 1,
+          "confirmed": 0,
+          "pendingEdp": 1,
+          "none": 0
+        },
+        {
+          "name": "Supply",
+          "cost": 419.28,
+          "logged": 549.28,
+          "pending": 291.75,
+          "budget": null,
+          "activeEdp": 1,
+          "confirmed": 1,
+          "pendingEdp": 0,
+          "none": 0
+        },
+        {
+          "name": "Ecedo",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "activeEdp": 26,
+          "confirmed": 0,
+          "pendingEdp": 0,
+          "none": 26
+        },
+        {
+          "name": "Jules",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "activeEdp": 3,
+          "confirmed": 0,
+          "pendingEdp": 1,
+          "none": 2
+        },
+        {
+          "name": "Gridhub",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "activeEdp": 2,
+          "confirmed": 0,
+          "pendingEdp": 0,
+          "none": 2
+        },
+        {
+          "name": "Unclassified",
+          "cost": 1120.5,
+          "logged": 1225.25,
+          "pending": 4259.75,
+          "budget": null,
+          "activeEdp": 3,
+          "confirmed": 1,
+          "pendingEdp": 1,
+          "none": 1
+        }
+      ],
+      "milestones": [
+        {
+          "key": "M1",
+          "name": "Nomination / new architecture",
+          "cost": 495.75,
+          "logged": 495.75,
+          "budget": null,
+          "eppCount": 1
+        },
+        {
+          "key": "M2",
+          "name": "Measurements",
+          "cost": 1393.5,
+          "logged": 1393.5,
+          "budget": null,
+          "eppCount": 2
+        },
+        {
+          "key": "M3",
+          "name": "Forecasting, position & financials",
+          "cost": 307.0,
+          "logged": 307.0,
+          "budget": null,
+          "eppCount": 3
+        },
+        {
+          "key": "M4",
+          "name": "Alloc 2.0 + imbalance (EET go-live)",
+          "cost": 758.5,
+          "logged": 758.5,
+          "budget": null,
+          "eppCount": 9
+        }
+      ],
+      "edps": [
+        {
+          "key": "EDP-173",
+          "title": "BRP Simulator (Proxy)",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-162",
+          "title": "BRPaaS Financial Realizations Dashboard: Total Costs per ISP",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 200.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-160",
+          "title": "BRPaaS Nominations - E-Prog and GLMD",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-105",
+          "title": "BRPaaS Position Management Dashboards: Forecasts vs Total Trades",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 86.5,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-109",
+          "title": "BRPaaS Realization Dashboards: Forecasting Quality and Imbalance",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 25.5,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-114",
+          "title": "ETPA Trading Integration (via Jules microservice)",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 298.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-161",
+          "title": "Ex-Post Forecasting and Position Management",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 86.5,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-164",
+          "title": "Generation Load Market Document (GLMD) - Expansion of Functionality",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-104",
+          "title": "Implement Steering Signal in ID (re-)forecasting",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-116",
+          "title": "New UI framework (BaaS)",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 276.75,
+          "logged": 276.75,
+          "pending": 2.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-158",
+          "title": "Shadow Forecasting - Prognosis for Suppliers",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 108.25,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-99",
+          "title": "Standard administration setup for B2C and B2B",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-159",
+          "title": "Standard B2B GV (TMT) Forecast Model",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 108.25,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-102",
+          "title": "Standard B2C KV (SMA/PRF) Forecast Model",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 32.0,
+          "logged": 32.0,
+          "pending": 108.25,
+          "budget": null,
+          "eppCount": 2,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-106",
+          "title": "Standard influence factor imports",
+          "product": "BRP as a Service",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 4.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-107",
+          "title": "Standard price imports",
+          "product": "Power Balancer, Gas Shipper, BRP as a Service",
+          "alsoIn": [
+            "Power Balancer",
+            "Gas Shipper"
+          ],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-42",
+          "title": "Allocation 2.0 Tranche 3",
+          "product": "Power Balancer",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 4814.75,
+          "logged": 4815.25,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 4,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-115",
+          "title": "Allocation 2.0 Tranche 4",
+          "product": "Power Balancer",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 354.0,
+          "logged": 354.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-103",
+          "title": "Automate client driven time series imports for BRP and Shipper processes (CSV upload)",
+          "product": "Power Balancer",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 297.5,
+          "logged": 297.5,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-110",
+          "title": "BRPaaS Reconciliation Dashboards: Volumes and Financials",
+          "product": "Power Balancer",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-108",
+          "title": "Extend Critical Process Alerts",
+          "product": "Power Balancer",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-100",
+          "title": "Extend pre-configured market settings",
+          "product": "Power Balancer",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-113",
+          "title": "IC280L (Tranche 4)",
+          "product": "Power Balancer",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 1518.02,
+          "logged": 1518.02,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 3,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-97",
+          "title": "Intake (floating) scripts and protocols into EBASE product scope",
+          "product": "Power Balancer, Gas Shipper",
+          "alsoIn": [
+            "Gas Shipper"
+          ],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-98",
+          "title": "Intake C-AR scripts for Power Balancer",
+          "product": "Power Balancer",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-101",
+          "title": "Standardize ArcESB flows",
+          "product": "Power Balancer, Gas Shipper",
+          "alsoIn": [
+            "Gas Shipper"
+          ],
+          "active": false,
+          "health": "confirmed",
+          "cost": 3.0,
+          "logged": 3.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-174",
+          "title": "EBASE (road to) Cloud Architecture",
+          "product": "Platform",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-68",
+          "title": "EBASE API  - PUT Time-series",
+          "product": "Platform",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 721.75,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-121",
+          "title": "IAM: Logging & monitoring",
+          "product": "Platform",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 264.25,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-22",
+          "title": "Implement IAM (Identity and Access Management)",
+          "product": "Platform",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 273.25,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-111",
+          "title": "Transaction flow enabler",
+          "product": "Platform",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 640.07,
+          "logged": 640.07,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-117",
+          "title": "Workflow enabler",
+          "product": "Platform",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 4.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-96",
+          "title": "Energy Product Mgnt (EPM) & Portfolio Mgnt (SPM2.0) Improvements",
+          "product": "Portfolio Management",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 558.58,
+          "logged": 558.58,
+          "pending": 4.0,
+          "budget": null,
+          "eppCount": 16,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-169",
+          "title": "EPM Light (Tenor)",
+          "product": "Portfolio Management",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 4.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-126",
+          "title": "Day Ahead market supporting 15 min. prices",
+          "product": "Supply",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-130",
+          "title": "EDSN switching Supplier messages",
+          "product": "Supply",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 419.28,
+          "logged": 549.28,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-132",
+          "title": "Improvements SUPPLY",
+          "product": "Supply",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 291.75,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Nexus",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Zelfleveringsplatform",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "VKO Energylaw",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "TS040 - Slimmemeterallocatie van leverancier naar DSO (IC258)",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "TS041 - Optimalisatie meetketen voor kleine aansluitingen (IC247A)",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "TS023/TS060 Fase 2: Tussenoplossing via bericht \"Wijzigen gegevens aangeslotene\"",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "TS055 - Storingsinformatie slimme meter ontsluiten",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Cache & redis migration",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "dotNet 8+",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Afschaffen salderen per 1-1-2027",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Click product",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Configurable price components",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Warmte(net / Aurum)",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Twinfield integration",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Postcoderoos 2.0 P1 & 2",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Prijsblokken",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Reseller P1 & 2",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Application settings",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Templates",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Maintenance windows",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Modularization",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Product config",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Assets",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Afdrachtscontrole",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Async performance",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "EEX Prijsplatform",
+          "product": "Ecedo",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Click integration",
+          "product": "Jules",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Complex Billing (Shell)",
+          "product": "Jules",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "Non-commodity",
+          "product": "Jules",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "API Integration Layer",
+          "product": "Gridhub",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "",
+          "title": "CRM module",
+          "product": "Gridhub",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-157",
+          "title": "aFRR Energy Bidding (XML)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": true,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 1123.25,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-155",
+          "title": "Congestion Management - Tranche 1",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": true,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-76",
+          "title": "EBASE Asset Steering: FRR messaging",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-129",
+          "title": "mFRR Energy Bidding (XML)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": true,
+          "health": "confirmed",
+          "cost": 643.75,
+          "logged": 643.75,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-74",
+          "title": "Allocation 2.0 Supply messages in EMS",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 164.5,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-70",
+          "title": "Allocation 2.0 TR2 - Query Performance Improvement",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-176",
+          "title": "January 2027 Release - TS088 Verify name of KV connected party (supplier)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-175",
+          "title": "January 2027 Release - TS094 AMI/AZI split for SMA allocation (BRP)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 1.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-154",
+          "title": "Move Allocation group scripts to NL Register Management",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-29",
+          "title": "NL Allocation Control Improvements",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 127.25,
+          "logged": 232.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-46",
+          "title": "NL Allocation Control market report",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-156",
+          "title": "UMIG6 Release 2.5.0 support (January 2026)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 46.0,
+          "logged": 46.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-146",
+          "title": "API Version and Dependency Reporting",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-131",
+          "title": "Automation Framework Evolution (Katrina NG)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-134",
+          "title": "Dashboard enabler enhancements",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-168",
+          "title": "EBASE TS AND MD API additional features - Vattenfall",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-163",
+          "title": "Extension to Reconciliation Functionality - Financials and Reporting",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-165",
+          "title": "Market data management improvements",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 1163.08,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-81",
+          "title": "Migrate TR2, IMB and NLGBAL to new EMS",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-166",
+          "title": "Restrict Role configuration for Customers while enabling User Management",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-79",
+          "title": "Technology Debt",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 215.75,
+          "logged": 215.75,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 8,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-4",
+          "title": "What are archived ideas?",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-88",
+          "title": "Workers for event processes",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-152",
+          "title": "BE Gas Shipper",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 1468.08,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-92",
+          "title": "Import aggregated trade deals - gas shipper",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-64",
+          "title": "Database Partitioning R&D",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-43",
+          "title": "EMS Evolution (Recovery, Logging and Operation Improvements)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-87",
+          "title": "Generic connection with datalake's for reporting",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-15",
+          "title": "Implement Multi-tenancy",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 61.25,
+          "logged": 61.25,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-127",
+          "title": "Improve EBASE Formulas",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-93",
+          "title": "Message monitoring - ArcESB",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-128",
+          "title": "Self-built alternative for ArcESB",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-63",
+          "title": "Staging Enviroment Setup (PI Freeze and Release Environment)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-147",
+          "title": "Datafeed Worker (C++ -> C# Migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-139",
+          "title": "Forecast REST API  (C++ -> C# Migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-143",
+          "title": "Interconnection Meter Injector/Worker (c++ to C# Migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-32",
+          "title": "Migrating from Gitlab to Azure DevOps",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 7.5,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-137",
+          "title": "Process Event Scheduler/Injector (Migration C++ -> C#) Enabler",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-149",
+          "title": "Python Excel Wrapper for Script Migration (eBase -> Python migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-148",
+          "title": "Python Grid Library for Script Migration (eBase Script -> Python)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-138",
+          "title": "Python Script Worker",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 5.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-150",
+          "title": "Python XML Wrapper for Script Migration (eBase -> Python migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-144",
+          "title": "Recipe Worker (C++ to C# Miogration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-145",
+          "title": "Reporter Worker (C++ to C# Migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-142",
+          "title": "TS-Calculator Service (C++  to C# Migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 42.5,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-153",
+          "title": "EBASE API - Changes to Master Data API",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-83",
+          "title": "EBASE API - GET Curves",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-84",
+          "title": "EBASE TS Push Notifications",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 8.0,
+          "logged": 8.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 1,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-140",
+          "title": "Formula TS Calculator Library (C++ -> C# Migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-136",
+          "title": "Time Series Structuring enabler enhancement",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-135",
+          "title": "Time series views enabler enhancements",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-86",
+          "title": "Time-series engine for Ecedo",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-141",
+          "title": "TS Calculator (C++ -> C# Migration)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "pending",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 42.5,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-167",
+          "title": "Energy Product Management (ENPRDM)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 284.83,
+          "budget": null,
+          "eppCount": 10,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-91",
+          "title": "Manage indivual trades (portfolio, nomination)",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "none",
+          "cost": 0.0,
+          "logged": 0.0,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 0,
+          "sharedEpps": []
+        },
+        {
+          "key": "EDP-62",
+          "title": "Phase-out WinGUI Sales Portfolio Management (SPM) and old OS10 WebGUI screens",
+          "product": "EBASE",
+          "alsoIn": [],
+          "active": false,
+          "health": "confirmed",
+          "cost": 18.5,
+          "logged": 18.5,
+          "pending": 0.0,
+          "budget": null,
+          "eppCount": 9,
+          "sharedEpps": []
+        }
+      ],
+      "epps": [
+        {
+          "key": "EPP-1",
+          "title": "Implement Multi-tenancy",
+          "status": "Backlog",
+          "cost": 61.25,
+          "logged": 61.25,
+          "owners": [
+            "EDP-15"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-100",
+          "title": "Portfolio Viewer: (un)link multiple Obligations to Purchase ",
+          "status": "Backlog",
+          "cost": 4.0,
+          "logged": 4.0,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-101",
+          "title": "Portfolio Viewer: Recalculate Curves",
+          "status": "Backlog",
+          "cost": 2.0,
+          "logged": 2.0,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-102",
+          "title": "Remove old WebGui portfolio screens",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-103",
+          "title": "Portfolio Viewer: Configure administration Curves",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-105",
+          "title": "EBASE SUPPLY intake",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 143.5,
+          "owners": [],
+          "pendingOn": [
+            "EDP-132",
+            "EDP-74"
+          ],
+          "products": [
+            "Supply",
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-116",
+          "title": "Portfolio Viewer: General Search results redirect to Portfolio Viewer object",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-117",
+          "title": "Portfolio: Improve or Remove General Search",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-118",
+          "title": "New Purchase Order fields (WIP)",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-119",
+          "title": "ENPRDM: Export & Import options",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-120",
+          "title": "Rename ENPRDM object labels",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-121",
+          "title": "New Price Component field 'Buy/Sell' and 'Direction'",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-122",
+          "title": "Improve Portfolio Contract Price & Price Components tabs GUI + add new fields",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-123",
+          "title": "ENPRDM: Product tabs configuration enable/disable",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-126",
+          "title": "New Product Price fields 'Direction'",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-128",
+          "title": "Improve Product Price configuration ",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-130",
+          "title": "Commercial & Functional Product configuration WIP",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-131",
+          "title": "New Obligation fields (WIP)",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-132",
+          "title": "aFRR and ROP Energy Bidding (XML)",
+          "status": "In Progress",
+          "cost": 0.0,
+          "logged": 238.5,
+          "owners": [],
+          "pendingOn": [
+            "EDP-157"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-136",
+          "title": "Refactor ENPRDM Prices & Price Components",
+          "status": "Done",
+          "cost": 318.5,
+          "logged": 318.5,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-144",
+          "title": "PoC : Migrate aFRR Scripts to C#",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 354.83,
+          "owners": [],
+          "pendingOn": [
+            "EDP-157"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-146",
+          "title": "TS Calculator to C#",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 42.5,
+          "owners": [],
+          "pendingOn": [
+            "EDP-142",
+            "EDP-141"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-154",
+          "title": "Time Series Import Function with manual File upload",
+          "status": "Done",
+          "cost": 297.5,
+          "logged": 297.5,
+          "owners": [
+            "EDP-103"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-161",
+          "title": "mFRR Energy Bidding (XML)",
+          "status": "Done",
+          "cost": 643.75,
+          "logged": 643.75,
+          "owners": [
+            "EDP-129"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-164",
+          "title": "IC280L – Enable XML-Based PRF Reconciliation Messaging for BRPs",
+          "status": "Done",
+          "cost": 887.52,
+          "logged": 887.52,
+          "owners": [
+            "EDP-113"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-165",
+          "title": "[DUPLICATED] EBASE IC280L (Tranche 4) - Qualification",
+          "status": "Cancelled",
+          "cost": 22.0,
+          "logged": 22.0,
+          "owners": [
+            "EDP-113"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-166",
+          "title": "EDSN GetMeteringPoint Message Flow",
+          "status": "Done",
+          "cost": 549.28,
+          "logged": 549.28,
+          "owners": [
+            "EDP-130"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Supply"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-167",
+          "title": "Measurement Series Processing as a BRP",
+          "status": "In Progress",
+          "cost": 1143.5,
+          "logged": 1143.5,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M2"
+          ]
+        },
+        {
+          "key": "EPP-168",
+          "title": "Standardize ArcESB Flow 'GTS B2B Services'",
+          "status": "Cancelled",
+          "cost": 3.0,
+          "logged": 3.0,
+          "owners": [
+            "EDP-101"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer, Gas Shipper",
+            "Gas Shipper"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-17",
+          "title": "NL Allocation Control Improvements",
+          "status": "Done",
+          "cost": 232.0,
+          "logged": 232.0,
+          "owners": [
+            "EDP-29"
+          ],
+          "pendingOn": [
+            "EDP-132",
+            "EDP-165"
+          ],
+          "products": [
+            "Supply",
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-172",
+          "title": "EBASE Integration Layer for Shared Data",
+          "status": "In Progress",
+          "cost": 250.0,
+          "logged": 250.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M2"
+          ]
+        },
+        {
+          "key": "EPP-173",
+          "title": "New UI framework",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 2.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-116"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-178",
+          "title": "The Enabler Epic of New UI",
+          "status": "Done",
+          "cost": 276.75,
+          "logged": 276.75,
+          "owners": [
+            "EDP-116"
+          ],
+          "pendingOn": [],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-18",
+          "title": "EBASE Allocation 2.0 Tranche 3 for Qualification",
+          "status": "Done",
+          "cost": 1522.92,
+          "logged": 1522.92,
+          "owners": [
+            "EDP-42"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-183",
+          "title": "Add free fields on snapshot",
+          "status": "Selected for Development",
+          "cost": 22.58,
+          "logged": 22.58,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-184",
+          "title": "EPM - HLD",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 4.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-96",
+            "EDP-169"
+          ],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-185",
+          "title": "Enable IAM for EBASE modules",
+          "status": "Cancelled",
+          "cost": 0.0,
+          "logged": 9.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-22"
+          ],
+          "products": [
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-186",
+          "title": "ENPRDM Price Improvements",
+          "status": "Backlog",
+          "cost": 6.0,
+          "logged": 6.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-189",
+          "title": "Process Allocation Series Market Messages as a BRP",
+          "status": "Backlog",
+          "cost": 172.0,
+          "logged": 172.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-19",
+          "title": "Gas Shipper product",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-152"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-190",
+          "title": "Profiled Reconciliation IC280L - Control",
+          "status": "Done",
+          "cost": 608.5,
+          "logged": 608.5,
+          "owners": [
+            "EDP-113"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-199",
+          "title": "Tranche 4 IC258: Introduction of ‘Origin Indication’ in SMA Allocation Messages",
+          "status": "Done",
+          "cost": 354.0,
+          "logged": 354.0,
+          "owners": [
+            "EDP-115"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-2",
+          "title": "Ebase Workflow support",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-117"
+          ],
+          "products": [
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-200",
+          "title": "UMIG6 Release 2.5.0 support",
+          "status": "Done",
+          "cost": 46.0,
+          "logged": 46.0,
+          "owners": [
+            "EDP-156"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-208",
+          "title": "B2C Forecasting Preparation",
+          "status": "Backlog",
+          "cost": 28.0,
+          "logged": 28.0,
+          "owners": [
+            "EDP-102"
+          ],
+          "pendingOn": [],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-209",
+          "title": "EBASE integration with Jules Intraday to fetch ETPA ID Deals",
+          "status": "Waiting for Release",
+          "cost": 0.0,
+          "logged": 257.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-114"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-210",
+          "title": "Portfolio: Remove 'Ignore state protection'",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-217",
+          "title": "Manage Measurement and Allocation Revision Flows",
+          "status": "Backlog",
+          "cost": 28.0,
+          "logged": 28.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-22",
+          "title": "Product Management",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 291.33,
+          "owners": [],
+          "pendingOn": [
+            "EDP-167"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-220",
+          "title": "ENPRDM - Multiple Products per Contract",
+          "status": "Done",
+          "cost": 211.5,
+          "logged": 211.5,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-221",
+          "title": "ENPRDM: Extent Price Component field 'Component Type' list options",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-96"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Portfolio Management"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-224",
+          "title": "Process Imbalance Series Market Messages as a BRP",
+          "status": "Backlog",
+          "cost": 105.0,
+          "logged": 105.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-228",
+          "title": "Validate Allocation Series Completeness",
+          "status": "Backlog",
+          "cost": 128.5,
+          "logged": 128.5,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-232",
+          "title": "EBASE SUPPLY intake v2",
+          "status": "In Progress",
+          "cost": 0.0,
+          "logged": 21.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-132",
+            "EDP-74"
+          ],
+          "products": [
+            "Supply",
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-239",
+          "title": "1. Create Contract Structure (CCS)",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-240",
+          "title": "2. Profiling",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-241",
+          "title": "3. Pricing",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-242",
+          "title": "4. Obligations",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-243",
+          "title": "5. Purchase Orders",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-244",
+          "title": "6. Position Management",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-245",
+          "title": "Cleaning up (maintenance)",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-246",
+          "title": "7. Orchestrator",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-247",
+          "title": "8. Integration",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-250",
+          "title": "SPM Orchestrator",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-167"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-252",
+          "title": "Manage Transport Program-flow as a BRP",
+          "status": "In Progress",
+          "cost": 495.75,
+          "logged": 495.75,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M1"
+          ]
+        },
+        {
+          "key": "EPP-26",
+          "title": "EMS Refactoring",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-43"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-272",
+          "title": "Workflow Enabler - Addition of Update and Get API's for custom use cases",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 4.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-117"
+          ],
+          "products": [
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-290",
+          "title": "Process Reconciliation Series Market Messages as a BRP",
+          "status": "Backlog",
+          "cost": 191.0,
+          "logged": 191.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-292",
+          "title": "Validate Aggregated Allocation Series Completeness",
+          "status": "Backlog",
+          "cost": 28.0,
+          "logged": 28.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-293",
+          "title": "Validate Reconciliation Series Completeness",
+          "status": "Backlog",
+          "cost": 81.5,
+          "logged": 81.5,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-295",
+          "title": "Validate Imbalance Series Volumes",
+          "status": "Backlog",
+          "cost": 24.5,
+          "logged": 24.5,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-296",
+          "title": "B2B Forecasting Preparation",
+          "status": "Backlog",
+          "cost": 4.0,
+          "logged": 4.0,
+          "owners": [
+            "EDP-102"
+          ],
+          "pendingOn": [],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-299",
+          "title": "Manage Portfolio Position for BRP Balancing",
+          "status": "Backlog",
+          "cost": 86.5,
+          "logged": 86.5,
+          "owners": [],
+          "pendingOn": [
+            "EDP-105",
+            "EDP-161"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": [
+            "M3"
+          ]
+        },
+        {
+          "key": "EPP-3",
+          "title": "Phase-out WinGUI",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-62"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-300",
+          "title": "Reconciliation Realizations Dashboard",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-110"
+          ],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-302",
+          "title": "Forecast Quality Insights",
+          "status": "Backlog",
+          "cost": 20.5,
+          "logged": 20.5,
+          "owners": [],
+          "pendingOn": [
+            "EDP-109"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": [
+            "M3"
+          ]
+        },
+        {
+          "key": "EPP-303",
+          "title": "Forecasting administrations and prognosis for Power Balancer",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 108.25,
+          "owners": [],
+          "pendingOn": [
+            "EDP-158",
+            "EDP-159",
+            "EDP-102"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-304",
+          "title": "Import of Client Self-Nomination, Self-Trade and Self-Forecast",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-105",
+            "EDP-161"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-305",
+          "title": "Import of Weather Influences",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 4.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-106"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-306",
+          "title": "Import of Steering Signal",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-104"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-309",
+          "title": "Forecast of Generation Load (GLMD Forecasting)",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-160",
+            "EDP-164"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-31",
+          "title": "Portfolio Viewer Improvements: Snapshots & Delete Objects",
+          "status": "Done",
+          "cost": 11.5,
+          "logged": 11.5,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-310",
+          "title": "Imbalance Realizations Dashboard",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 5.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-109"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-311",
+          "title": "Financial Realizations Dashboard",
+          "status": "In Progress",
+          "cost": 200.0,
+          "logged": 200.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-162"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": [
+            "M3"
+          ]
+        },
+        {
+          "key": "EPP-314",
+          "title": "Validate Factor Series Completeness",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ]
+        },
+        {
+          "key": "EPP-32",
+          "title": "CI/CD Pipeline in Azure DevOps",
+          "status": "Backlog",
+          "cost": 193.0,
+          "logged": 193.0,
+          "owners": [
+            "EDP-79"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-33",
+          "title": "Partitioning",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-79"
+          ],
+          "pendingOn": [
+            "EDP-64"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-34",
+          "title": "Connector issues",
+          "status": "Backlog",
+          "cost": 2.75,
+          "logged": 2.75,
+          "owners": [
+            "EDP-79"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-35",
+          "title": "Docs portal to Confluence",
+          "status": "Backlog",
+          "cost": 3.5,
+          "logged": 3.5,
+          "owners": [
+            "EDP-79"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-356",
+          "title": "IAM Implementation on Timeseries API",
+          "status": "In Progress",
+          "cost": 0.0,
+          "logged": 112.75,
+          "owners": [],
+          "pendingOn": [
+            "EDP-121",
+            "EDP-22"
+          ],
+          "products": [
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-36",
+          "title": "Logging and monitoring",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-79"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-37",
+          "title": "Migration from GitLab to Azure DevOps",
+          "status": "In Progress",
+          "cost": 7.5,
+          "logged": 7.5,
+          "owners": [
+            "EDP-79"
+          ],
+          "pendingOn": [
+            "EDP-32"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-375",
+          "title": "TS094 AMI/AZI split for SMA allocation (BRP)",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 1.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-175"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-377",
+          "title": "Enable PowerBalancer ETPA electricity trading integration across Day Ahead, Intraday, and Ex-Post via Jules",
+          "status": "In Progress",
+          "cost": 0.0,
+          "logged": 41.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-114"
+          ],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-378",
+          "title": "IAM Implementation on Masterdata API v2",
+          "status": "In Progress",
+          "cost": 0.0,
+          "logged": 151.5,
+          "owners": [],
+          "pendingOn": [
+            "EDP-121",
+            "EDP-22"
+          ],
+          "products": [
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-38",
+          "title": "New branching strategy",
+          "status": "Backlog",
+          "cost": 9.0,
+          "logged": 9.0,
+          "owners": [
+            "EDP-79"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-42",
+          "title": "Containerization of time-series workers",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-79"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-43",
+          "title": "Move from EBASE Script to Python",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 5.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-138"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-44",
+          "title": "EBASE Improvements for CarbonCore",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 237.5,
+          "owners": [],
+          "pendingOn": [
+            "EDP-165"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-45",
+          "title": "EBASE Improvements for DynaPulse",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 813.33,
+          "owners": [],
+          "pendingOn": [
+            "EDP-165"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-48",
+          "title": "Transaction Overview for custom Flows with EBASE (MVP)",
+          "status": "Done",
+          "cost": 640.07,
+          "logged": 640.07,
+          "owners": [
+            "EDP-111"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-49",
+          "title": "Gas Shipper - EDIGAS messaging",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 571.33,
+          "owners": [],
+          "pendingOn": [
+            "EDP-152"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-52",
+          "title": "EBASE Allocation 2.0 Tranche 3 - Data Processing",
+          "status": "Done",
+          "cost": 1283.58,
+          "logged": 1283.58,
+          "owners": [
+            "EDP-42"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-54",
+          "title": "EBASE TimeSeries Push Notifications",
+          "status": "Backlog",
+          "cost": 8.0,
+          "logged": 8.0,
+          "owners": [
+            "EDP-84"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-58",
+          "title": "EBASE Allocation 2.0 Tranche 3 - In Control",
+          "status": "Done",
+          "cost": 1287.0,
+          "logged": 1287.0,
+          "owners": [
+            "EDP-42"
+          ],
+          "pendingOn": [],
+          "products": [
+            "Power Balancer"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-59",
+          "title": "EBASE Time Series API PUT (Allocation 2.0 Tranche 3)",
+          "status": "Done",
+          "cost": 721.75,
+          "logged": 721.75,
+          "owners": [
+            "EDP-42"
+          ],
+          "pendingOn": [
+            "EDP-68"
+          ],
+          "products": [
+            "Power Balancer",
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-62",
+          "title": "Gas Shipper - Storages Management",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 947.75,
+          "owners": [],
+          "pendingOn": [
+            "EDP-152"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-69",
+          "title": "EBASE Time Series API PUT (as Endpoint)",
+          "status": "Cancelled",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-68"
+          ],
+          "products": [
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-72",
+          "title": "aFRR Messaging (BSP) - PASAR Functionality",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 2.0,
+          "owners": [],
+          "pendingOn": [
+            "EDP-157"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-78",
+          "title": "aFRR Imbalance Adjustment (BRP) - PASAR",
+          "status": "Done",
+          "cost": 0.0,
+          "logged": 527.92,
+          "owners": [],
+          "pendingOn": [
+            "EDP-157"
+          ],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-9",
+          "title": "Implement IAM (Identity and Access Management)",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-22"
+          ],
+          "pendingOn": [
+            "EDP-121"
+          ],
+          "products": [
+            "Platform"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-98",
+          "title": "Portfolio Viewer: Show Obligation & Purchase Order tabs",
+          "status": "Backlog",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "EPP-99",
+          "title": "Portfolio Viewer: Improve Tree filter options and results",
+          "status": "Backlog",
+          "cost": 1.0,
+          "logged": 1.0,
+          "owners": [
+            "EDP-62"
+          ],
+          "pendingOn": [],
+          "products": [
+            "EBASE"
+          ],
+          "milestones": []
+        },
+        {
+          "key": "JTP-10561",
+          "title": "Click Project integration into JTP",
+          "status": "",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [
+            "Jules"
+          ],
+          "milestones": []
+        }
+      ]
+    }
+  ]
+}

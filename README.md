@@ -8,7 +8,7 @@ Static app over the roadmap delivery tree. Overlay JSON is the EDP↔EPP source 
 - [Delivery](delivery.html) — product line and BRPaaS milestone trees
 - [Mapping](mapping.html) — confirm / reject / add links
 - [Cost](cost.html) — hour envelopes
-- [Reports](reports.html) — unique hours by product and by M1–M4
+- [Reports](reports.html) — interactive KPIs, product/program cuts, history, and forecast
 
 The Coggle [map](Roadmap_Map.html) is still in the repo; it is not in the primary nav.
 
@@ -31,6 +31,10 @@ python apply_time.py
 python apply_overlay.py
 python build_mindmap.py
 ```
+
+`build_mindmap.py` also updates `jira_map/report_history.json` and
+`jira_map/report_history.js`. History keeps one snapshot per Jira `fetchedAt`
+UTC date; another refresh on that date replaces the snapshot.
 
 Milestone EPP trees: `python fetch_milestone_epps.py` then `python build_mindmap.py`.
 

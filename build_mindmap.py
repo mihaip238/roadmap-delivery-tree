@@ -9,6 +9,7 @@ from pathlib import Path
 from apply_overlay import apply_payload, load_budgets, load_overlay
 from jira_time import format_jira_time
 from milestones import build_milestone_tree
+from report_history import update_history
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "jira_map" / "delivery_tree.json"
@@ -414,6 +415,7 @@ def main() -> None:
         },
     }
     payload = apply_payload(payload, load_overlay(), load_budgets())
+    update_history(payload)
     OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT_JS.write_text(
         "window.ROADMAP_TREE = " + json.dumps(payload, ensure_ascii=False) + ";\n",
