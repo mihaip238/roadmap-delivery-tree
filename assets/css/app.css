@@ -1251,13 +1251,6 @@ html[data-page="delivery"] .unit-act { display: none; }
     z-index: 2;
     background: var(--canvas);
   }
-  .report-detail th:nth-child(2),
-  .report-detail td:nth-child(2) {
-    position: sticky;
-    left: 92px;
-    z-index: 2;
-    background: var(--canvas);
-  }
   .line-item.is-dir {
     grid-template-columns: minmax(0, 1fr) 28px 72px;
   }
