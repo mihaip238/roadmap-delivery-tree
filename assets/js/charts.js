@@ -319,14 +319,15 @@
       const value = Number(row[valueKey] || 0);
       running += value;
       const barHeight = value / max * innerH;
-      const x = padL + index * band + band * 0.18;
+      const barWidth = Math.min(band * 0.64, 72);
+      const x = padL + index * band + (band - barWidth) / 2;
       const y = padT + innerH - barHeight;
       const cumulative = running / total * 100;
       const px = padL + index * band + band / 2;
       const py = padT + innerH - cumulative / 100 * innerH;
       points.push([px, py]);
       bars += `<g><title>${Hours.esc(`${row.label || row.key} · ${Hours.fmtNum(value)} · ${Hours.round2(cumulative)}%`)}</title>
-        <rect class="pareto-bar" x="${x}" y="${y}" width="${band * 0.64}" height="${barHeight}"></rect>
+        <rect class="pareto-bar" x="${x}" y="${y}" width="${barWidth}" height="${barHeight}"></rect>
         <text class="axis" x="${px}" y="${height - padB + 15}" text-anchor="end" transform="rotate(-35 ${px} ${height - padB + 15})">${Hours.esc(truncate(row.label || row.key, 72))}</text>
       </g>`;
     });

@@ -475,8 +475,8 @@
     els.detailCount.textContent = `${data.length} rows`;
     const productMode = state.mode === "product";
     const header = productMode
-      ? `<th>Key</th><th></th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Pending h</th><th class="num">Mapping</th><th>Shared</th>`
-      : `<th>Key</th><th></th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th>EDPs</th><th>Products</th>`;
+      ? `<th>Key</th><th>Item</th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Pending h</th><th class="num">Mapping</th><th>Shared</th>`
+      : `<th>Key</th><th>Item</th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th>EDPs</th><th>Products</th>`;
     const body = data.map((row) => {
       const shared = (row.sharedWith || row.sharedEpps || []).join(" ");
       const owners = (row.owners || []).join(" ");

@@ -24,6 +24,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html, body {
   margin: 0;
@@ -1189,6 +1190,16 @@ html[data-page="delivery"] .unit-act { display: none; }
   margin: 0 0 12px;
 }
 .report-detail-head h2 { margin: 0; }
+.report-detail th:first-child,
+.report-detail td:first-child {
+  width: 92px;
+  min-width: 92px;
+}
+.report-detail th:nth-child(2),
+.report-detail td:nth-child(2) {
+  width: 260px;
+  min-width: 260px;
+}
 .report-data tr { cursor: pointer; }
 .report-data tr.is-selected td {
   background: var(--active);
