@@ -49,6 +49,7 @@
       }));
     }
     let data = source.filter((row) => {
+      if (state.mode === "program" && state.cut === "epp" && !(row.milestones || []).length) return false;
       if (state.active && !row.active) return false;
       if (state.product && state.product !== "all") {
         const products = row.products || [row.product || row.name];
@@ -171,12 +172,14 @@
 
   function snapshotValue(snapshot, state) {
     const summaryRow = snapshot.summary || {};
-    const noEntityFilter = (!state.product || state.product === "all") && !state.q && !state.health;
+    const programMode = state.mode === "program" || state.cut === "program";
+    const noEntityFilter = (!state.product || state.product === "all")
+      && !state.milestone && !state.q && !state.health;
     if (noEntityFilter) {
-      if (state.metric === "cost") return state.cut === "program" ? summaryRow.programCost : (state.active ? summaryRow.activeCost : summaryRow.cost);
-      if (state.metric === "logged") return state.cut === "program" ? summaryRow.programCost : (state.active ? summaryRow.activeLogged : summaryRow.logged);
-      if (state.metric === "pending") return state.cut === "program" ? 0 : (state.active ? summaryRow.activePending : summaryRow.pending);
-      if (state.metric === "mapping") return state.cut === "program" ? null : summaryRow.mappingCoveragePct;
+      if (state.metric === "cost") return programMode ? summaryRow.programCost : (state.active ? summaryRow.activeCost : summaryRow.cost);
+      if (state.metric === "logged") return programMode ? summaryRow.programCost : (state.active ? summaryRow.activeLogged : summaryRow.logged);
+      if (state.metric === "pending") return programMode ? 0 : (state.active ? summaryRow.activePending : summaryRow.pending);
+      if (state.metric === "mapping") return programMode ? null : summaryRow.mappingCoveragePct;
     }
     const data = (historyRows(snapshot, state.cut) || []).filter((row) => {
       if (state.active && row.active === false) return false;

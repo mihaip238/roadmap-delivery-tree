@@ -1,83 +1,144 @@
 (function () {
   const DEFAULTS = {
+    mode: "product",
     cut: "product",
     metric: "cost",
     compare: "none",
     product: "all",
+    milestone: "",
     active: true,
     health: "",
     q: "",
     top: "10",
     range: "30",
-    milestone: "",
     selected: "",
   };
-  const CUT_LABELS = {
-    product: "Product line",
-    program: "Program M1–M4",
-    edp: "EDP",
-    epp: "EPP",
-  };
-  const ALLOWED_METRICS = {
-    product: ["cost", "logged", "budget", "remaining", "pending", "mapping"],
-    program: ["cost", "logged", "budget", "remaining"],
-    edp: ["cost", "logged", "budget", "remaining", "pending", "mapping"],
-    epp: ["cost", "logged", "pending"],
+  const METRIC_LABELS = {
+    cost: "Cost",
+    logged: "Logged",
+    budget: "Budget",
+    remaining: "Left",
+    pending: "Pending",
+    mapping: "Mapping",
   };
   const state = readState();
   const els = {
-    cut: document.getElementById("report-cut"),
+    mode: document.getElementById("report-mode"),
     metric: document.getElementById("report-metric"),
     compare: document.getElementById("report-compare"),
-    product: document.getElementById("report-product"),
+    range: document.getElementById("report-range"),
+    snapshot: document.getElementById("report-snapshot"),
     active: document.getElementById("report-active"),
+    activeWrap: document.getElementById("report-active-wrap"),
+    product: document.getElementById("report-product"),
+    productWrap: document.getElementById("report-product-wrap"),
+    milestone: document.getElementById("report-milestone"),
+    milestoneWrap: document.getElementById("report-milestone-wrap"),
     health: document.getElementById("report-health"),
+    healthWrap: document.getElementById("report-health-wrap"),
     q: document.getElementById("report-search"),
     top: document.getElementById("report-top"),
-    range: document.getElementById("report-range"),
     reset: document.getElementById("report-reset"),
     export: document.getElementById("report-export"),
+    drillBack: document.getElementById("report-drill-back"),
+    drillLabel: document.getElementById("report-drill-label"),
     summary: document.getElementById("report-summary"),
-    workbenchChart: document.getElementById("workbench-chart"),
-    workbenchTable: document.getElementById("workbench-table"),
-    trendChart: document.getElementById("trend-chart"),
+    primary: document.getElementById("primary-chart"),
+    composition: document.getElementById("composition-chart"),
+    trend: document.getElementById("trend-chart"),
     trendSummary: document.getElementById("trend-summary"),
+    concentration: document.getElementById("concentration-chart"),
+    shared: document.getElementById("shared-chart"),
+    table: document.getElementById("report-table"),
+    detailTitle: document.getElementById("detail-title"),
+    detailCount: document.getElementById("detail-count"),
   };
+  let resizeTimer = null;
 
   function readState() {
     const params = new URLSearchParams(location.search);
-    const cut = params.get("cut") || localStorage.getItem("hours.reports.cut") || DEFAULTS.cut;
+    const legacyCut = params.get("cut") || "";
+    const mode = params.get("mode")
+      || (legacyCut === "program" || legacyCut === "epp" ? "program" : "")
+      || localStorage.getItem("hours.reports.mode")
+      || DEFAULTS.mode;
+    const grain = params.get("grain") || legacyCut;
+    const cut = mode === "program"
+      ? (grain === "epp" ? "epp" : "program")
+      : (grain === "edp" ? "edp" : "product");
     return {
-      cut: cut in CUT_LABELS ? cut : DEFAULTS.cut,
+      mode: mode === "program" ? "program" : "product",
+      cut,
       metric: params.get("metric") || DEFAULTS.metric,
       compare: params.get("compare") || DEFAULTS.compare,
       product: params.get("product") || DEFAULTS.product,
+      milestone: params.get("ms") || "",
       active: params.get("active") !== "0",
       health: params.get("health") || "",
       q: params.get("q") || "",
       top: params.get("top") || localStorage.getItem("hours.reports.top") || DEFAULTS.top,
       range: params.get("range") || DEFAULTS.range,
-      milestone: params.get("ms") || "",
       selected: params.get("select") || "",
     };
   }
 
+  function hasBudgets() {
+    if (state.mode === "program") {
+      if (state.cut === "epp") return false;
+      return Hours.reportMilestoneRows().some((row) => row.budget != null);
+    }
+    if (state.cut === "edp") {
+      return Hours.edpRows().some((row) => {
+        if (state.active && !row.active) return false;
+        if (state.product !== "all" && row.product !== state.product && !(row.alsoIn || []).includes(state.product)) return false;
+        return row.budget != null;
+      });
+    }
+    return Hours.reportProductRows().some((row) =>
+      row.budget != null && (state.product === "all" || row.name === state.product)
+    );
+  }
+
+  function enforceState() {
+    state.mode = state.mode === "program" ? "program" : "product";
+    if (state.mode === "program") {
+      state.cut = state.cut === "epp" ? "epp" : "program";
+      state.active = false;
+      state.health = "";
+      state.product = "all";
+      if (!["cost", "logged", "budget", "remaining"].includes(state.metric)) state.metric = "cost";
+    } else {
+      state.cut = state.cut === "edp" ? "edp" : "product";
+      state.milestone = "";
+      if (!["cost", "logged", "budget", "remaining", "pending", "mapping"].includes(state.metric)) state.metric = "cost";
+    }
+    if (!["none", "logged", "budget"].includes(state.compare)
+      || state.compare === state.metric
+      || state.metric !== "cost") state.compare = "none";
+    if (!["10", "25", "all"].includes(state.top)) state.top = "10";
+    if (!["30", "90", "all"].includes(state.range)) state.range = "30";
+    if (!hasBudgets() && ["budget", "remaining"].includes(state.metric)) state.metric = "cost";
+    if (!hasBudgets() && state.compare === "budget") state.compare = "none";
+  }
+
   function writeState() {
     const params = new URLSearchParams();
-    if (state.cut !== DEFAULTS.cut) params.set("cut", state.cut);
+    if (state.mode !== DEFAULTS.mode) params.set("mode", state.mode);
+    const rootCut = state.mode === "program" ? "program" : "product";
+    if (state.cut !== rootCut) params.set("grain", state.cut);
     if (state.metric !== DEFAULTS.metric) params.set("metric", state.metric);
     if (state.compare !== DEFAULTS.compare) params.set("compare", state.compare);
     if (state.product !== DEFAULTS.product) params.set("product", state.product);
-    if (!state.active) params.set("active", "0");
+    if (state.milestone) params.set("ms", state.milestone);
+    if (state.mode === "product" && !state.active) params.set("active", "0");
     if (state.health) params.set("health", state.health);
     if (state.q) params.set("q", state.q);
     if (state.top !== DEFAULTS.top) params.set("top", state.top);
     if (state.range !== DEFAULTS.range) params.set("range", state.range);
-    if (state.milestone) params.set("ms", state.milestone);
     if (state.selected) params.set("select", state.selected);
     const query = params.toString();
     history.replaceState(null, "", location.pathname + (query ? "?" + query : "") + location.hash);
-    localStorage.setItem("hours.reports.cut", state.cut);
+    localStorage.setItem("hours.reports.mode", state.mode);
     localStorage.setItem("hours.reports.top", state.top);
   }
 
@@ -89,48 +150,69 @@
     render();
   }
 
-  function enforceState() {
-    if (!(state.cut in CUT_LABELS)) state.cut = DEFAULTS.cut;
-    if (!ALLOWED_METRICS[state.cut].includes(state.metric)) state.metric = "cost";
-    if (!["none", "logged", "budget"].includes(state.compare)) state.compare = "none";
-    if (state.compare === state.metric) state.compare = "none";
-    if (!["10", "25", "all"].includes(state.top)) state.top = "10";
-    if (!["30", "90", "all"].includes(state.range)) state.range = "30";
-    if (state.cut === "program") {
-      state.active = false;
-      state.product = "all";
-    }
-    if (state.cut !== "edp") state.health = "";
-    if (state.cut !== "epp") state.milestone = "";
-  }
-
-  function populateProducts() {
+  function populateFilters() {
     els.product.innerHTML = `<option value="all">All</option>` + Hours.productRows().map((row) =>
       `<option value="${Hours.esc(row.name)}">${Hours.esc(row.name)}</option>`
+    ).join("");
+    els.milestone.innerHTML = `<option value="">All</option>` + Hours.milestoneRows().map((row) =>
+      `<option value="${Hours.esc(row.key)}">${Hours.esc(row.key + " " + row.name)}</option>`
     ).join("");
   }
 
   function syncControls() {
-    els.cut.value = state.cut;
+    els.mode.value = state.mode;
     els.metric.value = state.metric;
     els.compare.value = state.compare;
-    els.product.value = state.product;
+    els.range.value = state.range;
     els.active.checked = state.active;
+    els.product.value = state.product;
+    els.milestone.value = state.milestone;
     els.health.value = state.health;
     els.q.value = state.q;
     els.top.value = state.top;
-    els.range.value = state.range;
-    const program = state.cut === "program";
-    els.active.disabled = program;
-    els.health.disabled = program || state.cut === "product";
-    els.product.disabled = program;
+    els.snapshot.textContent = Hours.fmtWhen(Hours.fetchedAt()).replace(" UTC", "");
+
+    const program = state.mode === "program";
+    els.activeWrap.hidden = program;
+    els.productWrap.hidden = program;
+    els.healthWrap.hidden = program;
+    els.milestoneWrap.hidden = !program;
+    const budgeted = hasBudgets();
     Array.from(els.metric.options).forEach((option) => {
-      option.disabled = !ALLOWED_METRICS[state.cut].includes(option.value);
+      const productOnly = ["pending", "mapping"].includes(option.value);
+      const needsBudget = ["budget", "remaining"].includes(option.value);
+      option.disabled = (program && productOnly) || (needsBudget && !budgeted);
     });
     Array.from(els.compare.options).forEach((option) => {
-      option.disabled = option.value === state.metric
-        || (option.value === "budget" && !["product", "program", "edp"].includes(state.cut));
+      option.disabled = option.value !== "none" && (
+        state.metric !== "cost"
+        || option.value === state.metric
+        || (option.value === "budget" && !budgeted)
+        || (state.cut === "epp" && option.value === "budget")
+      );
     });
+
+    const drilled = state.cut === "edp" || state.cut === "epp";
+    els.drillBack.hidden = !drilled;
+    els.drillLabel.textContent = drilled
+      ? (state.cut === "edp" ? state.product : state.milestone)
+      : "";
+  }
+
+  function reportState(metric, overrides) {
+    return Object.assign({}, state, {
+      metric,
+      compare: "none",
+      top: "all",
+      q: "",
+      selected: "",
+    }, overrides || {});
+  }
+
+  function metricTotal(metric, overrides) {
+    const scoped = reportState(metric, overrides);
+    const rows = Reporting.rows(scoped);
+    return Reporting.summary(rows, scoped).total;
   }
 
   function metricFormat(value, metric) {
@@ -139,135 +221,151 @@
     return Hours.fmtNum(value);
   }
 
-  function renderSummary(data) {
-    const values = Reporting.summary(data, state);
-    const cells = [
-      [state.metric === "mapping" ? "Coverage" : "Total", values.total, state.metric],
-      ["Average", values.average, state.metric],
-      ["Median", values.median, state.metric],
-      ["Maximum", values.maximum, state.metric],
-      [state.metric === "mapping" ? "Rows" : "Budgeted", state.metric === "mapping" ? values.count : values.coverage, state.metric === "mapping" ? "plain" : "mapping"],
-      ["Variance", values.variance, state.metric],
-    ];
-    els.summary.innerHTML = cells.map(([label, value, metric], index) =>
+  function renderKpis() {
+    const cost = metricTotal("cost");
+    const budget = hasBudgets() ? metricTotal("budget") : null;
+    const left = hasBudgets() ? metricTotal("remaining") : null;
+    const trendPoints = Reporting.historySeries(reportState("cost"));
+    const model = Reporting.forecast(trendPoints, 30);
+    let cells;
+    if (state.mode === "program") {
+      const epps = Hours.reportEppRows().filter((row) =>
+        (row.milestones || []).length
+        && (!state.milestone || row.milestones.includes(state.milestone))
+      );
+      cells = [
+        ["Cost", cost, "hours"],
+        ["Budget", budget, "hours"],
+        ["Left", left, "hours"],
+        ["EPPs", epps.length, "plain"],
+        ["30d", model && model.projected, "hours"],
+      ];
+    } else {
+      cells = [
+        ["Cost", cost, "hours"],
+        ["Budget", budget, "hours"],
+        ["Left", left, "hours"],
+        ["Mapping", metricTotal("mapping"), "mapping"],
+        ["Pending", metricTotal("pending"), "hours"],
+        ["30d", model && model.projected, "hours"],
+      ];
+    }
+    els.summary.innerHTML = cells.map(([label, value, kind], index) =>
       `<div class="report-kpi${index === 0 ? " is-lead" : ""}${value != null && value < 0 ? " is-over" : ""}">
-        <b>${Hours.esc(metricFormat(value, metric))}</b><span>${Hours.esc(label)}</span>
+        <b>${Hours.esc(kind === "mapping" ? metricFormat(value, "mapping") : metricFormat(value, "plain"))}</b>
+        <span>${Hours.esc(label)}</span>
       </div>`
     ).join("");
   }
 
+  function scopedEdps(ignoreHealth) {
+    return Hours.uniqueEdps().filter((edp) => {
+      if (state.active && !edp.active) return false;
+      if (state.product !== "all" && edp.productLabel !== state.product && !(edp.alsoIn || []).includes(state.product)) return false;
+      if (!ignoreHealth && state.health && Hours.health(edp) !== state.health) return false;
+      if (state.q) {
+        const haystack = `${edp.key || ""} ${edp.title || ""}`.toLowerCase();
+        if (!haystack.includes(state.q.toLowerCase())) return false;
+      }
+      return true;
+    });
+  }
+
   function drill(row) {
     if (!row) return;
-    if (row.type === "product") {
-      setState({ cut: "edp", product: row.name, metric: "cost", compare: "none", selected: "" });
+    if (state.cut === "product" && row.type === "product") {
+      setState({ cut: "edp", product: row.name, selected: "", q: "" });
       return;
     }
-    if (row.type === "milestone") {
-      setState({ cut: "epp", milestone: row.key, metric: "cost", compare: "none", selected: "" });
+    if (state.cut === "program" && row.type === "milestone") {
+      setState({ cut: "epp", milestone: row.key, selected: "", q: "" });
       return;
     }
     setState({ selected: state.selected === row.key ? "" : row.key });
   }
 
-  function renderWorkbench(data) {
-    const metric = Reporting.METRICS[state.metric];
-    const series = [{ key: state.metric, label: metric.label, fill: Charts.ink }];
+  function currentRows() {
+    return Reporting.rows(state);
+  }
+
+  function renderPrimary(data) {
+    const metric = METRIC_LABELS[state.metric];
     if (state.compare !== "none" && data.some((row) => row[state.compare] != null)) {
-      series.push({
-        key: state.compare,
-        label: Reporting.METRICS[state.compare].label,
-        fill: Charts.copperSoft,
+      Charts.dumbbell(els.primary, {
+        title: `${metric} / ${METRIC_LABELS[state.compare]}`,
+        rows: data,
+        startKey: state.metric,
+        endKey: state.compare,
+        startLabel: metric,
+        endLabel: METRIC_LABELS[state.compare],
+        onSelect: drill,
       });
+      return;
     }
-    Charts.hbar(els.workbenchChart, {
-      title: metric.label,
+    Charts.hbar(els.primary, {
+      title: state.metric === "remaining" ? "Variance" : metric,
       rows: data,
-      series,
-      rowH: 38,
-      barH: series.length > 1 ? 7 : 10,
-      padL: state.cut === "product" ? 210 : 150,
-      padR: 78,
+      series: [{ key: state.metric, label: metric, fill: Charts.ink }],
+      rowH: 40,
+      barH: 11,
       showValues: true,
       selectedKeys: new Set(state.selected ? [state.selected] : []),
       onSelect: drill,
-      legend: series.length > 1 ? series.map((item) => item.label).join(" · ") : "",
     });
   }
 
-  function jiraKey(row) {
-    if (!["edp", "epp"].includes(row.type)) return Hours.esc(row.key || "");
-    const href = Hours.jiraHref(row);
-    return href
-      ? `<a class="key" href="${Hours.esc(href)}" target="_blank" rel="noreferrer">${Hours.esc(row.key)}</a>`
-      : Hours.esc(row.key || "");
-  }
-
-  function rowTitle(row) {
-    if (row.type === "product") {
-      return `<a href="${Hours.esc(Hours.lineHref(row.name))}">${Hours.esc(row.name)}</a>`;
+  function renderComposition() {
+    if (state.mode === "product") {
+      const counts = { confirmed: 0, pending: 0, none: 0 };
+      scopedEdps(true).forEach((edp) => {
+        const health = Hours.health(edp);
+        counts[health in counts ? health : "none"] += 1;
+      });
+      Charts.donut(els.composition, {
+        title: "Mapping",
+        centerLabel: "EDPs",
+        segments: [
+          { key: "confirmed", label: "Confirmed", value: counts.confirmed, fill: Charts.ink },
+          { key: "pending", label: "Pending", value: counts.pending, fill: Charts.copper },
+          { key: "none", label: "None", value: counts.none, fill: Charts.copperSoft },
+        ],
+        onSelect: (segment) => setState({ cut: "edp", health: segment.key, selected: "", q: "" }),
+      });
+      return;
     }
-    if (row.type === "milestone") {
-      return `<a href="delivery.html?view=milestone&amp;milestone=${encodeURIComponent(row.key)}">${Hours.esc(row.name)}</a>`;
+    if (state.cut === "epp") {
+      const rows = currentRows().map((row) => Object.assign({}, row, {
+        count: (row.owners || []).length,
+      }));
+      Charts.hbar(els.composition, {
+        title: "EDP refs",
+        rows,
+        series: [{ key: "count", label: "EDPs", fill: Charts.ink }],
+        rowH: 36,
+        showValues: true,
+      });
+      return;
     }
-    if (row.type === "edp") {
-      const href = Hours.lineHref(row.product) + "#" + encodeURIComponent(row.key || "");
-      return `<a href="${Hours.esc(href)}">${Hours.esc(row.title || "")}</a>`;
-    }
-    return Hours.esc(row.title || "");
-  }
-
-  function renderTable(data) {
-    const compareHead = state.compare === "none" ? "" : `<th class="num">${Hours.esc(Reporting.METRICS[state.compare].label)}</th>`;
-    const compareCells = (row) => state.compare === "none"
-      ? ""
-      : `<td class="num mono">${Hours.esc(metricFormat(row[state.compare], state.compare))}</td>`;
-    els.workbenchTable.innerHTML = `<h2>${Hours.esc(CUT_LABELS[state.cut])}</h2>
-      <div class="table-wrap"><table class="data report-data">
-        <thead><tr><th>Key</th><th></th><th class="num">${Hours.esc(Reporting.METRICS[state.metric].label)}</th>${compareHead}</tr></thead>
-        <tbody>${data.map((row) => `<tr${state.selected === row.key ? ` class="is-selected"` : ""} data-select-row="${Hours.esc(row.key || "")}">
-          <td>${jiraKey(row)}</td>
-          <td>${rowTitle(row)}</td>
-          <td class="num mono">${Hours.esc(metricFormat(row[state.metric], state.metric))}</td>
-          ${compareCells(row)}
-        </tr>`).join("")}</tbody>
-      </table></div>`;
-  }
-
-  function renderFixed() {
-    const products = Hours.reportProductRows()
-      .filter((row) => row.name !== "Unclassified" && row.cost > 0);
-    Charts.hbar(document.getElementById("byProduct"), {
-      title: "Product line · Cost",
-      rows: products,
-      series: [{ key: "cost", label: "Cost", fill: Charts.ink }],
-      rowH: 38,
-      barH: 10,
-      showValues: true,
-      padL: 190,
-      padR: 72,
-      onSelect: drill,
-    });
-    Charts.hbar(document.getElementById("byMilestone"), {
-      title: "Program M1–M4 · Cost",
+    Charts.hbar(els.composition, {
+      title: "EPPs",
       rows: Hours.reportMilestoneRows(),
-      series: [{ key: "cost", label: "Cost", fill: Charts.ink }],
-      rowH: 48,
-      barH: 12,
+      series: [{ key: "count", label: "EPPs", fill: Charts.ink }],
+      rowH: 42,
       showValues: true,
-      padL: 270,
-      padR: 72,
       onSelect: drill,
-      legend: "Program " + Hours.fmtNum(Hours.overview().programUniqueHours) + " h",
     });
   }
 
   function renderTrend() {
     const points = Reporting.historySeries(state);
-    const metric = Reporting.METRICS[state.metric];
-    Charts.line(els.trendChart, { title: metric.label, rows: points });
+    Charts.line(els.trend, {
+      title: `${METRIC_LABELS[state.metric]} trend`,
+      rows: points,
+      zero: ["cost", "logged", "pending", "budget"].includes(state.metric),
+    });
     const first = points[0];
     const last = points[points.length - 1];
-    const delta = points.length > 1 && first && last ? Hours.round2(last.value - first.value) : null;
+    const delta = points.length > 1 ? Hours.round2(last.value - first.value) : null;
     const model = ["cost", "logged", "pending"].includes(state.metric)
       ? Reporting.forecast(points, 30)
       : null;
@@ -277,121 +375,184 @@
       ["30d", model && model.projected, state.metric],
       ["R²", model && model.r2, "plain"],
     ];
-    els.trendSummary.innerHTML = cells.map(([label, value, metricName]) =>
-      `<div><b>${Hours.esc(metricName === "plain" ? (value == null ? "—" : Hours.fmtNum(value)) : metricFormat(value, metricName))}</b><span>${Hours.esc(label)}</span></div>`
+    els.trendSummary.innerHTML = cells.map(([label, value, metric]) =>
+      `<div><b>${Hours.esc(metricFormat(value, metric))}</b><span>${Hours.esc(label)}</span></div>`
     ).join("");
   }
 
   function renderSecondary() {
-    const budgeted = []
-      .concat(
-        Hours.reportProductRows().filter((row) => row.budget != null),
-        Hours.reportMilestoneRows().filter((row) => row.budget != null),
-        normalizedBudgetEdps()
-      )
-      .sort((a, b) => Number(a.remaining) - Number(b.remaining))
-      .slice(0, 10);
-    const budgetEl = document.getElementById("spentBudget");
-    if (budgeted.length) {
-      Charts.hbar(budgetEl, {
-        title: "Budget",
-        rows: budgeted,
-        series: [
-          { key: "cost", label: "Cost", fill: Charts.ink },
-          { key: "budget", label: "Budget", fill: Charts.copperSoft },
-        ],
-        rowH: 38,
-        barH: 7,
-        padR: 72,
-        showValues: true,
-      });
+    let concentrationRows;
+    if (state.mode === "program") {
+      concentrationRows = Reporting.rows(Object.assign({}, state, {
+        cut: "epp",
+        metric: "cost",
+        compare: "none",
+        top: "10",
+        q: "",
+      }));
     } else {
-      budgetEl.innerHTML = `<h2>Budget</h2><div class="empty-mini">—</div>`;
+      concentrationRows = Reporting.rows(Object.assign({}, state, {
+        cut: "edp",
+        metric: "cost",
+        compare: "none",
+        top: "10",
+        q: "",
+      }));
     }
-
-    const health = Hours.healthCounts(true);
-    Charts.stacked(document.getElementById("health"), {
-      title: "Health",
-      segments: [
-        { key: "confirmed", label: "Confirmed", value: health.confirmed, fill: Charts.ink },
-        { key: "pending", label: "Pending", value: health.pending, fill: Charts.copper },
-        { key: "none", label: "None", value: health.none, fill: Charts.copperSoft },
-      ],
-      onSelect: (segment) => setState({ cut: "edp", health: segment.key, metric: "cost", selected: "" }),
-    });
-
-    Charts.hbar(document.getElementById("topEdps"), {
+    Charts.pareto(els.concentration, {
       title: "Concentration",
-      rows: Hours.topEdps(8).map((row) => ({
-        key: row.key, label: row.key, cost: row.uniqueSpentHours, href: row.href, external: true,
-      })),
-      series: [{ key: "cost", label: "Cost", fill: Charts.ink }],
-      rowH: 34,
-      barH: 9,
-      showValues: true,
-      padR: 72,
+      rows: concentrationRows,
+      valueKey: "cost",
     });
 
-    const shared = Hours.topSharedEpps(8);
-    const sharedEl = document.getElementById("shared");
-    if (shared.length) {
-      Charts.hbar(sharedEl, {
-        title: "Shared",
-        rows: shared.map((row) => ({
-          key: row.key, label: row.key, logged: row.hours, href: row.href, external: true,
-        })),
-        series: [{ key: "logged", label: "Logged", fill: Charts.copper }],
-        rowH: 34,
-        barH: 9,
+    if (state.mode === "program") {
+      const epps = Reporting.rows(Object.assign({}, state, {
+        cut: "epp",
+        metric: "logged",
+        compare: "none",
+        top: "10",
+        q: "",
+      }));
+      Charts.hbar(els.shared, {
+        title: "EPP logged",
+        rows: epps,
+        series: [{ key: "logged", label: "Logged", fill: Charts.ink }],
+        rowH: 36,
         showValues: true,
-        padR: 72,
       });
-    } else {
-      sharedEl.innerHTML = `<h2>Shared</h2><div class="empty-mini">—</div>`;
+      return;
     }
+    const allowed = new Set(scopedEdps(false).map((edp) => edp.key));
+    const shared = Hours.topSharedEpps(25).filter((row) =>
+      (row.edps || []).some((key) => allowed.has(key))
+    ).slice(0, state.top === "all" ? 25 : Number(state.top));
+    if (!shared.length) {
+      els.shared.innerHTML = `<h2>Shared</h2><div class="empty-mini">—</div>`;
+      return;
+    }
+    Charts.hbar(els.shared, {
+      title: "Shared",
+      rows: shared.map((row) => ({
+        key: row.key,
+        label: row.key,
+        logged: row.hours,
+        href: row.href,
+        external: true,
+      })),
+      series: [{ key: "logged", label: "Logged", fill: Charts.copper }],
+      rowH: 36,
+      showValues: true,
+    });
   }
 
-  function normalizedBudgetEdps() {
-    return Hours.edpRows().filter((row) => row.budget != null).map((row) => ({
-      key: row.key,
-      label: row.key,
-      cost: row.uniqueSpentHours,
-      budget: row.budget,
-      remaining: row.remaining,
-      href: row.href,
-      external: true,
-    }));
+  function keyCell(row) {
+    if (!["edp", "epp"].includes(row.type)) return Hours.esc(row.key || "");
+    const href = Hours.jiraHref(row);
+    return href
+      ? `<a class="key" href="${Hours.esc(href)}" target="_blank" rel="noreferrer">${Hours.esc(row.key)}</a>`
+      : Hours.esc(row.key || "");
+  }
+
+  function titleCell(row) {
+    if (row.type === "product") return `<a href="${Hours.esc(Hours.lineHref(row.name))}">${Hours.esc(row.name)}</a>`;
+    if (row.type === "milestone") {
+      return `<a href="delivery.html?view=milestone&amp;milestone=${encodeURIComponent(row.key)}">${Hours.esc(row.name)}</a>`;
+    }
+    if (row.type === "edp") {
+      return `<a href="${Hours.esc(Hours.lineHref(row.product) + "#" + encodeURIComponent(row.key || ""))}">${Hours.esc(row.title || "")}</a>`;
+    }
+    return Hours.esc(row.title || "");
+  }
+
+  function numberCell(value, metric) {
+    return `<td class="num mono">${Hours.esc(metricFormat(value, metric))}</td>`;
+  }
+
+  function renderTable(data) {
+    els.detailTitle.textContent = state.cut === "product"
+      ? "Product line"
+      : state.cut === "program" ? "Milestone" : state.cut.toUpperCase();
+    els.detailCount.textContent = `${data.length} rows`;
+    const productMode = state.mode === "product";
+    const header = productMode
+      ? `<th>Key</th><th></th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Pending h</th><th class="num">Mapping</th><th>Shared</th>`
+      : `<th>Key</th><th></th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th>EDPs</th><th>Products</th>`;
+    const body = data.map((row) => {
+      const shared = (row.sharedWith || row.sharedEpps || []).join(" ");
+      const owners = (row.owners || []).join(" ");
+      const products = (row.products || []).join(", ");
+      return `<tr${state.selected === row.key ? ` class="is-selected"` : ""} data-select-row="${Hours.esc(row.key || "")}">
+        <td>${keyCell(row)}</td><td>${titleCell(row)}</td>
+        ${numberCell(row.cost, "cost")}${numberCell(row.logged, "logged")}
+        ${numberCell(row.budget, "budget")}${numberCell(row.remaining, "remaining")}
+        ${productMode
+          ? `${numberCell(row.pending, "pending")}${numberCell(row.mapping, "mapping")}<td class="mono muted">${Hours.esc(shared)}</td>`
+          : `<td class="mono muted">${Hours.esc(owners)}</td><td>${Hours.esc(products)}</td>`}
+      </tr>`;
+    }).join("");
+    els.table.innerHTML = `<table class="data report-data"><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
   }
 
   function render() {
-    const data = Reporting.rows(state);
-    renderSummary(data);
-    renderWorkbench(data);
-    renderTable(data);
+    const data = currentRows();
+    renderKpis();
+    renderPrimary(data);
+    renderComposition();
     renderTrend();
+    renderSecondary();
+    renderTable(data);
   }
 
   function downloadCsv() {
-    const blob = new Blob([Reporting.csv(Reporting.rows(state), state)], { type: "text/csv;charset=utf-8" });
+    const blob = new Blob([Reporting.csv(currentRows(), state)], { type: "text/csv;charset=utf-8" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `hours-report-${state.cut}-${state.metric}.csv`;
+    link.download = `hours-report-${state.mode}-${state.cut}.csv`;
     document.body.appendChild(link);
     link.click();
-    link.remove();
     URL.revokeObjectURL(link.href);
+    link.remove();
   }
 
   function bind() {
+    els.mode.addEventListener("change", () => {
+      const mode = els.mode.value;
+      setState(Object.assign({}, DEFAULTS, {
+        mode,
+        cut: mode === "program" ? "program" : "product",
+        active: mode === "product",
+      }));
+    });
     [
-      [els.cut, "cut"], [els.metric, "metric"], [els.compare, "compare"],
-      [els.product, "product"], [els.health, "health"], [els.top, "top"], [els.range, "range"],
-    ].forEach(([element, key]) => element.addEventListener("change", () => setState({ [key]: element.value, selected: "" })));
+      [els.metric, "metric"], [els.compare, "compare"], [els.range, "range"],
+      [els.product, "product"], [els.top, "top"],
+    ].forEach(([element, key]) => element.addEventListener("change", () =>
+      setState({ [key]: element.value, selected: "" })
+    ));
+    els.milestone.addEventListener("change", () => setState({
+      cut: els.milestone.value ? "epp" : "program",
+      milestone: els.milestone.value,
+      selected: "",
+      q: "",
+    }));
+    els.health.addEventListener("change", () => setState({
+      cut: els.health.value ? "edp" : state.cut,
+      health: els.health.value,
+      selected: "",
+    }));
     els.active.addEventListener("change", () => setState({ active: els.active.checked, selected: "" }));
     els.q.addEventListener("input", () => setState({ q: els.q.value, selected: "" }));
     els.reset.addEventListener("click", () => setState(Object.assign({}, DEFAULTS)));
     els.export.addEventListener("click", downloadCsv);
-    els.workbenchTable.addEventListener("click", (event) => {
+    els.drillBack.addEventListener("click", () => setState({
+      cut: state.mode === "program" ? "program" : "product",
+      product: "all",
+      milestone: "",
+      health: "",
+      selected: "",
+      q: "",
+    }));
+    els.table.addEventListener("click", (event) => {
       if (event.target.closest("a")) return;
       const row = event.target.closest("[data-select-row]");
       if (row) setState({ selected: row.getAttribute("data-select-row") || "" });
@@ -407,14 +568,17 @@
         setState(Object.assign({}, DEFAULTS));
       }
     });
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(render, 120);
+    });
   }
 
-  populateProducts();
+  populateFilters();
   enforceState();
+  writeState();
   syncControls();
   bind();
-  renderFixed();
-  renderSecondary();
   render();
   if (location.hash) {
     const target = document.querySelector(location.hash);

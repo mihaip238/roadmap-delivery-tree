@@ -13,7 +13,12 @@ global.Hours = {
     ];
   },
   reportMilestoneRows() { return []; },
-  reportEppRows() { return []; },
+  reportEppRows() {
+    return [
+      { key: "EPP-M", cost: 5, logged: 5, pending: 0, active: true, milestones: ["M1"], products: [] },
+      { key: "EPP-P", cost: 7, logged: 7, pending: 0, active: true, milestones: [], products: ["A"] },
+    ];
+  },
   reportHistory() { return []; },
   uniqueReportHours() { return 42; },
   uniqueEdps() {
@@ -85,5 +90,32 @@ const mappingSummary = Reporting.summary([
 });
 assert.equal(mappingSummary.total, 50, "mapping coverage must be weighted and never sum percentages");
 assert.equal(mappingSummary.average, 41.67);
+
+const programEpps = Reporting.rows({
+  mode: "program",
+  cut: "epp",
+  metric: "cost",
+  compare: "none",
+  product: "all",
+  milestone: "",
+  active: false,
+  health: "",
+  q: "",
+  top: "all",
+});
+assert.deepEqual(programEpps.map((row) => row.key), ["EPP-M"]);
+
+assert.equal(Reporting.snapshotValue({
+  summary: { cost: 100, programCost: 30 },
+}, {
+  mode: "program",
+  cut: "epp",
+  metric: "cost",
+  product: "all",
+  milestone: "",
+  q: "",
+  health: "",
+  active: false,
+}), 30);
 
 console.log("reporting calculations ok");

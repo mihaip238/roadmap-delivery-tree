@@ -112,6 +112,10 @@ Custom SVG. Short titles only. No captions, no insight essays. Complexity comes 
 | F5.9 | History | `report_history.json` stores one dated snapshot per Jira fetch date and is updated by `build_mindmap.py`. |
 | F5.10 | Trend / forecast | Date range drives cumulative trend. Burn rate and 30-day projection require at least 3 snapshots spanning 14 days; otherwise show `—`. |
 | F5.11 | KPI definitions | Mapping coverage = confirmed active / active. Budget coverage = unique cost in EDPs with budgets / global unique cost. Pending exposure is unique logged work under inferred pending EPPs and is never cost. Shared duplication = rolled cost-member hours − unique cost. |
+| F5.12 | Report structure | Traditional variance-to-detail flow: context/filters → KPI strip → primary comparison + composition → trend → concentration/shared → exact table. |
+| F5.13 | Reporting modes | Product line and Program M1–M4 are the only top-level modes. EDP and EPP are drill levels, never peer business cuts. A Product selection never constrains Program. |
+| F5.14 | Chart grammar | Mapping health uses a Confirmed/Pending/None donut. Cost vs Budget/Logged uses dumbbells, Left uses diverging bars, history uses lines, concentration uses Pareto, and category comparison uses ranked bars. |
+| F5.15 | Chart bounds | Labels and values have measured gutters; plot marks are clipped to the plot area. Charts reflow before text, axes, or values can cross panel boundaries. |
 
 Jira-backed EDP and EPP labels link to their source issues. Product lines and M1–M4 remain aggregate, non-Jira entities.
 When Active is selected, product-line Cost, Logged, Pending, counts, and historical series are recomputed from active EDPs; aggregate coverage de-duplicates multi-tagged EDPs.
