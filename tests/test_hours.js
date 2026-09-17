@@ -11,7 +11,15 @@ global.window = {
           title: "Unclassified item",
           productLabel: "EBASE",
           alsoIn: [],
-          children: [],
+          children: [{
+            type: "epp",
+            key: "EPP-M",
+            title: "Milestone EPP",
+            costMember: false,
+            method: "inferred_pending",
+            time: { rolledSpentHours: 5 },
+            children: [],
+          }],
         }],
       },
       {
@@ -37,6 +45,19 @@ global.window = {
         }],
       },
     ],
+    milestones: [{
+      type: "milestone",
+      key: "M2",
+      children: [{
+        type: "epp",
+        key: "EPP-M",
+        title: "Milestone EPP",
+        onEdps: ["EDP-1"],
+        products: ["Unclassified"],
+        time: { rolledSpentHours: 5 },
+        children: [],
+      }],
+    }],
   },
 };
 
@@ -47,5 +68,8 @@ assert.equal(rows["EDP-1"].productLabel, "Unclassified");
 assert.deepEqual(rows["EDP-1"].alsoIn, []);
 assert.equal(rows["EDP-2"].productLabel, "Power Balancer");
 assert.deepEqual(rows["EDP-2"].alsoIn, ["Gas Shipper"]);
+const milestoneEpp = window.Hours.reportEppRows().find((row) => row.key === "EPP-M");
+assert.equal(milestoneEpp.cost, 5);
+assert.deepEqual(milestoneEpp.milestones, ["M2"]);
 
-console.log("hours product normalization ok");
+console.log("hours product and milestone normalization ok");

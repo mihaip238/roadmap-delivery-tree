@@ -423,7 +423,7 @@
       });
     });
     return Object.values(byKey).map((row) => {
-      row.cost = row.owners.length ? row.logged : 0;
+      row.cost = row.owners.length || row.milestones.length ? row.logged : 0;
       return row;
     });
   }
