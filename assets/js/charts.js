@@ -71,7 +71,7 @@
       Math.max(120, Math.floor(width * 0.40))
     );
     const padR = spec.showValues
-      ? Math.min(Math.max(Math.ceil(maxValue) + 20, Number(spec.padR || 0), 62), Math.floor(width * 0.22))
+      ? Math.min(Math.max(Math.ceil(maxValue) + 36, Number(spec.padR || 0), 74), Math.floor(width * 0.28))
       : Math.max(24, Number(spec.padR || 0));
     return {
       width,
@@ -156,8 +156,10 @@
         ? `<a href="${Hours.esc(row.href)}"${row.external ? ` target="_blank" rel="noreferrer"` : ""}>${labelNode}</a>`
         : labelNode;
       const endValue = spec.showValues
-        ? `<text class="axis chart-value" x="${layout.width - 4}" y="${y + Math.round(rowH * 0.58)}"
-          text-anchor="end">${Hours.esc(Hours.fmtNum(row[series[0].key]))}</text>`
+        ? `<rect class="chart-value-bg" x="${layout.plotRight + 5}" y="${y}" width="${layout.padR - 5}" height="${rowH}"></rect>
+          <line class="chart-value-rule" x1="${layout.plotRight + 5}" x2="${layout.plotRight + 5}" y1="${y + 7}" y2="${y + rowH - 7}"></line>
+          <text class="axis chart-value" x="${layout.width - 8}" y="${y + Math.round(rowH * 0.58)}"
+            text-anchor="end">${Hours.esc(Hours.fmtNum(row[series[0].key]))}</text>`
         : "";
       marks += `<g class="chart-row${selected.has(key) ? " is-selected" : ""}" data-chart-row="${index}"
         ${spec.onSelect ? `tabindex="0" role="button" aria-pressed="${selected.has(key)}"` : ""}
@@ -225,7 +227,9 @@
           <circle class="dumbbell-start" cx="${xFor(start)}" cy="${y}" r="5"></circle>
           <circle class="dumbbell-end" cx="${xFor(end)}" cy="${y}" r="5"></circle>
         </g>
-        <text class="axis chart-value${variance < 0 ? " is-over" : ""}" x="${layout.width - 4}" y="${y + 4}" text-anchor="end">${Hours.esc(Hours.fmtNum(variance))}</text>
+        <rect class="chart-value-bg" x="${layout.plotRight + 5}" y="${padT + index * rowH}" width="${layout.padR - 5}" height="${rowH}"></rect>
+        <line class="chart-value-rule" x1="${layout.plotRight + 5}" x2="${layout.plotRight + 5}" y1="${y - 10}" y2="${y + 10}"></line>
+        <text class="axis chart-value${variance < 0 ? " is-over" : ""}" x="${layout.width - 8}" y="${y + 4}" text-anchor="end">${Hours.esc(Hours.fmtNum(variance))}</text>
       </g>`;
     });
     const title = heading(el, spec.title);

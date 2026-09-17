@@ -1029,6 +1029,8 @@ html[data-page="delivery"] .unit-act { display: none; }
 .chart .axis { font-size: 11px; fill: var(--muted); font-family: var(--sans); }
 .chart .axis-link { fill: var(--ink); text-decoration: underline; text-underline-offset: 2px; }
 .chart .chart-value { fill: var(--ink); font-family: var(--mono); }
+.chart-value-bg { fill: var(--canvas); }
+.chart-value-rule { stroke: var(--line); }
 .chart .tick { stroke: var(--line); }
 .chart-row { cursor: pointer; }
 .chart-row .chart-hit { fill: transparent; }
