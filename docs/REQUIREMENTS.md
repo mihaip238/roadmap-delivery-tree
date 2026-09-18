@@ -2,6 +2,8 @@
 
 Living spec for the static Hours Control app. PolarIS is never written. Overlay JSON in this repo is the mapping source of truth. Cost is **hours**, not euros.
 
+**End goal:** hours-control insights and reports **over Jira** — unique cost, envelopes, mapping health, concentration, trend, and case FAC, computed from a Jira snapshot. Mapping, Delivery, Cases, and Cost exist to make those reports true. Design: [CONTROL.md](CONTROL.md).
+
 GitHub Pages is read-only. Mapping and budgets are edited locally (`python serve.py`) and committed. Hours are public if the repository is public.
 
 ## Glossary
@@ -17,6 +19,13 @@ GitHub Pages is read-only. Mapping and budgets are edited locally (`python serve
 - **Active** — Roadmap Now / Next / Later.
 - **Cost member** — an EPP that counts toward an EDP’s envelope: PolarIS not rejected, or overlay add/confirm. Inferred pending is not a cost member.
 - **Snapshot** — one immutable reporting state per Jira `fetchedAt` UTC date. A later refresh on the same date replaces that date.
+- **Business case** — overlay record (`overlay_cases.json`). Not PolarIS and not assumed 1 EDP = 1 case. Product design: [CONTROL.md](CONTROL.md).
+- **Associated hours** — unique hours on cost-member tickets in a case’s bound EDP trees. Observation, not yet assigned.
+- **Allocated hours** — unique hours the controller assigns to a case. Exclusive cost members default to 100%. Shared EPPs are unallocated until set. Never auto-split 50/50.
+- **ETC** — estimate to complete, hours, overlay authority. Jira remaining estimate is evidence only.
+- **FAC** — allocated unique spent + ETC. Control signal vs budget. Spent vs budget is lagging.
+- **Ledger** — dated worklog rows. Cumulative `timespent` remains the tree rollup. Public Pages omit authors and worklog bodies.
+- **Coverage exception** — a ledger row in the case window whose ticket is not in the case’s cost-member trees.
 
 ## Overlay rules
 
@@ -38,10 +47,11 @@ Budgets: `jira_map/overlay_budgets.json` — hours per EDP, optional per product
 
 ## Product jobs
 
-1. Bind roadmap EDPs to the EPPs developers actually work on.
-2. Show a true tree per EDP from that binding.
-3. Control cost in hours (finance converts to euros elsewhere).
-4. Report by **product line** and by **BRPaaS program milestones** as separate cuts. Never one number labelled “BRPaaS” that mixes the product line with the program.
+1. Report hours control **over Jira**: unique Cost, Logged, Pending, mapping, budget/Left, concentration, history — Product line and BRPaaS program M1–M4 as exclusive cuts. Every hour drills to Jira keys.
+2. Bind roadmap EDPs to the EPPs developers actually work on so report Cost is not pending.
+3. Show a true tree per EDP from that binding (inspect the Jira work behind a number).
+4. Control cost in hours (finance converts to euros elsewhere).
+5. Control a **business case** envelope so Reports Case mode can show associated vs allocated, ETC, FAC, and coverage of tagged worklogs. Traceability is necessary and not sufficient. Never one number labelled “BRPaaS” that mixes the product line with the program.
 
 ## F0 Shell and design
 
@@ -50,8 +60,8 @@ Operations console: bone canvas `#E8E2D6`, ink `#161411`, dark rail `#141311`, s
 | ID | Name | Definition of done |
 | --- | --- | --- |
 | F0.1 | Design tokens | `assets/css/app.css` variables only; pages do not invent palettes. |
-| F0.2 | App shell | Overview, Delivery, Mapping, Cost, Reports. Current page marked. Fetched-at on the rail. No explanatory copy. |
-| F0.3 | Overview | Unique hours, active EDPs, pending inferred count, shared EPP count, BRPaaS **program** unique hours (M1–M4). Links into the other four pages. No charts. |
+| F0.2 | App shell | Overview, Delivery, Mapping, Cases, Cost, Reports. Current page marked. Fetched-at on the rail. No explanatory copy. |
+| F0.3 | Overview | Unique hours, active EDPs, pending inferred count, shared EPP count, BRPaaS **program** unique hours (M1–M4), and the pilot case Allocated / FAC / Budget / holes. Links into the other pages. No charts. |
 
 ## F1 Overlay engine
 
@@ -97,7 +107,7 @@ Delivery uses progressive navigation: Product line → EDP → record, or Progra
 
 ## F5 Reports
 
-Custom SVG. Short titles only. No captions, no insight essays. Complexity comes from filters, calculations, drill-down, tooltips, and underlying tables—not more card widgets.
+The payoff surface. Custom SVG. Short titles only. No captions, no insight essays. Complexity comes from filters, calculations, drill-down, tooltips, and underlying tables—not more card widgets. Numbers come from the Jira snapshot plus overlay; they are not authored in the UI.
 
 | ID | Name | Definition of done |
 | --- | --- | --- |
@@ -113,7 +123,7 @@ Custom SVG. Short titles only. No captions, no insight essays. Complexity comes 
 | F5.10 | Trend / forecast | Date range drives cumulative trend. Burn rate and 30-day projection require at least 3 snapshots spanning 14 days; otherwise show `—`. |
 | F5.11 | KPI definitions | Mapping coverage = confirmed active / active. Budget coverage = unique cost in EDPs with budgets / global unique cost. Pending exposure is unique logged work under inferred pending EPPs and is never cost. Shared duplication = rolled cost-member hours − unique cost. |
 | F5.12 | Report structure | Traditional variance-to-detail flow: context/filters → KPI strip → primary comparison + composition → trend → concentration/shared → exact table. |
-| F5.13 | Reporting modes | Product line and Program M1–M4 are the only top-level modes. EDP and EPP are drill levels, never peer business cuts. A Product selection never constrains Program. |
+| F5.13 | Reporting modes | Product line and Program M1–M4 are the top-level reporting cuts (Case is added in F7.6 as a third exclusive mode). EDP and EPP are drill levels, never peer business cuts. A Product selection never constrains Program. |
 | F5.14 | Chart grammar | Mapping health uses a Confirmed/Pending/None donut. Cost vs Budget/Logged uses dumbbells, Left uses diverging bars, history uses lines, concentration uses Pareto, and category comparison uses ranked bars. |
 | F5.15 | Chart bounds | Labels and values have measured gutters; plot marks are clipped to the plot area. Charts reflow before text, axes, or values can cross panel boundaries. |
 
@@ -124,8 +134,24 @@ When Active is selected, product-line Cost, Logged, Pending, counts, and histori
 
 | ID | Name | Definition of done |
 | --- | --- | --- |
-| F6.1 | `serve.py` | Stdlib HTTP, bind localhost. Serve the site. `POST /overlay` and `POST /budgets` write the JSON files. |
+| F6.1 | `serve.py` | Stdlib HTTP, bind localhost. Serve the site. `POST /overlay`, `POST /budgets`, and `POST /cases` write the JSON files. |
+
+## F7 Business-case control
+
+Makes Reports Case mode honest. Workflow, layout, and connections: [CONTROL.md](CONTROL.md). First slice proves **one pilot case** controllable. Do not grow the catalog first.
+
+| ID | Name | Definition of done |
+| --- | --- | --- |
+| F7.1 | Case overlay | `overlay_cases.json` stores cases, EDP bindings, versioned budgets, ETC, per-EPP allocations, coverage exceptions. Overlay is authority. |
+| F7.2 | Cases page | Progressive list → record. Envelope chips: Allocated, FAC, Budget, Left, ETC, Holes. Bind EDPs. Tree slice reuses Delivery record chrome. Shared EPPs allocate hours or %. Empty budget ⇒ Left `—`. |
+| F7.3 | Associated vs allocated | Associated = unique cost-member hours on bound trees. Allocated = exclusive 100% plus explicit shared shares. Unallocated associated is a hole, not FAC. Total allocated per EPP across cases ≤ that EPP’s unique hours. |
+| F7.4 | Ledger + coverage | Pipeline fetches worklogs for the case period/teams, sanitizes authors, writes a public ledger. Coverage exceptions are Map / Out of scope / Other case. Pending inferred is never in-tree cost. |
+| F7.5 | ETC and FAC | ETC is overlay hours (case, optional per-EPP rollup). FAC = allocated + ETC. Overrun = FAC − budget when budgeted. Jira remaining estimate may display as evidence, never as the saved ETC unless copied. |
+| F7.6 | Reports Case mode | Third exclusive View alongside Product line and Program M1–M4. Drill Case → EDP. Metric FAC allowed. Product filters still never constrain Program. |
+| F7.7 | History | Snapshots store case allocated, ETC, FAC, budget. Trend/forecast rules match F5.10. |
+| F7.8 | Public Pages | No worklog author, email, or comment body in shipped JSON. |
+| F7.9 | Pilot done | Bound trees have no pending cost members; shared is allocated or listed as holes; exceptions classified; ETC numeric; Overview / Cases / Reports FAC match. |
 
 ## Out of scope (v1)
 
-Write PolarIS to Jira. Euros. Allocating shared EPP hours across EDPs. Live Jira in the browser. Auth. MariaDB. Treating “BRP as a Service” hours as the BRPaaS program total.
+Write PolarIS to Jira. Euros. Auto-allocating shared EPP hours across EDPs or cases. Live Jira in the browser. Auth. MariaDB. Treating “BRP as a Service” hours as the BRPaaS program total. Publishing unsanitized worklogs. Multiple pilots before F7.9.

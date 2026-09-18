@@ -26,11 +26,19 @@ Envelopes for product line, EDP, and M1–M4. `overlay_budgets.json` editor. Unb
 
 ## R5 — Reports (F5)
 
-Unique hours by product and by BRPaaS milestone, mapping health, concentration. Power BI-style variance-to-detail structure with exclusive Product / Program modes, bounded responsive SVGs, donut health, dumbbell budget comparison, diverging variance, Pareto concentration, URL-persisted filters, CSV export, underlying tables, dated history, burn rate, and forecast. No insight essays.
+The payoff: unique hours by product and by BRPaaS milestone, mapping health, concentration. Power BI-style variance-to-detail structure with exclusive Product / Program modes, bounded responsive SVGs, donut health, dumbbell budget comparison, diverging variance, Pareto concentration, URL-persisted filters, CSV export, underlying tables, dated history, burn rate, and forecast. No insight essays. Every row drills to Jira keys.
+
+## R6 — Business-case control (F7)
+
+Product design: [CONTROL.md](CONTROL.md).
+
+Keep the tree. Fetch remains Jira. Add Cases only so Reports can show FAC for one pilot: overlay cases file, sanitized worklog ledger, associated vs allocated, ETC/FAC, coverage exceptions, Reports Case mode, Overview pilot strip. Local `POST /cases`.
+
+First usable slice: **one pilot case** meets F7.9 so Case-mode reports match Overview. Do not scale the case list first. Do not add surfaces that are not on the Jira → Reports path.
 
 ## Later (not v1)
 
-Coggle restyle. PolarIS write-back. Feature-level split (e.g. EPP-172). Euros. Auth.
+Coggle restyle. PolarIS write-back. Feature-level split (e.g. EPP-172). Euros. Auth. Roll Cost-page line budgets from cases. Multiple cases as a portfolio.
 
 ## Refresh pipeline
 
