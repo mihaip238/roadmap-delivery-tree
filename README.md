@@ -1,6 +1,6 @@
 # Hours Control
 
-Static app over the roadmap delivery tree. Overlay JSON is the EDP↔EPP source of truth. PolarIS is never written. Cost is **hours** (finance converts to euros).
+Static app over the roadmap delivery tree. Overlay JSON is the EDP↔EPP source of truth. PolarIS is never written. Cost is **hours** (finance converts to euros). End goal: **hours-control insights and reports over Jira** ([docs/CONTROL.md](docs/CONTROL.md)).
 
 ## Pages
 
@@ -9,7 +9,7 @@ Static app over the roadmap delivery tree. Overlay JSON is the EDP↔EPP source 
 - [Mapping](mapping.html) — confirm / reject / add links
 - Cases — business-case control (design: [docs/CONTROL.md](docs/CONTROL.md); not in the rail until R6)
 - [Cost](cost.html) — hour envelopes
-- [Reports](reports.html) — interactive KPIs, product/program cuts, history, and forecast
+- [Reports](reports.html) — payoff: interactive KPIs over the Jira snapshot (product / program cuts, history, forecast)
 
 The Coggle [map](Roadmap_Map.html) is still in the repo; it is not in the primary nav.
 

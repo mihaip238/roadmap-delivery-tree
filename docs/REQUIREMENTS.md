@@ -2,6 +2,8 @@
 
 Living spec for the static Hours Control app. PolarIS is never written. Overlay JSON in this repo is the mapping source of truth. Cost is **hours**, not euros.
 
+**End goal:** hours-control insights and reports **over Jira** — unique cost, envelopes, mapping health, concentration, trend, and case FAC, computed from a Jira snapshot. Mapping, Delivery, Cases, and Cost exist to make those reports true. Design: [CONTROL.md](CONTROL.md).
+
 GitHub Pages is read-only. Mapping and budgets are edited locally (`python serve.py`) and committed. Hours are public if the repository is public.
 
 ## Glossary
@@ -45,11 +47,11 @@ Budgets: `jira_map/overlay_budgets.json` — hours per EDP, optional per product
 
 ## Product jobs
 
-1. Bind roadmap EDPs to the EPPs developers actually work on.
-2. Show a true tree per EDP from that binding.
-3. Control cost in hours (finance converts to euros elsewhere).
-4. Report by **product line** and by **BRPaaS program milestones** as separate cuts. Never one number labelled “BRPaaS” that mixes the product line with the program.
-5. Control a **business case** envelope: associated vs allocated, ETC, FAC, coverage of tagged worklogs. Traceability (the tree) is necessary and not sufficient.
+1. Report hours control **over Jira**: unique Cost, Logged, Pending, mapping, budget/Left, concentration, history — Product line and BRPaaS program M1–M4 as exclusive cuts. Every hour drills to Jira keys.
+2. Bind roadmap EDPs to the EPPs developers actually work on so report Cost is not pending.
+3. Show a true tree per EDP from that binding (inspect the Jira work behind a number).
+4. Control cost in hours (finance converts to euros elsewhere).
+5. Control a **business case** envelope so Reports Case mode can show associated vs allocated, ETC, FAC, and coverage of tagged worklogs. Traceability is necessary and not sufficient. Never one number labelled “BRPaaS” that mixes the product line with the program.
 
 ## F0 Shell and design
 
@@ -105,7 +107,7 @@ Delivery uses progressive navigation: Product line → EDP → record, or Progra
 
 ## F5 Reports
 
-Custom SVG. Short titles only. No captions, no insight essays. Complexity comes from filters, calculations, drill-down, tooltips, and underlying tables—not more card widgets.
+The payoff surface. Custom SVG. Short titles only. No captions, no insight essays. Complexity comes from filters, calculations, drill-down, tooltips, and underlying tables—not more card widgets. Numbers come from the Jira snapshot plus overlay; they are not authored in the UI.
 
 | ID | Name | Definition of done |
 | --- | --- | --- |
@@ -136,7 +138,7 @@ When Active is selected, product-line Cost, Logged, Pending, counts, and histori
 
 ## F7 Business-case control
 
-Workflow, layout, and connections: [CONTROL.md](CONTROL.md). First slice proves **one pilot case** controllable. Do not grow the catalog first.
+Makes Reports Case mode honest. Workflow, layout, and connections: [CONTROL.md](CONTROL.md). First slice proves **one pilot case** controllable. Do not grow the catalog first.
 
 | ID | Name | Definition of done |
 | --- | --- | --- |

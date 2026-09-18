@@ -1,30 +1,50 @@
-# Hours Control — product design (business-case control)
+# Hours Control — product design (insights and reports over Jira)
 
-How the console becomes a **control process**, not only a tree of hours.
+## North star
 
-This document is the product design for the next slice. Living rules in
-[REQUIREMENTS.md](REQUIREMENTS.md) still win. PolarIS is never written. Cost is
-hours. Unique hours are cost. Pending inferred is not cost. Product line and
-BRPaaS program M1–M4 stay separate cuts. GitHub Pages stays read-only.
+The product is **hours control over Jira**: unique-hour cost, envelopes, mapping
+health, concentration, trend, and (once bound) business-case FAC — computed from
+Jira work and time, read in Overview and Reports.
 
-Traceability answers *what work sits under which roadmap item*.
-Control answers *whether a funded envelope will hold*.
+Jira is the system of work. Developers log time on tickets. Parents, Product
+Name, PolarIS, and worklogs live there. Hours Control does not replace Jira and
+does not write PolarIS. It is the control and reporting layer **on top of a
+Jira snapshot**.
 
-The tree stays. Control sits **on** the tree.
+Mapping, Delivery, Cases, and Cost exist only so those reports are **cost**,
+not a guess. If a screen does not improve a Jira-backed number or the drill
+into its tickets, it is out of the product.
+
+Living rules: [REQUIREMENTS.md](REQUIREMENTS.md). PolarIS is never written.
+Cost is hours. Unique hours are cost. Pending inferred is not cost. Product
+line and BRPaaS program M1–M4 stay separate cuts. GitHub Pages is read-only.
+
+Traceability: *which Jira tickets sit under which roadmap item.*
+Control: *whether a funded envelope will hold, given that Jira ledger.*
+The tree stays. Reports sit on the tree.
 
 ---
 
-## 1. Jobs and objects
+## 1. Who owns what
+
+| Layer | Owns | Does not own |
+| --- | --- | --- |
+| **Jira** | Issues, keys, Feature/Story parentage, Product Name, PolarIS (evidence), worklogs, `timespent`, remaining estimate (evidence) | Unique vs rolled, EDP↔EPP authority, case identity, budgets, ETC, allocations, product vs program cut |
+| **Overlay (this repo)** | Confirm/add/reject membership, case records, versioned budgets, ETC, shared allocations, coverage classifications | Ticket hierarchy, worklog hours |
+| **Hours Control** | Unique cost, pending vs cost, envelopes, FAC, mapping health, two BRPaaS cuts, history, the report workbench | Live Jira writes, euros |
+
+Every Jira key in the console opens the issue in a new tab. Every hour in a
+report traces to Jira tickets in the underlying table.
 
 ### Jobs (who does what)
 
 | Role | Job | Surface |
 | --- | --- | --- |
-| Mapper | Bind EDPs to EPPs. Empty or inferred trees do not enter cost. | Mapping |
-| Controller | Own one business case: budget, allocation, ETC, coverage exceptions. | Cases |
-| Delivery lead | See the true tree and remaining work on a record. | Delivery |
-| Reporter | Cut unique hours by product line or by program M1–M4. | Reports |
-| Anyone | Pulse: spend, pending inbox, program, case health. | Overview |
+| Anyone | Read Jira-backed cost, program, mapping debt, pilot FAC | Overview, **Reports** |
+| Mapper | Bind EDPs to EPPs so report Cost is not pending | Mapping |
+| Controller | Own one case so Reports Case mode is FAC, not spend | Cases |
+| Delivery lead | Inspect the Jira tree behind a number | Delivery |
+| Reporter | Cut unique hours: product line, program M1–M4, case | Reports |
 
 ### Objects (what exists)
 
@@ -61,32 +81,46 @@ bodies. The public snapshot keeps ticket key, hours, date, and case/EDP ids.
 
 ---
 
-## 2. Control loop (how the week works)
+## 2. End-state insights (what Reports must answer from Jira)
 
-Cadence is weekly after a Jira refresh. One **pilot case** is in scope until
-that case is controllable end-to-end.
+These are the product. Other pages feed them.
+
+| Insight | Cut | Jira input | Overlay input | Honest only if |
+| --- | --- | --- | --- | --- |
+| Unique **Cost** | Product line | Worklogs on cost-member tickets, Product Name on EDPs | Membership | Pending not mixed into Cost |
+| Unique **Cost** | Program M1–M4 | Same + milestone EPP set | Membership; not product-line hours | Never labelled “BRPaaS” with the product line |
+| **Logged** vs Cost | Either | All time on the shown tree vs cost members | Rejects | Logged ≥ Cost |
+| **Pending** | Active EDPs | Hours under inferred EPPs | Unconfirmed matches | Amber, never Cost |
+| **Mapping** | Active EDPs | PolarIS + catalog | Confirm/reject/add | Coverage = confirmed / active |
+| **Budget / Left / %** | Line, EDP, M, case | Unique spent | Envelope hours | Empty budget ⇒ `—` |
+| **Concentration / shared** | EDP / EPP | Unique hours | Shared flags | Unique default; rolled is a warning |
+| **Burn / 30d / forecast** | Same cut | Snapshot history of Jira `fetchedAt` | — | ≥3 snapshots over 14 days, else `—` |
+| **Associated / allocated / FAC** | Case | Worklogs on bound trees | Bindings, shares, ETC, budget | Shared not auto-split; pending out |
+| **Coverage** | Case window | Ledger rows for tagged teams | Exceptions | 100% = those teams explained, not all of Jira |
+
+Drill always ends on Jira keys. CSV is the same numbers as the table.
+
+## 3. Control loop (how the week works)
+
+Cadence is weekly: **refresh Jira → make Cost true → read Reports**. One
+**pilot case** until Reports Case mode is controllable.
 
 ```
-  Refresh Jira
+  Fetch Jira (tree, PolarIS, worklogs)
        │
        ▼
-  Tree + overlay          Mapping inbox
-  (traceability)          (bind or reject inferred)
+  Mapping inbox          Delivery tree
+  (membership)           (inspect tickets)
        │                         │
        └──────────┬──────────────┘
                   ▼
-           Cases — pilot
-           associated ← trees
-           allocated  ← exclusive default / shared manual
-           coverage   ← ledger minus in-tree
-           ETC        ← controller
+           Cases — pilot (only if FAC is in scope)
+           associated / allocated / coverage / ETC
                   │
                   ▼
-           FAC vs budget
-           act, or hold
-                  │
-                  ▼
-           Reports (Product | Program | Case)
+           Reports  ← the payoff
+           Product | Program | Case
+           Overview is the same numbers, no charts
 ```
 
 **Entry.** Overview shows pending count (mapping debt) and pilot FAC vs budget
@@ -113,13 +147,14 @@ not Jira.
 spent and FAC only. If unallocated associated > 0 → control is incomplete
 (FAC is not the whole story).
 
-**Report.** Product and Program modes unchanged. Case mode is a third exclusive
-cut for the control object. A product filter never constrains Program. Case
-mode never mixes those two BRPaaS meanings.
+**Report.** The week ends on Reports. Product and Program modes stay exclusive.
+Case mode is a third exclusive cut. A product filter never constrains Program.
+Case mode never mixes those two BRPaaS meanings.
 
-**Stop for v1 of control.** Prove **one** case: bind → allocate shared →
-zero unexplained coverage for the tagged teams/period → ETC entered → FAC
-readable vs budget. Do not scale the case catalog first.
+**Stop for v1 of control.** Reports Product and Program already exist. The next
+slice makes **one** case honest in Reports: bind → allocate shared → classify
+coverage for tagged teams/period → ETC entered → FAC vs budget. Do not scale
+the case catalog first. Do not add pages that are not on this path.
 
 Open inputs (filled on the pilot record, not invented here): which case,
 which teams, which period, whether first budget hours come from finance
@@ -127,7 +162,7 @@ spreadsheet or are typed. Overlay remains authority after that paste.
 
 ---
 
-## 3. Information architecture
+## 4. Information architecture
 
 ### Navigation
 
@@ -144,7 +179,7 @@ Hours Control     Overview  Delivery  Mapping  Cases  Cost  Reports     fetched-
 | **Mapping** | Inbox + inspector + add/reject. Same progressive chrome as Delivery. | Invent milestone membership, write PolarIS |
 | **Cases** | Control object. Progressive Case list → case record (envelope, tree slice, allocation, coverage, ETC). | Product/Program as peer identity of a case |
 | **Cost** | Line / milestone / EDP hour envelopes. Budgets here are **roll-up envelopes**, not the case ledger. Case budgets live on Cases. | Split shared 50/50 |
-| **Reports** | Variance-to-detail. Modes: Product line, Program M1–M4, **Case**. Same KPI → analysis → trend → concentration → table grammar. | Insight essays, euros |
+| **Reports** | **Payoff.** Variance-to-detail over the Jira snapshot. Modes: Product line, Program M1–M4, **Case**. KPI → analysis → trend → concentration → table. Every row drills to Jira keys. | Insight essays, euros, a third BRPaaS mix |
 
 Deep links stay URL-hash / query based:
 
@@ -158,12 +193,14 @@ stays in the console.
 ### What connects to what
 
 ```
-overlay_links.json      ── Mapping ──► cost membership on the tree
-overlay_budgets.json    ── Cost    ──► product / EDP / milestone envelopes
-overlay_cases.json      ── Cases   ──► case records, budget versions, ETC, allocations
-worklog_ledger.json     ── pipeline ─► associated hours, coverage, 30d burn (sanitized public)
-tree_data.js            ── all pages (snapshot)
-report_history.json     ── Reports + Overview trend (extend with case FAC)
+Jira ── fetch ──► tree + PolarIS + timespent + worklog ledger
+                      │
+overlay_links.json    ┴─ Mapping ──► cost membership
+overlay_budgets.json  ── Cost    ──► line / EDP / milestone envelopes
+overlay_cases.json    ── Cases   ──► bindings, budget versions, ETC, allocations
+                      │
+tree_data.js          ── all pages (one snapshot, fetchedAt on the rail)
+report_history.json   ── Reports trend (one row per Jira fetch date; + case FAC)
 ```
 
 Writes: local `python serve.py` POST `/overlay` `/budgets` `/cases`.
@@ -171,13 +208,13 @@ GitHub Pages: view + download JSON. Same pattern as today.
 
 ---
 
-## 4. Component look (same chrome)
+## 5. Component look (same chrome)
 
 Tokens stay F0: bone `#E8E2D6`, ink `#161411`, rail `#141311`, amber `#B45309`
 for pending only. IBM Plex Sans + Mono. Hairlines, 2px corners, no card candy,
 no helper copy. Type chips, indent, Cost vs Logged. `[hidden]` stays none.
 
-### 4.1 Overview
+### 5.1 Overview
 
 Keep the five KPIs. Add a sixth **Pilot** strip under the existing duo, same
 `program-band` density — not a chart.
@@ -198,7 +235,7 @@ Allocated  FAC  Budget  Left  Unallocated  Exceptions
 - Unallocated or exceptions > 0 uses ink + count, not a third colour.
 - No budget ⇒ Budget and Left are `—`.
 
-### 4.2 Delivery (unchanged structure)
+### 5.2 Delivery (unchanged structure)
 
 ```
 Delivery    [ Product line ▾ ]  [ Search ]              [ Health ▾ ] [ Active ]
@@ -212,13 +249,13 @@ Delivery    [ Product line ▾ ]  [ Search ]              [ Health ▾ ] [ Activ
 Case membership is a quiet chip on the EDP record when bound (`CASE-…`),
 linking to Cases. Delivery does not become the case editor.
 
-### 4.3 Mapping (unchanged structure)
+### 5.3 Mapping (unchanged structure)
 
 Inbox first. Confirm / reject / add. Shared warning when adding an EPP already
 on another EDP. After save, Cases associated hours recompute on next payload
 build (or live if serve.py re-applies overlay).
 
-### 4.4 Cases (new — progressive, same split as Delivery)
+### 5.4 Cases (new — progressive, same split as Delivery)
 
 **List (navigator)**
 
@@ -275,7 +312,7 @@ the hours valid on each snapshot date.
 Empty state: no cases → one primary **New case** (id, title, period, optional
 budget). First case is the pilot until another is starred.
 
-### 4.5 Cost
+### 5.5 Cost
 
 Keep three tables: Product line, Program M1–M4, EDP.
 
@@ -287,7 +324,7 @@ Line and milestone budgets remain independently editable. They are reporting
 envelopes. They are not the case budget. A later optional “roll from cases”
 is out of the first control slice.
 
-### 4.6 Reports
+### 5.6 Reports (payoff)
 
 Same page skeleton: context → KPI → 2:1 analysis → trend → concentration →
 table.
@@ -310,7 +347,7 @@ Compare  None | Logged | Budget | FAC
 
 ---
 
-## 5. How each connection works
+## 6. How each connection works
 
 ### Mapping → tree → associated
 
@@ -354,12 +391,13 @@ that Jira is fully mapped globally.
 
 ### Reports vs Cases
 
-Cases is the **work** surface (edit). Reports is the **read** surface
-(compare, trend, export). Neither writes PolarIS.
+Reports is the **product**. Cases is the **editor** that makes Case-mode
+numbers true. Delivery is the **Jira tree** behind a row. Mapping is the
+**membership** editor behind Cost vs Pending. Neither surface writes PolarIS.
 
 ---
 
-## 6. Data (overlay SoT)
+## 7. Data (Jira snapshot + overlay SoT)
 
 `jira_map/overlay_cases.json` (shape for implementation; not shipped until R6):
 
@@ -402,7 +440,21 @@ KPIs into `report_history.json`.
 
 ---
 
-## 7. What “controllable” means (pilot done)
+## 8. What “done” means
+
+**Hours control over Jira is achieved** when a refresh of Jira is enough to
+open Reports and trust:
+
+1. Product-line Cost and Program M1–M4 Cost are unique, separate, and not
+   pending.
+2. Mapping coverage and pending exposure are visible; pending is never Cost.
+3. Budgeted rows show Left; unbudgeted rows show `—`.
+4. Trend/burn follow snapshot dates from Jira fetches.
+5. Every chart row and table row opens or lists Jira keys.
+6. For the **pilot case**, Reports Case mode matches Cases and Overview on
+   Allocated and FAC (criteria below).
+
+### Pilot case controllable
 
 A case is controllable when all of these are true:
 
@@ -416,14 +468,16 @@ A case is controllable when all of these are true:
    still shown.
 6. Overview, Cases, and Reports Case mode show the same Allocated and FAC.
 
-Until then, Hours Control reports **traceable unique spend**. It does not
-claim the business case is under control.
+Until then, Hours Control reports **traceable unique spend from Jira**. It
+does not claim the business case is under control.
 
 ---
 
-## 8. Out of this design
+## 9. Out of this design
 
-Write PolarIS. Euros. Auth. MariaDB. Auto-splitting shared EPPs. Treating
-BRP as a Service hours as program M1–M4. Publishing worklog authors on Pages.
-Feature-level overlay. Live Jira in the browser. Multiple pilots before one
-case is controllable.
+Write PolarIS (or any Jira field). Jira dashboards/gadgets as the UI (the
+console is the report surface; keys deep-link to Jira). Euros. Auth. MariaDB.
+Auto-splitting shared EPPs. Treating BRP as a Service hours as program M1–M4.
+Publishing worklog authors on Pages. Feature-level overlay. Live Jira in the
+browser. Multiple pilots before one case is controllable. Pages that do not
+change a report number or its Jira drill.
