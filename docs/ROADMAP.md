@@ -28,9 +28,17 @@ Envelopes for product line, EDP, and M1–M4. `overlay_budgets.json` editor. Unb
 
 Unique hours by product and by BRPaaS milestone, mapping health, concentration. Power BI-style variance-to-detail structure with exclusive Product / Program modes, bounded responsive SVGs, donut health, dumbbell budget comparison, diverging variance, Pareto concentration, URL-persisted filters, CSV export, underlying tables, dated history, burn rate, and forecast. No insight essays.
 
+## R6 — Business-case control (F7)
+
+Product design: [CONTROL.md](CONTROL.md).
+
+Keep the tree. Add Cases to the rail. Overlay cases file, sanitized worklog ledger, associated vs allocated, ETC/FAC, coverage exceptions, Reports Case mode, Overview pilot strip. Local `POST /cases`.
+
+First usable slice: **one pilot case** meets F7.9 (controllable). Do not scale the case list first.
+
 ## Later (not v1)
 
-Coggle restyle. PolarIS write-back. Feature-level split (e.g. EPP-172). Euros. Auth.
+Coggle restyle. PolarIS write-back. Feature-level split (e.g. EPP-172). Euros. Auth. Roll Cost-page line budgets from cases. Multiple cases as a portfolio.
 
 ## Refresh pipeline
 

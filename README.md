@@ -7,6 +7,7 @@ Static app over the roadmap delivery tree. Overlay JSON is the EDP↔EPP source 
 - [Overview](index.html)
 - [Delivery](delivery.html) — product line and BRPaaS milestone trees
 - [Mapping](mapping.html) — confirm / reject / add links
+- Cases — business-case control (design: [docs/CONTROL.md](docs/CONTROL.md); not in the rail until R6)
 - [Cost](cost.html) — hour envelopes
 - [Reports](reports.html) — interactive KPIs, product/program cuts, history, and forecast
 
@@ -20,7 +21,7 @@ PolarIS is in cost unless overlay rejects it. Overlay adds EPPs PolarIS missed. 
 
 Product-line reports stay EDP-first. BRPaaS **program** reports stay milestone-first (Power Balancer plus BPO). Do not mix those cuts into one “BRPaaS hours” number.
 
-Living spec: [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md), [docs/ROADMAP.md](docs/ROADMAP.md).
+Living spec: [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md), [docs/ROADMAP.md](docs/ROADMAP.md). Control process design: [docs/CONTROL.md](docs/CONTROL.md).
 
 ## Refresh
 
