@@ -77,6 +77,7 @@ def parent_key_of(issue: dict) -> str | None:
 def compact_issue(issue: dict) -> dict:
     key = issue.get("key")
     status = field(issue, "status") or {}
+    status_category = status.get("statusCategory") if isinstance(status, dict) else {}
     project = field(issue, "project") or {}
     tracking = field(issue, "timetracking") or {}
     if not isinstance(tracking, dict):
@@ -86,6 +87,10 @@ def compact_issue(issue: dict) -> dict:
         "summary": field(issue, "summary"),
         "issuetype": issue_type_name(issue),
         "status": status.get("name") if isinstance(status, dict) else status,
+        "statusCategory": (
+            status_category.get("key") or status_category.get("name") or ""
+            if isinstance(status_category, dict) else ""
+        ),
         "project": project.get("key") if isinstance(project, dict) else project,
         "parent_key": parent_key_of(issue),
         "ownSpentSec": as_int(field(issue, "timespent")) or 0,
@@ -93,6 +98,7 @@ def compact_issue(issue: dict) -> dict:
         "ownRemainingSec": as_int(field(issue, "timeestimate")),
         "jiraAggSpentSec": as_int(field(issue, "aggregatetimespent")),
         "jiraAggEstimateSec": as_int(field(issue, "aggregatetimeoriginalestimate")),
+        "jiraAggRemainingSec": as_int(field(issue, "aggregatetimeestimate")),
         "storyPoints": as_points(field(issue, "customfield_10016")),
         "jiraSpentPretty": tracking.get("timeSpent"),
         "jiraEstimatePretty": tracking.get("originalEstimate"),
@@ -148,6 +154,15 @@ def leaf_rolled_estimate(rec: dict | None) -> int:
     return int(rec.get("ownEstimateSec") or 0)
 
 
+def leaf_rolled_remaining(rec: dict | None) -> int:
+    if not rec:
+        return 0
+    agg = rec.get("jiraAggRemainingSec")
+    if agg is not None:
+        return int(agg)
+    return int(rec.get("ownRemainingSec") or 0)
+
+
 def feature_rolled_spent(rec: dict | None, child_rolled: int) -> int:
     """Feature rolled time prefers Jira aggregate so unlisted defects are not lost."""
     if not rec:
@@ -169,6 +184,16 @@ def feature_rolled_estimate(rec: dict | None, child_rolled: int) -> int:
     return max(int(agg), own + child_rolled)
 
 
+def feature_rolled_remaining(rec: dict | None, child_rolled: int) -> int:
+    if not rec:
+        return child_rolled
+    agg = rec.get("jiraAggRemainingSec")
+    own = int(rec.get("ownRemainingSec") or 0)
+    if agg is None:
+        return own + child_rolled
+    return max(int(agg), own + child_rolled)
+
+
 def time_view(
     rec: dict | None,
     *,
@@ -178,6 +203,8 @@ def time_view(
     rolled_estimate: int | None,
     own_points: float | None,
     rolled_points: float | None,
+    own_remaining: int | None = None,
+    rolled_remaining: int | None = None,
     unlisted_spent: int = 0,
     shared_with: list[str] | None = None,
 ) -> dict:
@@ -186,14 +213,20 @@ def time_view(
         "rolledSpentSec": rolled_spent,
         "ownEstimateSec": own_estimate,
         "rolledEstimateSec": rolled_estimate,
+        "ownRemainingSec": own_remaining,
+        "rolledRemainingSec": rolled_remaining,
         "ownSpentHours": hours(own_spent),
         "rolledSpentHours": hours(rolled_spent),
         "ownEstimateHours": hours(own_estimate),
         "rolledEstimateHours": hours(rolled_estimate),
+        "ownRemainingHours": hours(own_remaining),
+        "rolledRemainingHours": hours(rolled_remaining),
         "ownSpent": format_jira_time(own_spent),
         "rolledSpent": format_jira_time(rolled_spent),
         "ownEstimate": format_jira_time(own_estimate) if own_estimate is not None else "",
         "rolledEstimate": format_jira_time(rolled_estimate) if rolled_estimate else "",
+        "ownRemaining": format_jira_time(own_remaining) if own_remaining is not None else "",
+        "rolledRemaining": format_jira_time(rolled_remaining) if rolled_remaining is not None else "",
         "ownPoints": own_points,
         "rolledPoints": rolled_points,
         "unlistedSpentSec": unlisted_spent,

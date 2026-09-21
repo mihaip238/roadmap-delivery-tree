@@ -140,6 +140,11 @@ def compact_issue(iss: dict) -> dict:
         "summary": f.get("summary") or iss.get("summary"),
         "issuetype": (f.get("issuetype") or {}).get("name") or iss.get("issuetype"),
         "status": (f.get("status") or {}).get("name") or iss.get("status"),
+        "statusCategory": (
+            ((f.get("status") or {}).get("statusCategory") or {}).get("key")
+            or iss.get("statusCategory")
+            or ""
+        ),
         "project": (f.get("project") or {}).get("key") or iss.get("project"),
         "parent_key": parent.get("key") or iss.get("parent_key"),
         "parent_summary": parent_fields.get("summary"),

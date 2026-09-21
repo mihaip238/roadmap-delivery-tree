@@ -11,10 +11,12 @@ from pathlib import Path
 
 from jira_time import (
     feature_rolled_estimate,
+    feature_rolled_remaining,
     feature_rolled_spent,
     format_jira_time,
     hours,
     leaf_rolled_estimate,
+    leaf_rolled_remaining,
     leaf_rolled_spent,
     time_view,
 )
@@ -37,12 +39,15 @@ def attach_story(st: dict, index: dict) -> dict:
     rolled = leaf_rolled_spent(rec)
     own_est = (rec or {}).get("ownEstimateSec")
     rolled_est = leaf_rolled_estimate(rec) if rec else 0
+    own_remaining = (rec or {}).get("ownRemainingSec")
+    rolled_remaining = leaf_rolled_remaining(rec) if rec else 0
     points = (rec or {}).get("storyPoints")
     out = dict(st)
     if rec:
         out.setdefault("summary", rec.get("summary"))
         out.setdefault("issuetype", rec.get("issuetype"))
         out.setdefault("status", rec.get("status"))
+        out.setdefault("statusCategory", rec.get("statusCategory"))
         out.setdefault("project", rec.get("project"))
     out["time"] = time_view(
         rec,
@@ -50,6 +55,8 @@ def attach_story(st: dict, index: dict) -> dict:
         rolled_spent=rolled,
         own_estimate=own_est,
         rolled_estimate=rolled_est or None,
+        own_remaining=own_remaining,
+        rolled_remaining=rolled_remaining or None,
         own_points=points,
         rolled_points=points,
         unlisted_spent=max(0, rolled - own),
@@ -72,12 +79,14 @@ def attach_feature(feat: dict, index: dict, children_by_parent: dict, seen_stori
             "summary": (child_rec or {}).get("summary"),
             "issuetype": (child_rec or {}).get("issuetype"),
             "status": (child_rec or {}).get("status"),
+            "statusCategory": (child_rec or {}).get("statusCategory"),
             "project": (child_rec or {}).get("project"),
             "addedFrom": "live_parent_walk",
         }, index))
     stories.extend(extra)
     child_spent = sum((st.get("time") or {}).get("rolledSpentSec") or 0 for st in stories)
     child_est = sum((st.get("time") or {}).get("rolledEstimateSec") or 0 for st in stories)
+    child_remaining = sum((st.get("time") or {}).get("rolledRemainingSec") or 0 for st in stories)
     child_pts = 0.0
     has_pts = False
     for st in stories:
@@ -89,6 +98,8 @@ def attach_feature(feat: dict, index: dict, children_by_parent: dict, seen_stori
     rolled = feature_rolled_spent(rec, child_spent)
     own_est = (rec or {}).get("ownEstimateSec")
     rolled_est = feature_rolled_estimate(rec, child_est)
+    own_remaining = (rec or {}).get("ownRemainingSec")
+    rolled_remaining = feature_rolled_remaining(rec, child_remaining)
     own_pts = (rec or {}).get("storyPoints")
     rolled_pts = (own_pts or 0) + child_pts if (own_pts is not None or has_pts) else None
     listed = own + child_spent
@@ -98,6 +109,7 @@ def attach_feature(feat: dict, index: dict, children_by_parent: dict, seen_stori
         out.setdefault("summary", rec.get("summary"))
         out.setdefault("issuetype", rec.get("issuetype"))
         out.setdefault("status", rec.get("status"))
+        out.setdefault("statusCategory", rec.get("statusCategory"))
         out.setdefault("project", rec.get("project"))
     out["stories"] = stories
     out["story_count"] = len(stories)
@@ -107,6 +119,8 @@ def attach_feature(feat: dict, index: dict, children_by_parent: dict, seen_stori
         rolled_spent=rolled,
         own_estimate=own_est,
         rolled_estimate=rolled_est or None,
+        own_remaining=own_remaining,
+        rolled_remaining=rolled_remaining or None,
         own_points=own_pts,
         rolled_points=rolled_pts,
         unlisted_spent=unlisted,
@@ -133,12 +147,14 @@ def attach_epp(epp: dict, index: dict, children_by_parent: dict, shared: dict[st
             "summary": (child_rec or {}).get("summary"),
             "issuetype": itype,
             "status": (child_rec or {}).get("status"),
+            "statusCategory": (child_rec or {}).get("statusCategory"),
             "project": (child_rec or {}).get("project"),
             "stories": [],
             "addedFrom": "live_parent_walk",
         }, index, children_by_parent, set()))
     child_spent = sum((f.get("time") or {}).get("rolledSpentSec") or 0 for f in features)
     child_est = sum((f.get("time") or {}).get("rolledEstimateSec") or 0 for f in features)
+    child_remaining = sum((f.get("time") or {}).get("rolledRemainingSec") or 0 for f in features)
     child_pts = 0.0
     has_pts = False
     for f in features:
@@ -152,12 +168,15 @@ def attach_epp(epp: dict, index: dict, children_by_parent: dict, shared: dict[st
     # EPP aggregate does NOT include features. Always own + children.
     rolled = own + child_spent
     rolled_est = (own_est or 0) + child_est
+    own_remaining = (rec or {}).get("ownRemainingSec")
+    rolled_remaining = (own_remaining or 0) + child_remaining
     rolled_pts = (own_pts or 0) + child_pts if (own_pts is not None or has_pts) else None
     out = dict(epp)
     if rec:
         out.setdefault("summary", rec.get("summary"))
         out.setdefault("issuetype", rec.get("issuetype"))
         out.setdefault("status", rec.get("status"))
+        out.setdefault("statusCategory", rec.get("statusCategory"))
     out["children"] = features
     out["feature_count"] = len(features)
     out["story_count"] = sum(f.get("story_count") or 0 for f in features)
@@ -167,6 +186,8 @@ def attach_epp(epp: dict, index: dict, children_by_parent: dict, shared: dict[st
         rolled_spent=rolled,
         own_estimate=own_est,
         rolled_estimate=rolled_est or None,
+        own_remaining=own_remaining,
+        rolled_remaining=rolled_remaining or None,
         own_points=own_pts,
         rolled_points=rolled_pts,
         shared_with=shared.get(key or "", []),
@@ -254,6 +275,7 @@ def main() -> None:
             own = int((edp_rec or {}).get("ownSpentSec") or 0)
             child_spent = sum((e.get("time") or {}).get("rolledSpentSec") or 0 for e in epps)
             child_est = sum((e.get("time") or {}).get("rolledEstimateSec") or 0 for e in epps)
+            child_remaining = sum((e.get("time") or {}).get("rolledRemainingSec") or 0 for e in epps)
             child_pts = 0.0
             has_pts = False
             for e in epps:
@@ -262,6 +284,10 @@ def main() -> None:
                     child_pts += float(pts)
                     has_pts = True
             own_est = (edp_rec or {}).get("ownEstimateSec")
+            own_remaining = (edp_rec or {}).get("ownRemainingSec")
+            if edp_rec:
+                edp.setdefault("status", edp_rec.get("status"))
+                edp.setdefault("statusCategory", edp_rec.get("statusCategory"))
             unique_seen: set[str] = set()
             unique_spent = own
             for epp in epps:
@@ -276,6 +302,8 @@ def main() -> None:
                 rolled_spent=own + child_spent,
                 own_estimate=own_est,
                 rolled_estimate=((own_est or 0) + child_est) or None,
+                own_remaining=own_remaining,
+                rolled_remaining=((own_remaining or 0) + child_remaining) or None,
                 own_points=(edp_rec or {}).get("storyPoints"),
                 rolled_points=child_pts if has_pts else None,
                 shared_with=shared_keys,
