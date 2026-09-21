@@ -90,6 +90,17 @@ Snapshot: `2026-09-14T14:06:16Z`.
 The application must never turn sparse estimates into a precise date. `—` plus
 the required Jira practice is more useful than false confidence.
 
+Time currently comes from Jira ticket aggregates (`timespent`,
+`aggregatetimespent`), not individual worklog rows. There is no worklog date,
+author, or team in product/program reporting; burn is therefore derived from
+dated snapshot deltas. The case ledger schema exists but is empty until a
+sanitized fetch is configured.
+
+An older Excel/CSV source contains a `business_case` column, but that field is
+not in the frontend payload. Do not publish it automatically: this repository
+and GitHub Pages are public. Case identity must be explicitly sanitized or
+maintained in `overlay_cases.json`.
+
 ## 4. KPI evidence contract
 
 KPIs are definitions, not hard-coded cards. Each KPI declares:
