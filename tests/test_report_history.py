@@ -76,6 +76,22 @@ def fixture() -> dict:
             "noneActive": 1,
             "sharedEppCount": 1,
         },
+        "cases": [{
+            "id": "CASE-1",
+            "title": "Pilot",
+            "status": "active",
+            "pilot": True,
+            "allocated": 1.5,
+            "associated": 2,
+            "unallocated": 0.5,
+            "pending": 3,
+            "etc": 1,
+            "fac": 2.5,
+            "budget": 4,
+            "left": 2.5,
+            "coverageExceptionHours": 0,
+            "edps": ["EDP-1"],
+        }],
     }
 
 
@@ -112,6 +128,14 @@ class ReportHistoryTests(unittest.TestCase):
             self.assertEqual(history["snapshots"][0]["summary"]["cost"], 7)
             self.assertTrue(js_path.read_text(encoding="utf-8").startswith("window.REPORT_HISTORY = "))
             self.assertEqual(json.loads(json_path.read_text(encoding="utf-8"))["version"], 1)
+
+    def test_case_snapshot_tracks_fac_inputs(self):
+        case = build_snapshot(fixture())["cases"][0]
+        self.assertEqual(case["key"], "CASE-1")
+        self.assertEqual(case["allocated"], 1.5)
+        self.assertEqual(case["fac"], 2.5)
+        self.assertEqual(case["budget"], 4)
+        self.assertEqual(case["edps"], ["EDP-1"])
 
     def test_missing_fetch_timestamp_is_rejected(self):
         payload = fixture()
