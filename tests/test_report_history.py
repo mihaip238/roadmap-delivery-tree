@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from report_history import build_snapshot, update_history
+from report_history import build_snapshot, deliverable_evidence, update_history
 
 
 def issue(kind: str, key: str, own: int, children: list | None = None, **extra) -> dict:
@@ -136,6 +136,37 @@ class ReportHistoryTests(unittest.TestCase):
         self.assertEqual(case["fac"], 2.5)
         self.assertEqual(case["budget"], 4)
         self.assertEqual(case["edps"], ["EDP-1"])
+
+    def test_deliverable_snapshot_keeps_scope_status_and_estimate_evidence(self):
+        stories = [
+            issue(
+                "story", "STY-1", 3600,
+                status="Done", statusCategory="done",
+            ),
+            issue(
+                "story", "STY-2", 0,
+                status="In Development", statusCategory="indeterminate",
+            ),
+        ]
+        stories[0]["time"]["ownEstimateSec"] = 7200
+        stories[0]["time"]["ownRemainingSec"] = 0
+        stories[1]["time"]["ownEstimateSec"] = None
+        stories[1]["time"]["ownRemainingSec"] = 3600
+        feature = issue("feature", "FTR-X", 0, stories)
+        edp = issue(
+            "edp", "EDP-X", 0,
+            [issue("epp", "EPP-X", 0, [feature], costMember=True)],
+        )
+        evidence = deliverable_evidence(edp)
+        self.assertEqual(evidence["scope"], 2)
+        self.assertEqual(evidence["status"]["done"], 1)
+        self.assertEqual(evidence["status"]["active"], 1)
+        self.assertEqual(evidence["completionPct"], 50)
+        self.assertEqual(evidence["statusCategoryCoveragePct"], 100)
+        self.assertEqual(evidence["estimateCoveragePct"], 50)
+        self.assertEqual(evidence["remainingCoveragePct"], 100)
+        self.assertEqual(evidence["originalEstimate"], 2)
+        self.assertEqual(evidence["remainingEstimate"], 1)
 
     def test_missing_fetch_timestamp_is_rejected(self):
         payload = fixture()

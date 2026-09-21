@@ -80,6 +80,86 @@ def pending_hours(nodes: Iterable[dict]) -> float:
     return round(sum(acc.values()) / 3600, 2)
 
 
+DONE_STATUSES = {"done", "released", "usable", "passed", "closed", "resolved"}
+REMOVED_STATUSES = {"canceled", "cancelled", "rejected", "abandoned"}
+
+
+def status_group(node: dict) -> str:
+    category = str(node.get("statusCategory") or "").lower()
+    if category == "done":
+        return "done"
+    if category == "indeterminate":
+        return "active"
+    if category in {"new", "to do"}:
+        return "planned"
+    status = str(node.get("status") or "").strip().lower()
+    if status in DONE_STATUSES:
+        return "done"
+    if status in REMOVED_STATUSES:
+        return "removed"
+    if any(word in status for word in ("progress", "development", "design", "test", "review", "delivery", "selected", "waiting for release", "ready")):
+        return "active"
+    if any(word in status for word in ("backlog", "open", "new", "to do", "discovery", "parking lot", "proposed")):
+        return "planned"
+    return "other"
+
+
+def deliverable_leaves(edp: dict) -> list[dict]:
+    epps = [epp for epp in edp.get("children") or [] if epp.get("costMember")]
+    features = [feature for epp in epps for feature in epp.get("children") or []]
+    stories = [story for feature in features for story in feature.get("children") or []]
+    return stories or features or epps
+
+
+def unique_field_hours(node: dict, field_name: str) -> float:
+    seen: set[str] = set()
+    seconds = 0
+
+    def visit(row: dict) -> None:
+        nonlocal seconds
+        if row.get("type") == "epp" and row.get("costMember") is False:
+            return
+        key = row.get("key")
+        if key and key not in seen:
+            seen.add(key)
+            value = (row.get("time") or {}).get(field_name)
+            if value is not None:
+                seconds += int(value or 0)
+        for child in row.get("children") or []:
+            visit(child)
+
+    visit(node)
+    return round(seconds / 3600, 2)
+
+
+def deliverable_evidence(edp: dict) -> dict:
+    leaves = deliverable_leaves(edp)
+    counts = {"done": 0, "active": 0, "planned": 0, "removed": 0, "other": 0}
+    native = 0
+    estimated = 0
+    remaining = 0
+    for leaf in leaves:
+        counts[status_group(leaf)] += 1
+        if leaf.get("statusCategory"):
+            native += 1
+        time_info = leaf.get("time") or {}
+        if time_info.get("ownEstimateSec") is not None:
+            estimated += 1
+        if time_info.get("ownRemainingSec") is not None:
+            remaining += 1
+    eligible = len(leaves) - counts["removed"]
+    return {
+        "scope": len(leaves),
+        "status": counts,
+        "completionPct": round(counts["done"] / eligible * 100, 2) if eligible else None,
+        "statusCategoryCoveragePct": round(native / len(leaves) * 100, 2) if leaves else 0,
+        "estimateCoveragePct": round(estimated / eligible * 100, 2) if eligible else None,
+        "remainingCoveragePct": round(remaining / eligible * 100, 2) if eligible else None,
+        "originalEstimate": unique_field_hours(edp, "ownEstimateSec"),
+        "remainingEstimate": unique_field_hours(edp, "ownRemainingSec"),
+    }
+
+
 def nullable_number(value: Any) -> float | None:
     if value in (None, ""):
         return None
@@ -146,7 +226,10 @@ def edp_rows(payload: dict) -> list[dict]:
             "pending": pending_hours([edp]),
             "budget": nullable_number(edp.get("budgetHours")),
             "eppCount": int(edp.get("eppCount") or 0),
+            "featureCount": int(edp.get("featureCount") or 0),
+            "storyCount": int(edp.get("storyCount") or 0),
             "sharedEpps": time_info.get("sharedWith") or [],
+            "deliverable": deliverable_evidence(edp),
         })
     return rows
 
