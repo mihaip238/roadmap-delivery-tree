@@ -10,6 +10,7 @@ Static app over the roadmap delivery tree. Overlay JSON is the EDP↔EPP source 
 - [Cases](cases.html) — business-case control: bindings, Jira tree, allocation, ETC/FAC, coverage
 - [Cost](cost.html) — hour envelopes
 - [Reports](reports.html) — payoff: interactive KPIs over the Jira snapshot (product / program cuts, history, forecast)
+- [Deliverable](deliverable.html) — EDP control report; opened from Reports or Delivery
 
 The Coggle [map](Roadmap_Map.html) is still in the repo; it is not in the primary nav.
 
@@ -21,7 +22,7 @@ PolarIS is in cost unless overlay rejects it. Overlay adds EPPs PolarIS missed. 
 
 Product-line reports stay EDP-first. BRPaaS **program** reports stay milestone-first (Power Balancer plus BPO). Do not mix those cuts into one “BRPaaS hours” number.
 
-Living spec: [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md), [docs/ROADMAP.md](docs/ROADMAP.md). Control process design: [docs/CONTROL.md](docs/CONTROL.md).
+Living spec: [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md), [docs/ROADMAP.md](docs/ROADMAP.md). Control process: [docs/CONTROL.md](docs/CONTROL.md). Reporting intelligence and Jira tracking contract: [docs/REPORTING.md](docs/REPORTING.md).
 
 ## Refresh
 

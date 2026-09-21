@@ -41,6 +41,18 @@ Overview pilot strip, Reports Case mode, and case history rows. The empty
 ledger schema is public-safe. F7.9 activates when the authoritative pilot,
 teams/period, budget/ETC, and sanitized Jira ledger are populated.
 
+## R7 — Deliverable intelligence (F8)
+
+Product/report design: [REPORTING.md](REPORTING.md).
+
+Implemented first slice: EDP Deliverable report, evidence-aware KPI registry,
+workflow composition, estimate coverage, EPP hours concentration, control
+signals, tracking gaps, and Jira scope table. Reports and Delivery drill into it.
+
+Next data steps: refresh Jira with native status category and Remaining estimate,
+adopt the P0 target/blocker/estimate conventions, then accumulate three or more
+snapshots over 14 days before enabling finish forecasts.
+
 ## Later (not v1)
 
 Coggle restyle. PolarIS write-back. Feature-level split (e.g. EPP-172). Euros. Auth. Roll Cost-page line budgets from cases. Multiple cases as a portfolio.

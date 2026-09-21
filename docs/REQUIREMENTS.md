@@ -152,6 +152,21 @@ Makes Reports Case mode honest. Workflow, layout, and connections: [CONTROL.md](
 | F7.8 | Public Pages | No worklog author, email, or comment body in shipped JSON. |
 | F7.9 | Pilot done | Bound trees have no pending cost members; shared is allocated or listed as holes; exceptions classified; ETC numeric; Overview / Cases / Reports FAC match. |
 
+## F8 Deliverable reporting and KPI evidence
+
+Decision model, Jira gap analysis, formulas, tracking contract, and references:
+[REPORTING.md](REPORTING.md).
+
+| ID | Name | Definition of done |
+| --- | --- | --- |
+| F8.1 | EDP deliverable report | One accountable EDP report rolls confirmed EPP → Feature → Story evidence into workflow composition, unique spent, estimates, forecast readiness, concentration, control signals, and exact Jira scope. |
+| F8.2 | KPI registry | KPI definitions declare decision, formula/source, unit, evidence state (`available` / `partial` / `unavailable`), and Jira tracking action. UI does not manufacture missing values. |
+| F8.3 | Completion | Done leaf items / active leaf items excluding removed. Status-category fallback is visibly partial. Hours spent / estimate is never completion. |
+| F8.4 | Estimate confidence | Original and Remaining are always paired with estimate coverage. Forecast requires Remaining plus ≥3 snapshots spanning 14 days. |
+| F8.5 | Reporting drill | Reports EDP rows and Delivery EDP records open the deliverable report. Every scope key opens Jira. |
+| F8.6 | Evidence payload | Future Jira refreshes retain native status category and remaining estimate at issue and rollup levels. |
+| F8.7 | Tracking gaps | Report identifies missing target, blocker semantics, remaining estimates, status evidence, history, acceptance, and benefits instead of showing false confidence. |
+
 ## Out of scope (v1)
 
 Write PolarIS to Jira. Euros. Auto-allocating shared EPP hours across EDPs or cases. Live Jira in the browser. Auth. MariaDB. Treating “BRP as a Service” hours as the BRPaaS program total. Publishing unsanitized worklogs. Multiple pilots before F7.9.
