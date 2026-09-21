@@ -107,6 +107,25 @@ class ApplyCasesTests(unittest.TestCase):
         self.assertEqual(pilot["coverageExceptionCount"], 1)
         self.assertEqual(pilot["holes"], 2)
 
+    def test_allocations_across_cases_cannot_exceed_jira_hours(self):
+        overlay = {
+            "pilot": "CASE-1",
+            "cases": [
+                {
+                    "id": "CASE-1",
+                    "edps": ["EDP-1"],
+                    "allocations": [{"epp": "EPP-S", "hours": 1.5}],
+                },
+                {
+                    "id": "CASE-2",
+                    "edps": ["EDP-2"],
+                    "allocations": [{"epp": "EPP-S", "hours": 1}],
+                },
+            ],
+        }
+        with self.assertRaisesRegex(ValueError, r"EPP-S allocations total 2.5 h but Jira has 2.0 unique h"):
+            apply_cases(fixture(), overlay, {"rows": []})
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -144,6 +144,25 @@ def apply_cases(payload: dict, overlay: dict | None = None, ledger: dict | None 
         for epp_key in found:
             epp_cases.setdefault(epp_key, set()).add(case_id)
 
+    explicit_totals: dict[str, float] = {}
+    for case in raw_cases:
+        for epp_key, value in allocation_map(case).items():
+            explicit_totals[epp_key] = round(explicit_totals.get(epp_key, 0) + value, 2)
+    for epp_key, total in explicit_totals.items():
+        sample = next((
+            epps[epp_key] for epps in case_epps.values()
+            if epp_key in epps
+        ), None)
+        if sample is None:
+            continue
+        epp_acc: dict[str, int] = {}
+        collect_own(sample, epp_acc)
+        available = hours(epp_acc)
+        if total > available:
+            raise ValueError(
+                f"{epp_key} allocations total {total} h but Jira has {available} unique h"
+            )
+
     result = []
     for raw in raw_cases:
         case = dict(raw)

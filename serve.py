@@ -15,6 +15,9 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse
 
+from apply_cases import apply_cases, load_ledger
+from apply_overlay import read_tree_js
+
 ROOT = Path(__file__).resolve().parent
 OVERLAY = ROOT / "jira_map" / "overlay_links.json"
 BUDGETS = ROOT / "jira_map" / "overlay_budgets.json"
@@ -163,12 +166,18 @@ class Handler(SimpleHTTPRequestHandler):
             if pilot not in (None, "") and str(pilot) not in seen:
                 self._json(400, {"ok": False, "error": "pilot must name an existing case"})
                 return
-            write_json(CASES, {
+            candidate = {
                 "version": int(data.get("version") or 1),
                 "updatedAt": data.get("updatedAt"),
                 "pilot": pilot or None,
                 "cases": rows,
-            })
+            }
+            try:
+                apply_cases(read_tree_js(), candidate, load_ledger())
+            except ValueError as exc:
+                self._json(400, {"ok": False, "error": str(exc)})
+                return
+            write_json(CASES, candidate)
             ok, log = apply_overlay()
             self._json(200 if ok else 500, {"ok": ok, "wrote": str(CASES), "apply": log})
             return
