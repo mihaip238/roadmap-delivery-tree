@@ -3,6 +3,7 @@
     { href: "index.html", id: "overview", label: "Overview" },
     { href: "delivery.html", id: "delivery", label: "Delivery" },
     { href: "mapping.html", id: "mapping", label: "Mapping" },
+    { href: "cases.html", id: "cases", label: "Cases" },
     { href: "cost.html", id: "cost", label: "Cost" },
     { href: "reports.html", id: "reports", label: "Reports" },
   ];

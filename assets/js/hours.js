@@ -432,6 +432,32 @@
     return ((window.REPORT_HISTORY || {}).snapshots || []).slice();
   }
 
+  function caseRows() {
+    return (tree().cases || []).map((row) => Object.assign({
+      type: "case",
+      key: row.id,
+      label: row.id + (row.title ? "  " + row.title : ""),
+      name: row.title || row.id,
+      title: row.title || "",
+      cost: Number(row.allocated) || 0,
+      allocated: Number(row.allocated) || 0,
+      associated: Number(row.associated) || 0,
+      unallocated: Number(row.unallocated) || 0,
+      pending: Number(row.pending) || 0,
+      fac: row.fac == null ? null : Number(row.fac),
+      etc: row.etc == null ? null : Number(row.etc),
+      budget: row.budget == null ? null : Number(row.budget),
+      remaining: row.left == null ? null : Number(row.left),
+      active: row.status !== "closed",
+      count: (row.edps || []).length,
+      href: "cases.html?case=" + encodeURIComponent(row.id || ""),
+    }, row));
+  }
+
+  function pilotCase() {
+    return ((tree().caseControl || {}).pilot) || null;
+  }
+
   function topEdps(n) {
     return edpRows().slice().sort((a, b) => b.uniqueSpentHours - a.uniqueSpentHours).slice(0, n || 8);
   }
@@ -512,6 +538,8 @@
     reportMilestoneRows,
     reportEppRows,
     reportHistory,
+    caseRows,
+    pilotCase,
     topEdps,
     topSharedEpps,
     healthCounts,
