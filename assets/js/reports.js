@@ -550,7 +550,7 @@
       return `<a href="delivery.html?view=milestone&amp;milestone=${encodeURIComponent(row.key)}">${Hours.esc(row.name)}</a>`;
     }
     if (row.type === "edp") {
-      return `<a href="${Hours.esc(Hours.lineHref(row.product) + "#" + encodeURIComponent(row.key || ""))}">${Hours.esc(row.title || "")}</a>`;
+      return `<a href="deliverable.html?edp=${encodeURIComponent(row.key || "")}">${Hours.esc(row.title || "")}</a>`;
     }
     return Hours.esc(row.title || "");
   }

@@ -227,7 +227,11 @@
     if (selected.kind === "edp") {
       const edp = Hours.findEdp(selected.key);
       els.pane.innerHTML = edp
-        ? Record.edpView(edp, { open, mappingHref: "mapping.html#" + encodeURIComponent(edpId(edp)) })
+        ? Record.edpView(edp, {
+          open,
+          reportHref: "deliverable.html?edp=" + encodeURIComponent(edp.key || ""),
+          mappingHref: "mapping.html#" + encodeURIComponent(edpId(edp)),
+        })
         : `<div class="empty-mini">—</div>`;
       return;
     }

@@ -172,9 +172,10 @@
     const pending = Hours.pendingChildren(edp);
     const rejected = Hours.rejectedChildren(edp);
     const ordered = cost.concat(pending, rejected);
-    const extra = opts.mappingHref
-      ? `<a class="soft-link" href="${esc(opts.mappingHref)}">Mapping</a>`
-      : "";
+    const extra = [
+      opts.reportHref ? `<a class="soft-link" href="${esc(opts.reportHref)}">Report</a>` : "",
+      opts.mappingHref ? `<a class="soft-link" href="${esc(opts.mappingHref)}">Mapping</a>` : "",
+    ].join("");
     if (!ordered.length) {
       return edpHead(edp, extra) + (opts.afterHead || "") + `<div class="empty-mini">—</div>`;
     }
