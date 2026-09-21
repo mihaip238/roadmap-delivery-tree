@@ -96,12 +96,18 @@
       external: true,
     })).sort((a, b) => b.logged - a.logged);
     Charts.hbar(document.getElementById("deliverable-hours"), {
-      title: "Hours by EPP",
+      title: "EPP rolled hours",
       rows,
       series: [{ key: "logged", label: "Logged", fill: Charts.ink }],
       rowH: 38,
       showValues: true,
     });
+    const rolled = rows.reduce((sum, row) => sum + row.logged, 0);
+    const unique = Number(report.metrics.spent.value) || 0;
+    const overlap = Hours.round2(Math.max(0, rolled - unique));
+    document.getElementById("deliverable-hours-note").textContent = overlap
+      ? `Non-additive · ${Hours.fmtNum(overlap)} h ticket overlap · unique spent ${Hours.fmtNum(unique)} h`
+      : `Additive · unique spent ${Hours.fmtNum(unique)} h`;
   }
 
   function signal(label, value, status, href) {

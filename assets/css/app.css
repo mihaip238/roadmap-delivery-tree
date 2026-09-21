@@ -672,6 +672,14 @@ label.chk {
   border-bottom: 1px solid var(--line);
 }
 .evidence-line b { color: var(--ink); font-weight: 500; }
+.chart-note {
+  margin: -8px 0 2px;
+  padding-top: 9px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 9px;
+}
 .deliverable-control-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(360px, 0.8fr);
