@@ -586,6 +586,18 @@ label.chk {
   text-transform: uppercase;
 }
 .case-fields input { width: 100%; }
+.case-tree-edp {
+  margin: 0 0 26px;
+  border-bottom: 1px solid var(--line);
+}
+.case-tree-head {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+.case-tree-head .pill { margin-left: auto; }
 .case-empty {
   min-height: 60vh;
   display: grid;

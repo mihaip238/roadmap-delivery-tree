@@ -7,7 +7,7 @@ Static app over the roadmap delivery tree. Overlay JSON is the EDP↔EPP source 
 - [Overview](index.html)
 - [Delivery](delivery.html) — product line and BRPaaS milestone trees
 - [Mapping](mapping.html) — confirm / reject / add links
-- Cases — business-case control (design: [docs/CONTROL.md](docs/CONTROL.md); not in the rail until R6)
+- [Cases](cases.html) — business-case control: bindings, Jira tree, allocation, ETC/FAC, coverage
 - [Cost](cost.html) — hour envelopes
 - [Reports](reports.html) — payoff: interactive KPIs over the Jira snapshot (product / program cuts, history, forecast)
 
@@ -41,10 +41,10 @@ Milestone EPP trees: `python fetch_milestone_epps.py` then `python build_mindmap
 
 Time spent comes from native Jira worklogs (`timespent`, `aggregatetimespent`). Jira’s calendar is 8 hours = 1 day.
 
-## Edit mapping and budgets locally
+## Edit mapping, budgets, and cases locally
 
 ```
 python serve.py
 ```
 
-Open http://127.0.0.1:8765/ — POST `/overlay` and `/budgets` write JSON and re-run `apply_overlay.py`. On GitHub Pages, download the JSON, commit it, and run the refresh locally.
+Open http://127.0.0.1:8765/ — POST `/overlay`, `/budgets`, and `/cases` write JSON and re-run `apply_overlay.py`. On GitHub Pages, download the JSON, commit it, and run the refresh locally.

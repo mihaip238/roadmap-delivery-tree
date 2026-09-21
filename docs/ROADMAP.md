@@ -36,6 +36,11 @@ Keep the tree. Fetch remains Jira. Add Cases only so Reports can show FAC for on
 
 First usable slice: **one pilot case** meets F7.9 so Case-mode reports match Overview. Do not scale the case list first. Do not add surfaces that are not on the Jira → Reports path.
 
+Implemented: case overlay/model, local writer, Cases workspace with Jira tree,
+Overview pilot strip, Reports Case mode, and case history rows. The empty
+ledger schema is public-safe. F7.9 activates when the authoritative pilot,
+teams/period, budget/ETC, and sanitized Jira ledger are populated.
+
 ## Later (not v1)
 
 Coggle restyle. PolarIS write-back. Feature-level split (e.g. EPP-172). Euros. Auth. Roll Cost-page line budgets from cases. Multiple cases as a portfolio.

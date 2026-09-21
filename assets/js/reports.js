@@ -457,7 +457,7 @@
       concentrationRows = Reporting.rows({
         mode: "case", cut: "edp", case: state.case, metric: "cost", compare: "none",
         product: "all", milestone: "", active: false, health: "", q: "", top: "10",
-      }).filter((row) => !edpKeys.size || edpKeys.has(row.key));
+      }).filter((row) => edpKeys.has(row.key));
       Charts.pareto(els.concentration, {
         title: "Concentration",
         rows: concentrationRows,

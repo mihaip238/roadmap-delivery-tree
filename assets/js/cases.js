@@ -147,6 +147,28 @@
     </section>`;
   }
 
+  function treeSlice(row) {
+    const groups = (row.edps || []).map((key) => {
+      const edp = Hours.findEdp(key);
+      if (!edp) return "";
+      const ordered = Hours.costChildren(edp)
+        .concat(Hours.pendingChildren(edp), Hours.rejectedChildren(edp));
+      return `<div class="case-tree-edp">
+        <div class="case-tree-head">
+          ${jiraKey(key)}
+          <a href="${Hours.esc(Hours.lineHref(edp.productLabel) + "#" + encodeURIComponent(key))}">${Hours.esc(edp.title || "")}</a>
+          <span class="pill">${Hours.esc(Hours.health(edp))}</span>
+        </div>
+        <div class="unit-cols"><span></span><span></span><span></span><span>Cost</span><span>Logged</span><span></span></div>
+        ${ordered.map((epp) => Record.eppBlock(epp, open)).join("") || `<div class="empty-mini">—</div>`}
+      </div>`;
+    }).join("");
+    return `<section class="case-section">
+      <div class="case-section-head"><h2>Jira tree</h2><span class="mono muted">${(row.edps || []).length} EDP</span></div>
+      ${groups || `<div class="empty-mini">—</div>`}
+    </section>`;
+  }
+
   function coverage(row, calc) {
     const rows = (calc && calc.coverage) || [];
     return `<section class="case-section">
@@ -193,6 +215,7 @@
         </div>
       </section>
       ${bindings(row, calc)}
+      ${treeSlice(row)}
       ${allocations(row, calc)}
       ${coverage(row, calc)}
     </div>`;
@@ -320,5 +343,6 @@
   document.getElementById("case-new").addEventListener("click", createCase);
   document.getElementById("case-download").addEventListener("click", () => Save.download("overlay_cases.json", payload()));
   document.getElementById("case-save").addEventListener("click", save);
+  Record.bindToggle(document.getElementById("case-record"), open, paintRecord);
   init();
 })();

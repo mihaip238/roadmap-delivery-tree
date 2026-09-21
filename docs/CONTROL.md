@@ -399,7 +399,7 @@ numbers true. Delivery is the **Jira tree** behind a row. Mapping is the
 
 ## 7. Data (Jira snapshot + overlay SoT)
 
-`jira_map/overlay_cases.json` (shape for implementation; not shipped until R6):
+`jira_map/overlay_cases.json` (implemented in R6):
 
 ```json
 {
