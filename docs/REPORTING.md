@@ -110,12 +110,12 @@ Implemented registry: `assets/js/kpis.js`.
 
 | KPI | Formula | Guardrail |
 | --- | --- | --- |
-| Completion | Done leaf items / (all leaf items − removed) | Partial until Jira status category coverage is 100%; never “hours spent / estimate” |
+| Items done | Done leaf items / (all leaf items − removed) | Count-weighted scope proxy, not earned progress; partial until status category coverage is 100%; never “hours spent / estimate” |
 | Spent | Unique own worklog hours in confirmed cost-member tree | Pending inferred excluded |
 | Original | Unique sum of Jira original estimates | Always paired with estimate coverage |
 | Remaining | Unique sum of Jira remaining estimates | `—` until refreshed and sufficiently maintained |
 | Estimate coverage | Estimated active leaf items / active leaf items | Removed work excluded |
-| Forecast finish | Remaining / historical daily burn, projected from latest snapshot | Requires remaining + ≥3 snapshots spanning 14 days; labelled partial/linear |
+| Forecast finish | Remaining / historical daily burn, projected from latest snapshot | Requires ≥70% Original and Remaining coverage plus ≥3 snapshots spanning 14 days; labelled partial/linear |
 | Pending mapping | Unique hours under inferred EPPs | Never Cost |
 | Shared scope | Confirmed EPPs with multiple EDP owners | Not auto-split |
 | Blockers | Flagged/blocker-linked open items | `—` until one Jira convention exists |

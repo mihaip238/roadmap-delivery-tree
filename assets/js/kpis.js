@@ -7,10 +7,10 @@
       track: "Use Jira status categories consistently at Story and Feature level.",
     },
     completion: {
-      label: "Completion",
-      decision: "How much of the known scope is complete?",
+      label: "Items done",
+      decision: "What fraction of the current leaf-item count is complete?",
       source: "Leaf Jira work items by status category",
-      track: "Keep Story/Feature parentage and workflow status current.",
+      track: "Count-weighted scope proxy only. Keep parentage/status current; use a baseline earning rule before calling this earned progress.",
     },
     spent: {
       label: "Spent",
@@ -40,7 +40,7 @@
       label: "Forecast finish",
       decision: "When will the deliverable likely finish?",
       source: "Remaining estimate + historical burn",
-      track: "Maintain Remaining estimate, target date, and at least 3 snapshots over 14 days.",
+      track: "Reach ≥70% Original/Remaining estimate coverage and maintain at least 3 snapshots over 14 days.",
     },
     blockers: {
       label: "Blockers",
@@ -164,6 +164,7 @@
     const estimated = estimable.filter((node) => (node.time || {}).ownEstimateSec != null);
     const original = fieldHours(edp, "ownEstimateSec");
     const remainingNodes = nodes.filter((node) => (node.time || {}).ownRemainingSec != null);
+    const remainingLeaves = estimable.filter((node) => (node.time || {}).ownRemainingSec != null);
     const remaining = fieldHours(edp, "ownRemainingSec");
     const spent = Hours.uniqueHoursOf(edp);
     const pending = Hours.pendingUniqueHours([edp]);
@@ -173,20 +174,23 @@
     const status = category(edp);
     const blockers = nodes.filter((node) => node.flagged || node.blocked);
     const target = edp.targetDate || edp.dueDate || null;
+    const estimateCoverage = estimable.length ? round((estimated.length / estimable.length) * 100) : null;
+    const remainingCoverage = estimable.length ? round((remainingLeaves.length / estimable.length) * 100) : null;
     const history = Hours.reportHistory().map((snapshot) => {
       const row = (snapshot.edps || []).find((item) => item.key === edp.key);
       return row ? { date: snapshot.date, value: Number(row.cost) || 0 } : null;
     }).filter(Boolean);
     const burn = window.Reporting ? Reporting.forecast(history, 30) : null;
     let forecast = null;
-    if (burn && burn.daily > 0 && remainingNodes.length) {
+    if (burn && burn.daily > 0
+      && estimateCoverage >= 70
+      && remainingCoverage >= 70) {
       const last = history[history.length - 1];
       const days = Math.ceil(remaining / burn.daily);
       const date = new Date(last.date + "T00:00:00Z");
       date.setUTCDate(date.getUTCDate() + days);
       forecast = { date: date.toISOString().slice(0, 10), days, daily: burn.daily, r2: burn.r2 };
     }
-    const estimateCoverage = estimable.length ? round((estimated.length / estimable.length) * 100) : null;
     const metrics = {
       delivery_status: evidence("delivery_status", edp.status || "—", edp.status ? (status.native ? "available" : "partial") : "unavailable", {
         category: status.key,
@@ -198,8 +202,8 @@
       }),
       spent: evidence("spent", spent, "available"),
       original_estimate: evidence("original_estimate", original, estimated.length ? (estimateCoverage === 100 ? "available" : "partial") : "unavailable"),
-      remaining: evidence("remaining", remainingNodes.length ? remaining : null, remainingNodes.length ? (remainingNodes.length === nodes.length ? "available" : "partial") : "unavailable", {
-        coverage: nodes.length ? round((remainingNodes.length / nodes.length) * 100) : 0,
+      remaining: evidence("remaining", remainingNodes.length ? remaining : null, remainingLeaves.length ? (remainingCoverage === 100 ? "available" : "partial") : "unavailable", {
+        coverage: remainingCoverage || 0,
       }),
       estimate_coverage: evidence("estimate_coverage", estimateCoverage, estimated.length ? (estimateCoverage === 100 ? "available" : "partial") : "unavailable", {
         estimated: estimated.length,

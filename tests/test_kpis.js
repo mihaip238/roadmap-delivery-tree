@@ -48,6 +48,7 @@ const edp = {
 };
 
 const report = Kpis.deliverable(edp);
+assert.equal(report.metrics.completion.definition.label, "Items done");
 assert.equal(report.metrics.completion.value, 50);
 assert.equal(report.metrics.completion.status, "partial");
 assert.equal(report.metrics.estimate_coverage.value, 50);

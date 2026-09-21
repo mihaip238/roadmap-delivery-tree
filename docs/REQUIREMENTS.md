@@ -161,8 +161,8 @@ Decision model, Jira gap analysis, formulas, tracking contract, and references:
 | --- | --- | --- |
 | F8.1 | EDP deliverable report | One accountable EDP report rolls confirmed EPP → Feature → Story evidence into workflow composition, unique spent, estimates, forecast readiness, concentration, control signals, and exact Jira scope. |
 | F8.2 | KPI registry | KPI definitions declare decision, formula/source, unit, evidence state (`available` / `partial` / `unavailable`), and Jira tracking action. UI does not manufacture missing values. |
-| F8.3 | Completion | Done leaf items / active leaf items excluding removed. Status-category fallback is visibly partial. Hours spent / estimate is never completion. |
-| F8.4 | Estimate confidence | Original and Remaining are always paired with estimate coverage. Forecast requires Remaining plus ≥3 snapshots spanning 14 days. |
+| F8.3 | Items done | Count-weighted done leaf items / active leaf items excluding removed. It is a scope proxy, never earned progress. Status-category fallback is visibly partial. Hours spent / estimate is never completion. |
+| F8.4 | Estimate confidence | Original and Remaining are always paired with estimate coverage. Forecast requires ≥70% coverage plus Remaining and ≥3 snapshots spanning 14 days. |
 | F8.5 | Reporting drill | Reports EDP rows and Delivery EDP records open the deliverable report. Every scope key opens Jira. |
 | F8.6 | Evidence payload | Future Jira refreshes retain native status category and remaining estimate at issue and rollup levels. |
 | F8.7 | Tracking gaps | Report identifies missing target, blocker semantics, remaining estimates, status evidence, history, acceptance, and benefits instead of showing false confidence. |
