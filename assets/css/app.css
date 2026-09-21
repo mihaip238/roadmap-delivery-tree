@@ -591,6 +591,30 @@ label.chk {
   display: grid;
   place-items: center;
 }
+.pilot-strip {
+  margin-top: 42px;
+  padding: 22px 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: minmax(220px, 1.7fr) repeat(6, minmax(76px, 1fr));
+  gap: 20px;
+  align-items: end;
+  text-decoration: none;
+}
+.pilot-strip:hover { text-decoration: none; background: var(--hover); }
+.pilot-title,
+.pilot-value { display: grid; gap: 3px; }
+.pilot-title small,
+.pilot-value small {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.pilot-title b { font-size: 12px; }
+.pilot-title span { font-size: 15px; }
+.pilot-value b { font-size: 16px; font-weight: 500; }
 
 /* —— KPIs —— */
 .kpis, .stats {
@@ -1360,6 +1384,8 @@ html[data-page="delivery"] .unit-act { display: none; }
   .case-body { padding: 4px 20px 64px; }
   .metrics-6 { grid-template-columns: repeat(3, minmax(72px, 1fr)); }
   .case-fields { grid-template-columns: 1fr; }
+  .pilot-strip { grid-template-columns: repeat(3, minmax(80px, 1fr)); }
+  .pilot-title { grid-column: 1 / -1; }
   .metrics,
   .metrics-1,
   .metrics-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0 -20px; }

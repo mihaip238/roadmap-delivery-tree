@@ -63,6 +63,25 @@
         }).join("")}
       </div>`;
     }).join("") || `<div class="empty-mini">—</div>`;
+
+    const pilot = Hours.pilotCase();
+    const pilotEl = document.getElementById("pilot-case");
+    if (!pilot) {
+      pilotEl.innerHTML = "";
+    } else {
+      const values = [
+        ["Allocated", pilot.allocated],
+        ["FAC", pilot.fac],
+        ["Budget", pilot.budget],
+        ["Left", pilot.left],
+        ["Unallocated", pilot.unallocated],
+        ["Exceptions", pilot.coverageExceptionHours],
+      ];
+      pilotEl.innerHTML = `<a class="pilot-strip" href="cases.html?case=${encodeURIComponent(pilot.id)}">
+        <span class="pilot-title"><small>Pilot</small><b class="mono">${Hours.esc(pilot.id)}</b><span>${Hours.esc(pilot.title || "")}</span></span>
+        ${values.map(([label, value]) => `<span class="pilot-value"><b class="mono">${Hours.esc(Hours.fmtNum(value))}</b><small>${Hours.esc(label)}</small></span>`).join("")}
+      </a>`;
+    }
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", paint);

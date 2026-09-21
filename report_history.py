@@ -210,6 +210,25 @@ def epp_rows(payload: dict) -> list[dict]:
     return sorted(rows, key=lambda row: row["key"])
 
 
+def case_rows(payload: dict) -> list[dict]:
+    return [{
+        "key": row.get("id") or "",
+        "title": row.get("title") or "",
+        "status": row.get("status") or "active",
+        "allocated": float(row.get("allocated") or 0),
+        "associated": float(row.get("associated") or 0),
+        "unallocated": float(row.get("unallocated") or 0),
+        "pending": float(row.get("pending") or 0),
+        "etc": nullable_number(row.get("etc")),
+        "fac": nullable_number(row.get("fac")),
+        "budget": nullable_number(row.get("budget")),
+        "remaining": nullable_number(row.get("left")),
+        "coverageExceptionHours": float(row.get("coverageExceptionHours") or 0),
+        "edps": row.get("edps") or [],
+        "pilot": bool(row.get("pilot")),
+    } for row in payload.get("cases") or []]
+
+
 def build_snapshot(payload: dict) -> dict:
     summary = payload.get("hoursControl") or {}
     fetched_at = summary.get("fetchedAt") or ((payload.get("totals") or {}).get("time") or {}).get("fetchedAt")
@@ -254,6 +273,7 @@ def build_snapshot(payload: dict) -> dict:
         "milestones": milestone_rows(payload),
         "edps": edp_data,
         "epps": epp_rows(payload),
+        "cases": case_rows(payload),
     }
 
 

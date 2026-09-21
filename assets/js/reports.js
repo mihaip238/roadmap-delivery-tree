@@ -6,6 +6,7 @@
     compare: "none",
     product: "all",
     milestone: "",
+    case: "",
     active: true,
     health: "",
     q: "",
@@ -20,6 +21,11 @@
     remaining: "Left",
     pending: "Pending",
     mapping: "Mapping",
+    allocated: "Allocated",
+    associated: "Associated",
+    unallocated: "Unallocated",
+    etc: "ETC",
+    fac: "FAC",
   };
   const state = readState();
   const els = {
@@ -34,6 +40,8 @@
     productWrap: document.getElementById("report-product-wrap"),
     milestone: document.getElementById("report-milestone"),
     milestoneWrap: document.getElementById("report-milestone-wrap"),
+    case: document.getElementById("report-case"),
+    caseWrap: document.getElementById("report-case-wrap"),
     health: document.getElementById("report-health"),
     healthWrap: document.getElementById("report-health-wrap"),
     q: document.getElementById("report-search"),
@@ -59,20 +67,23 @@
     const params = new URLSearchParams(location.search);
     const legacyCut = params.get("cut") || "";
     const mode = params.get("mode")
-      || (legacyCut === "program" || legacyCut === "epp" ? "program" : "")
+      || (legacyCut === "program" || legacyCut === "epp" ? "program" : legacyCut === "case" ? "case" : "")
       || localStorage.getItem("hours.reports.mode")
       || DEFAULTS.mode;
     const grain = params.get("grain") || legacyCut;
     const cut = mode === "program"
       ? (grain === "epp" ? "epp" : "program")
-      : (grain === "edp" ? "edp" : "product");
+      : mode === "case"
+        ? (grain === "edp" ? "edp" : "case")
+        : (grain === "edp" ? "edp" : "product");
     return {
-      mode: mode === "program" ? "program" : "product",
+      mode: ["program", "case"].includes(mode) ? mode : "product",
       cut,
       metric: params.get("metric") || DEFAULTS.metric,
       compare: params.get("compare") || DEFAULTS.compare,
       product: params.get("product") || DEFAULTS.product,
       milestone: params.get("ms") || "",
+      case: params.get("case") || "",
       active: params.get("active") !== "0",
       health: params.get("health") || "",
       q: params.get("q") || "",
@@ -83,6 +94,12 @@
   }
 
   function hasBudgets() {
+    if (state.mode === "case") {
+      if (state.cut === "edp") return false;
+      return Hours.caseRows().some((row) =>
+        row.budget != null && (!state.case || row.id === state.case)
+      );
+    }
     if (state.mode === "program") {
       if (state.cut === "epp") return false;
       return Hours.reportMilestoneRows().some((row) => row.budget != null);
@@ -100,21 +117,28 @@
   }
 
   function enforceState() {
-    state.mode = state.mode === "program" ? "program" : "product";
+    state.mode = ["program", "case"].includes(state.mode) ? state.mode : "product";
     if (state.mode === "program") {
       state.cut = state.cut === "epp" ? "epp" : "program";
       state.active = false;
       state.health = "";
       state.product = "all";
       if (!["cost", "logged", "budget", "remaining"].includes(state.metric)) state.metric = "cost";
+    } else if (state.mode === "case") {
+      state.cut = state.cut === "edp" ? "edp" : "case";
+      state.active = false;
+      state.health = "";
+      state.product = "all";
+      state.milestone = "";
+      if (!["allocated", "associated", "unallocated", "etc", "fac", "budget", "remaining", "pending"].includes(state.metric)) state.metric = "fac";
     } else {
       state.cut = state.cut === "edp" ? "edp" : "product";
       state.milestone = "";
       if (!["cost", "logged", "budget", "remaining", "pending", "mapping"].includes(state.metric)) state.metric = "cost";
     }
-    if (!["none", "logged", "budget"].includes(state.compare)
+    if (!["none", "logged", "budget", "fac"].includes(state.compare)
       || state.compare === state.metric
-      || state.metric !== "cost") state.compare = "none";
+      || !["cost", "allocated", "fac"].includes(state.metric)) state.compare = "none";
     if (!["10", "25", "all"].includes(state.top)) state.top = "10";
     if (!["30", "90", "all"].includes(state.range)) state.range = "30";
     if (!hasBudgets() && ["budget", "remaining"].includes(state.metric)) state.metric = "cost";
@@ -124,12 +148,13 @@
   function writeState() {
     const params = new URLSearchParams();
     if (state.mode !== DEFAULTS.mode) params.set("mode", state.mode);
-    const rootCut = state.mode === "program" ? "program" : "product";
+    const rootCut = state.mode === "program" ? "program" : state.mode === "case" ? "case" : "product";
     if (state.cut !== rootCut) params.set("grain", state.cut);
     if (state.metric !== DEFAULTS.metric) params.set("metric", state.metric);
     if (state.compare !== DEFAULTS.compare) params.set("compare", state.compare);
     if (state.product !== DEFAULTS.product) params.set("product", state.product);
     if (state.milestone) params.set("ms", state.milestone);
+    if (state.case) params.set("case", state.case);
     if (state.mode === "product" && !state.active) params.set("active", "0");
     if (state.health) params.set("health", state.health);
     if (state.q) params.set("q", state.q);
@@ -157,6 +182,9 @@
     els.milestone.innerHTML = `<option value="">All</option>` + Hours.milestoneRows().map((row) =>
       `<option value="${Hours.esc(row.key)}">${Hours.esc(row.key + " " + row.name)}</option>`
     ).join("");
+    els.case.innerHTML = `<option value="">All</option>` + Hours.caseRows().map((row) =>
+      `<option value="${Hours.esc(row.id)}">${Hours.esc(row.id + " " + (row.title || ""))}</option>`
+    ).join("");
   }
 
   function syncControls() {
@@ -167,27 +195,37 @@
     els.active.checked = state.active;
     els.product.value = state.product;
     els.milestone.value = state.milestone;
+    els.case.value = state.case;
     els.health.value = state.health;
     els.q.value = state.q;
     els.top.value = state.top;
     els.snapshot.textContent = Hours.fmtWhen(Hours.fetchedAt()).replace(" UTC", "");
 
     const program = state.mode === "program";
-    els.activeWrap.hidden = program;
-    els.productWrap.hidden = program;
-    els.healthWrap.hidden = program;
+    const cases = state.mode === "case";
+    els.activeWrap.hidden = program || cases;
+    els.productWrap.hidden = program || cases;
+    els.healthWrap.hidden = program || cases;
     els.milestoneWrap.hidden = !program;
+    els.caseWrap.hidden = !cases;
     const budgeted = hasBudgets();
     Array.from(els.metric.options).forEach((option) => {
-      const productOnly = ["pending", "mapping"].includes(option.value);
+      const programBlocked = ["pending", "mapping"].includes(option.value);
+      const caseBlocked = ["mapping", "logged", "cost"].includes(option.value);
+      const caseOnly = ["allocated", "associated", "unallocated", "etc", "fac"].includes(option.value);
       const needsBudget = ["budget", "remaining"].includes(option.value);
-      option.disabled = (program && productOnly) || (needsBudget && !budgeted);
+      option.disabled = (program && (programBlocked || caseOnly))
+        || (cases && caseBlocked)
+        || (!cases && caseOnly)
+        || (needsBudget && !budgeted);
     });
     Array.from(els.compare.options).forEach((option) => {
       option.disabled = option.value !== "none" && (
-        state.metric !== "cost"
+        !["cost", "allocated", "fac"].includes(state.metric)
         || option.value === state.metric
+        || (option.value === "logged" && cases)
         || (option.value === "budget" && !budgeted)
+        || (option.value === "fac" && !cases)
         || (state.cut === "epp" && option.value === "budget")
       );
     });
@@ -195,7 +233,7 @@
     const drilled = state.cut === "edp" || state.cut === "epp";
     els.drillBack.hidden = !drilled;
     els.drillLabel.textContent = drilled
-      ? (state.cut === "edp" ? state.product : state.milestone)
+      ? (state.mode === "case" ? state.case : state.cut === "edp" ? state.product : state.milestone)
       : "";
   }
 
@@ -222,13 +260,22 @@
   }
 
   function renderKpis() {
-    const cost = metricTotal("cost");
+    const cost = state.mode === "case" ? metricTotal("allocated") : metricTotal("cost");
     const budget = hasBudgets() ? metricTotal("budget") : null;
     const left = hasBudgets() ? metricTotal("remaining") : null;
     const trendPoints = Reporting.historySeries(reportState("cost"));
     const model = Reporting.forecast(trendPoints, 30);
     let cells;
-    if (state.mode === "program") {
+    if (state.mode === "case") {
+      cells = [
+        ["Allocated", cost, "hours"],
+        ["FAC", metricTotal("fac"), "hours"],
+        ["Budget", budget, "hours"],
+        ["Left", left, "hours"],
+        ["ETC", metricTotal("etc"), "hours"],
+        ["Holes", metricTotal("holes"), "hours"],
+      ];
+    } else if (state.mode === "program") {
       const epps = Hours.reportEppRows().filter((row) =>
         (row.milestones || []).length
         && (!state.milestone || row.milestones.includes(state.milestone))
@@ -281,6 +328,10 @@
       setState({ cut: "epp", milestone: row.key, selected: "", q: "" });
       return;
     }
+    if (state.cut === "case" && row.type === "case") {
+      setState({ cut: "edp", case: row.id, metric: "cost", compare: "none", selected: "", q: "" });
+      return;
+    }
     setState({ selected: state.selected === row.key ? "" : row.key });
   }
 
@@ -315,6 +366,24 @@
   }
 
   function renderComposition() {
+    if (state.mode === "case") {
+      const cases = Reporting.rows(Object.assign({}, state, {
+        cut: "case", metric: "associated", compare: "none", top: "all",
+      }));
+      const allocated = cases.reduce((sum, row) => sum + Number(row.allocated || 0), 0);
+      const unallocated = cases.reduce((sum, row) => sum + Number(row.unallocated || 0), 0);
+      const pending = cases.reduce((sum, row) => sum + Number(row.pending || 0), 0);
+      Charts.donut(els.composition, {
+        title: "Control",
+        centerLabel: "Hours",
+        segments: [
+          { key: "allocated", label: "Allocated", value: allocated, fill: Charts.ink },
+          { key: "unallocated", label: "Unallocated", value: unallocated, fill: Charts.copperSoft },
+          { key: "pending", label: "Pending", value: pending, fill: Charts.copper },
+        ],
+      });
+      return;
+    }
     if (state.mode === "product") {
       const counts = { confirmed: 0, pending: 0, none: 0 };
       scopedEdps(true).forEach((edp) => {
@@ -361,12 +430,12 @@
     Charts.line(els.trend, {
       title: `${METRIC_LABELS[state.metric]} trend`,
       rows: points,
-      zero: ["cost", "logged", "pending", "budget"].includes(state.metric),
+      zero: ["cost", "logged", "pending", "budget", "allocated", "associated", "unallocated", "etc", "fac"].includes(state.metric),
     });
     const first = points[0];
     const last = points[points.length - 1];
     const delta = points.length > 1 ? Hours.round2(last.value - first.value) : null;
-    const model = ["cost", "logged", "pending"].includes(state.metric)
+    const model = ["cost", "logged", "pending", "allocated", "fac"].includes(state.metric)
       ? Reporting.forecast(points, 30)
       : null;
     const cells = [
@@ -382,7 +451,28 @@
 
   function renderSecondary() {
     let concentrationRows;
-    if (state.mode === "program") {
+    if (state.mode === "case") {
+      const caseRows = Hours.caseRows().filter((row) => !state.case || row.id === state.case);
+      const edpKeys = new Set(caseRows.flatMap((row) => row.edps || []));
+      concentrationRows = Reporting.rows({
+        mode: "case", cut: "edp", case: state.case, metric: "cost", compare: "none",
+        product: "all", milestone: "", active: false, health: "", q: "", top: "10",
+      }).filter((row) => !edpKeys.size || edpKeys.has(row.key));
+      Charts.pareto(els.concentration, {
+        title: "Concentration",
+        rows: concentrationRows,
+        valueKey: "cost",
+      });
+      Charts.hbar(els.shared, {
+        title: "Unallocated",
+        rows: caseRows,
+        series: [{ key: "unallocated", label: "Unallocated", fill: Charts.copper }],
+        rowH: 36,
+        showValues: true,
+        onSelect: drill,
+      });
+      return;
+    } else if (state.mode === "program") {
       concentrationRows = Reporting.rows(Object.assign({}, state, {
         cut: "epp",
         metric: "cost",
@@ -454,6 +544,7 @@
   }
 
   function titleCell(row) {
+    if (row.type === "case") return `<a href="${Hours.esc(row.href)}">${Hours.esc(row.title || row.id || "")}</a>`;
     if (row.type === "product") return `<a href="${Hours.esc(Hours.lineHref(row.name))}">${Hours.esc(row.name)}</a>`;
     if (row.type === "milestone") {
       return `<a href="delivery.html?view=milestone&amp;milestone=${encodeURIComponent(row.key)}">${Hours.esc(row.name)}</a>`;
@@ -471,10 +562,13 @@
   function renderTable(data) {
     els.detailTitle.textContent = state.cut === "product"
       ? "Product line"
-      : state.cut === "program" ? "Milestone" : state.cut.toUpperCase();
+      : state.cut === "program" ? "Milestone" : state.cut === "case" ? "Case" : state.cut.toUpperCase();
     els.detailCount.textContent = `${data.length} rows`;
     const productMode = state.mode === "product";
-    const header = productMode
+    const caseMode = state.mode === "case" && state.cut === "case";
+    const header = caseMode
+      ? `<th>Key</th><th>Item</th><th class="num">Associated h</th><th class="num">Allocated h</th><th class="num">ETC h</th><th class="num">FAC h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Holes h</th>`
+      : productMode
       ? `<th>Key</th><th>Item</th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Pending h</th><th class="num">Mapping</th><th>Shared</th>`
       : `<th>Key</th><th>Item</th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th>EDPs</th><th>Products</th>`;
     const body = data.map((row) => {
@@ -483,11 +577,13 @@
       const products = (row.products || []).join(", ");
       return `<tr${state.selected === row.key ? ` class="is-selected"` : ""} data-select-row="${Hours.esc(row.key || "")}">
         <td>${keyCell(row)}</td><td>${titleCell(row)}</td>
-        ${numberCell(row.cost, "cost")}${numberCell(row.logged, "logged")}
+        ${caseMode
+          ? `${numberCell(row.associated, "associated")}${numberCell(row.allocated, "allocated")}${numberCell(row.etc, "etc")}${numberCell(row.fac, "fac")}${numberCell(row.budget, "budget")}${numberCell(row.remaining, "remaining")}${numberCell(row.holes, "holes")}`
+          : `${numberCell(row.cost, "cost")}${numberCell(row.logged, "logged")}
         ${numberCell(row.budget, "budget")}${numberCell(row.remaining, "remaining")}
         ${productMode
           ? `${numberCell(row.pending, "pending")}${numberCell(row.mapping, "mapping")}<td class="mono muted">${Hours.esc(shared)}</td>`
-          : `<td class="mono muted">${Hours.esc(owners)}</td><td>${Hours.esc(products)}</td>`}
+          : `<td class="mono muted">${Hours.esc(owners)}</td><td>${Hours.esc(products)}</td>`}`}
       </tr>`;
     }).join("");
     els.table.innerHTML = `<table class="data report-data"><thead><tr>${header}</tr></thead><tbody>${body}</tbody></table>`;
@@ -519,7 +615,8 @@
       const mode = els.mode.value;
       setState(Object.assign({}, DEFAULTS, {
         mode,
-        cut: mode === "program" ? "program" : "product",
+        cut: mode === "program" ? "program" : mode === "case" ? "case" : "product",
+        metric: mode === "case" ? "fac" : "cost",
         active: mode === "product",
       }));
     });
@@ -535,6 +632,12 @@
       selected: "",
       q: "",
     }));
+    els.case.addEventListener("change", () => setState({
+      cut: "case",
+      case: els.case.value,
+      selected: "",
+      q: "",
+    }));
     els.health.addEventListener("change", () => setState({
       cut: els.health.value ? "edp" : state.cut,
       health: els.health.value,
@@ -545,9 +648,11 @@
     els.reset.addEventListener("click", () => setState(Object.assign({}, DEFAULTS)));
     els.export.addEventListener("click", downloadCsv);
     els.drillBack.addEventListener("click", () => setState({
-      cut: state.mode === "program" ? "program" : "product",
+      cut: state.mode === "program" ? "program" : state.mode === "case" ? "case" : "product",
       product: "all",
       milestone: "",
+      case: state.mode === "case" ? state.case : "",
+      metric: state.mode === "case" ? "fac" : state.metric,
       health: "",
       selected: "",
       q: "",

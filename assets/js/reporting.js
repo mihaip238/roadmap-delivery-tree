@@ -6,6 +6,11 @@
     remaining: { label: "Left", unit: "hours", direction: "asc", budgeted: true },
     pending: { label: "Pending", unit: "hours", direction: "desc" },
     mapping: { label: "Mapping", unit: "percent", direction: "asc" },
+    allocated: { label: "Allocated", unit: "hours", direction: "desc" },
+    associated: { label: "Associated", unit: "hours", direction: "desc" },
+    unallocated: { label: "Unallocated", unit: "hours", direction: "desc" },
+    etc: { label: "ETC", unit: "hours", direction: "desc" },
+    fac: { label: "FAC", unit: "hours", direction: "desc" },
   };
 
   function normalizedEdps() {
@@ -22,6 +27,7 @@
   }
 
   function normalizedRows(cut) {
+    if (cut === "case") return Hours.caseRows();
     if (cut === "program") return Hours.reportMilestoneRows();
     if (cut === "edp") return normalizedEdps();
     if (cut === "epp") return Hours.reportEppRows();
@@ -49,6 +55,11 @@
       }));
     }
     let data = source.filter((row) => {
+      if (state.mode === "case" && state.cut === "case" && state.case && row.id !== state.case) return false;
+      if (state.mode === "case" && state.cut === "edp" && state.case) {
+        const selected = Hours.caseRows().find((item) => item.id === state.case);
+        if (!selected || !(selected.edps || []).includes(row.key)) return false;
+      }
       if (state.mode === "program" && state.cut === "epp" && !(row.milestones || []).length) return false;
       if (state.active && !row.active) return false;
       if (state.product && state.product !== "all") {
@@ -164,6 +175,7 @@
   }
 
   function historyRows(snapshot, cut) {
+    if (cut === "case") return snapshot.cases || [];
     if (cut === "program") return snapshot.milestones || [];
     if (cut === "edp") return snapshot.edps || [];
     if (cut === "epp") return snapshot.epps || [];
@@ -173,7 +185,8 @@
   function snapshotValue(snapshot, state) {
     const summaryRow = snapshot.summary || {};
     const programMode = state.mode === "program" || state.cut === "program";
-    const noEntityFilter = (!state.product || state.product === "all")
+    const noEntityFilter = state.mode !== "case"
+      && (!state.product || state.product === "all")
       && !state.milestone && !state.q && !state.health;
     if (noEntityFilter) {
       if (state.metric === "cost") return programMode ? summaryRow.programCost : (state.active ? summaryRow.activeCost : summaryRow.cost);
@@ -188,6 +201,8 @@
         if (!products.includes(state.product)) return false;
       }
       if (state.milestone && !(row.milestones || []).includes(state.milestone)) return false;
+      if (state.case && state.cut === "case" && row.key !== state.case) return false;
+      if (state.case && state.cut === "edp" && !(row.edps || []).includes(state.case)) return false;
       if (state.health && row.health !== state.health) return false;
       return includesText(row, state.q);
     });

@@ -14,6 +14,7 @@
         <label><span>View</span><select id="report-mode">
           <option value="product">Product line</option>
           <option value="program">Program M1–M4</option>
+          <option value="case">Case</option>
         </select></label>
         <label><span>Metric</span><select id="report-metric">
           <option value="cost">Cost</option>
@@ -22,11 +23,17 @@
           <option value="remaining">Left</option>
           <option value="pending">Pending</option>
           <option value="mapping">Mapping</option>
+          <option value="allocated">Allocated</option>
+          <option value="associated">Associated</option>
+          <option value="unallocated">Unallocated</option>
+          <option value="etc">ETC</option>
+          <option value="fac">FAC</option>
         </select></label>
         <label><span>Compare</span><select id="report-compare">
           <option value="none">None</option>
           <option value="logged">Logged</option>
           <option value="budget">Budget</option>
+          <option value="fac">FAC</option>
         </select></label>
         <label><span>Range</span><select id="report-range">
           <option value="30">30d</option>
@@ -45,6 +52,7 @@
         <label class="chk" id="report-active-wrap"><input type="checkbox" id="report-active" checked /> Active</label>
         <label id="report-product-wrap"><span>Product</span><select id="report-product"><option value="all">All</option></select></label>
         <label id="report-milestone-wrap" hidden><span>Milestone</span><select id="report-milestone"><option value="">All</option></select></label>
+        <label id="report-case-wrap" hidden><span>Case</span><select id="report-case"><option value="">All</option></select></label>
         <label id="report-health-wrap"><span>Health</span><select id="report-health">
           <option value="">All</option>
           <option value="confirmed">Confirmed</option>
