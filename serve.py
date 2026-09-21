@@ -1,4 +1,4 @@
-"""Local Hours Control server: static files + overlay/budget writer.
+"""Local Hours Control server: static files + overlay/budget/case writer.
 
 GitHub Pages cannot save. Run this on a trusted machine:
 
@@ -18,6 +18,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parent
 OVERLAY = ROOT / "jira_map" / "overlay_links.json"
 BUDGETS = ROOT / "jira_map" / "overlay_budgets.json"
+CASES = ROOT / "jira_map" / "overlay_cases.json"
 HOST = "127.0.0.1"
 PORT = 8765
 
@@ -71,7 +72,12 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self) -> None:
         path = urlparse(self.path).path
         if path == "/writer-status":
-            self._json(200, {"ok": True, "overlay": str(OVERLAY), "budgets": str(BUDGETS)})
+            self._json(200, {
+                "ok": True,
+                "overlay": str(OVERLAY),
+                "budgets": str(BUDGETS),
+                "cases": str(CASES),
+            })
             return
         super().do_GET()
 
@@ -131,6 +137,41 @@ class Handler(SimpleHTTPRequestHandler):
             ok, log = apply_overlay()
             self._json(200 if ok else 500, {"ok": ok, "wrote": str(BUDGETS), "apply": log})
             return
+        if path == "/cases":
+            rows = data.get("cases")
+            if not isinstance(rows, list):
+                self._json(400, {"ok": False, "error": "cases must be a list"})
+                return
+            seen = set()
+            for row in rows:
+                if not isinstance(row, dict):
+                    self._json(400, {"ok": False, "error": "each case must be an object"})
+                    return
+                case_id = str(row.get("id") or "").strip()
+                if not case_id or case_id in seen:
+                    self._json(400, {"ok": False, "error": "case ids must be present and unique"})
+                    return
+                seen.add(case_id)
+                if row.get("status") not in {None, "", "active", "closed"}:
+                    self._json(400, {"ok": False, "error": "case status must be active or closed"})
+                    return
+                for field in ("edps", "teams", "milestones", "budgets", "allocations", "exceptions"):
+                    if row.get(field) is not None and not isinstance(row.get(field), list):
+                        self._json(400, {"ok": False, "error": f"{field} must be a list"})
+                        return
+            pilot = data.get("pilot")
+            if pilot not in (None, "") and str(pilot) not in seen:
+                self._json(400, {"ok": False, "error": "pilot must name an existing case"})
+                return
+            write_json(CASES, {
+                "version": int(data.get("version") or 1),
+                "updatedAt": data.get("updatedAt"),
+                "pilot": pilot or None,
+                "cases": rows,
+            })
+            ok, log = apply_overlay()
+            self._json(200 if ok else 500, {"ok": ok, "wrote": str(CASES), "apply": log})
+            return
         self._json(404, {"ok": False, "error": "unknown path"})
 
     def log_message(self, fmt: str, *args) -> None:
@@ -140,7 +181,7 @@ class Handler(SimpleHTTPRequestHandler):
 def main() -> int:
     httpd = ThreadingHTTPServer((HOST, PORT), Handler)
     print(f"Hours Control  http://{HOST}:{PORT}/")
-    print("POST /overlay and POST /budgets write JSON then run apply_overlay.py")
+    print("POST /overlay, POST /budgets, and POST /cases write JSON then run apply_overlay.py")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

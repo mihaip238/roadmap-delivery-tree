@@ -12,6 +12,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+from apply_cases import apply_cases
 from jira_time import format_jira_time, hours
 
 ROOT = Path(__file__).resolve().parent
@@ -524,7 +525,7 @@ def apply_payload(payload: dict, overlay: dict | None = None, budgets: dict | No
     )
     payload["totals"] = totals
     payload["hoursControl"] = hours_control_summary(payload, shared)
-    return payload
+    return apply_cases(payload)
 
 
 def apply_delivery_item(item: dict, overlay: dict[tuple[str, str], dict], catalog: dict[str, dict]) -> dict:
