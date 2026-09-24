@@ -1,5 +1,294 @@
 {
   "version": 1,
-  "updatedAt": null,
-  "links": []
+  "updatedAt": "2026-09-21T12:45:29Z",
+  "links": [
+    {
+      "edp": "EDP-160",
+      "epp": "EPP-262",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "BRPaaS Nominations E-Prog maps to Energy Program epic, not EPP-309 GLMD forecasting.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-160",
+      "epp": "EPP-252",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "GLMD / transport-program nomination is EPP-252 (M1 VanHelder).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-164",
+      "epp": "EPP-252",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "GLMD expansion lives under EPP-252 (AURORA-660), not the empty EPP-309 forecast epic.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-262",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M1 Energy Program \u2014 nomination flow.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-252",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M1 Transport Program / GLMD.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-167",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M2 Measurement Series processing + completeness UI (N10/N20).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-172",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "Shared Integration Layer; M2 Kafka publish (AURORA-123) and M4 stream siblings.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-189",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Process Allocation Series (AURORA-723).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-228",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Individual allocation completeness (AURORA-724).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-292",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Aggregated allocation completeness (AURORA-725).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-314",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Factor series completeness (AURORA-726).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-224",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Process Imbalance (AURORA-732).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-295",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Imbalance completeness UI; child AURORA-733 is completeness despite EPP title Volumes.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-290",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Process Reconciliation / settlement (AURORA-728).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-293",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Reconciliation completeness TMT/SMA/PRF (AURORA-729/730).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-217",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 Completeness/Quality revision integration (AURORA-734/735).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-379",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4 NLALLCONPB revision scripts (TechLead Revision Flow). PolarIS is empty.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-227",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M4.1 BPO/admin unfinished-message overview (AURORA-737 has no Jira parent).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-276",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "New UI foundation used by M1\u2013M4 Power Balancer screens.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-170",
+      "epp": "EPP-279",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "EMM foundation (AURORA-20) used by all migrated message protocols.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-171",
+      "epp": "EPP-299",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M3 Position Management (AURORA-775) + Trading Overview (AURORA-776).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-171",
+      "epp": "EPP-302",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M3 Forecast Overview (AURORA-777). Quality Analysis AURORA-778 cancelled.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-171",
+      "epp": "EPP-303",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M3 FC admin / prognosis scripts (EBASE-14713/14714).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-171",
+      "epp": "EPP-377",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "M3 Jules ETPA trading \u2014 confirmed M3 risk and in-flight work.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-105",
+      "epp": "EPP-299",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "Position dashboards are EPP-299, not unlinked.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-109",
+      "epp": "EPP-302",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "Forecast quality overview is EPP-302, not empty EPP-310.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-109",
+      "epp": "EPP-311",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "Imbalance cost dashboard AURORA-739 sits under Financial Realizations, not EPP-310.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-102",
+      "epp": "EPP-303",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "B2C forecast model uses Power Balancer FC admin scripts.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-158",
+      "epp": "EPP-303",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "Supplier/shadow prognosis is the same FC-admin package as M3.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-159",
+      "epp": "EPP-303",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "B2B GV forecast model uses Power Balancer FC admin scripts.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-114",
+      "epp": "EPP-377",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "ETPA via Jules is EPP-377 (live children in JTP).",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-114",
+      "epp": "EPP-209",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "EBASE Jules Intraday fetch is EPP-209.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-172",
+      "epp": "EPP-311",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "Financial realizations: AURORA-738/739/740.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-162",
+      "epp": "EPP-311",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "Total costs per ISP dashboard is AURORA-738 under EPP-311.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-110",
+      "epp": "EPP-311",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "Reconciliation cost dashboard is AURORA-740 under EPP-311, not empty EPP-300.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    },
+    {
+      "edp": "EDP-116",
+      "epp": "EPP-276",
+      "action": "add",
+      "source": "decks+jira-2026-09-21",
+      "note": "New UI framework is EPP-276 (AURORA-24/25/32/143), not EPP-173.",
+      "updatedAt": "2026-09-21T12:45:29Z"
+    }
+  ]
 }

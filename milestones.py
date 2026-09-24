@@ -3,8 +3,9 @@
 Milestones are a customer-delivery cut (EET / VanHelder), not a Jira field.
 BRPaaS is Power Balancer plus BPO services; both product lines sit in this view.
 
-Source of M2–M4 EPP keys: AURORA feature tracker (Confluence) + Jira parent EPPs.
-M1 is not on that tracker; EPP-252 is the AURORA nomination / transport-program parent.
+Source of M1–M4 EPP keys: AURORA versions 18221 / 18322 / 18388 / 18421, Confluence tracker,
+Team Weekly (2026-09-16), and the EET decks (M2 KickOff, M4M2 13 Jul, PB Messaging 20 Aug,
+Revision Flow 21 Aug). M5 (VolumeSeries, C-AR, register sync) is excluded on purpose.
 Each listed EPP is included in full (all child features and stories).
 """
 from __future__ import annotations
@@ -25,8 +26,8 @@ MILESTONES = [
         "delivers": "Nomination flow — first go-live of the new architecture (VanHelder).",
         "target": "22 Jun 2026",
         "status": "Live",
-        "eppKeys": ["EPP-252"],
-        "note": "Not listed on the AURORA M3/M4 tracker. EPP-252 is the nomination/GLMD transport-program parent.",
+        "eppKeys": ["EPP-262", "EPP-252", "EPP-279", "EPP-276"],
+        "note": "PM hour overview 2026-08-28: Energy Program (EPP-262), Transport/GLMD (EPP-252), EMM foundation (EPP-279), UI foundation (EPP-276). M1 AURORA version 18221.",
     },
     {
         "key": "M2",
@@ -43,8 +44,17 @@ MILESTONES = [
         "delivers": "Forecasting, position management, and financial dashboards.",
         "target": "1 Oct 2026",
         "status": "Planned",
-        "eppKeys": ["EPP-311", "EPP-299", "EPP-302"],
-        "note": "These EPPs also hang off BRP as a Service EDPs on the product view.",
+        "eppKeys": [
+            "EPP-302",
+            "EPP-299",
+            "EPP-311",
+            "EPP-303",
+            "EPP-377",
+            "EPP-209",
+            "EPP-300",
+            "EPP-310",
+        ],
+        "note": "PM M3 list: forecast quality (EPP-302), position (EPP-299), financial realizations (EPP-311), FC admin (EPP-303), ETPA via Jules (EPP-377), Jules Intraday fetch (EPP-209), reconciliation dashboard epic (EPP-300), imbalance dashboard epic (EPP-310). AURORA-739/740 still hang under EPP-311. AURORA version 18388.",
     },
     {
         "key": "M4",
@@ -62,8 +72,10 @@ MILESTONES = [
             "EPP-293",
             "EPP-290",
             "EPP-217",
+            "EPP-379",
+            "EPP-227",
         ],
-        "note": "Capability EPPs from AURORA. Distinct from EPP-18 (Allocation 2.0 Tranche 3 qualification) on EDP-42.",
+        "note": "AURORA version 18421 plus NLALLCONPB revision scripts (EPP-379) and BPO unfinished-message overview (EPP-227 / AURORA-737). Distinct from EPP-18 on EDP-42. VolumeSeries EPP-313 is M5, not M4.",
     },
 ]
 

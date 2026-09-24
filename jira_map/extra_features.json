@@ -1,5 +1,5 @@
 {
-  "note": "Features compacted from Jira parent searches that were not in the full dump. ETPA under EPP-209/377. BRPaaS M3 screens under EPP-299/302 and FC admin under EPP-303.",
+  "note": "Features compacted from Jira parent searches that were not in the full dump. ETPA under EPP-209/377. BRPaaS M3 screens under EPP-299/302 and FC admin under EPP-303. 2026-09-21: M4 orphans (no Jira parent) attached to the capability EPP they implement; NLALLCONPB revision scripts under EPP-379.",
   "issues": [
     {"key": "EBASE-12398", "summary": "Fetch ETPA Trade deals from the Jules Intraday MicroService (Jules ID MS) and store them in EBASE", "issuetype": "Feature", "status": "In Test", "project": "EBASE", "parent_key": "EPP-209"},
     {"key": "EBASE-12400", "summary": "Feed ETPA position in the nomination flow", "issuetype": "Feature", "status": "Released", "project": "EBASE", "parent_key": "EPP-209"},
@@ -25,6 +25,26 @@
     {"key": "EBASE-14714", "summary": "Process configuration for Script 2: M3 FC Prognosis Calculate", "issuetype": "Feature", "status": "Open", "project": "EBASE", "parent_key": "EPP-303"},
     {"key": "EBASE-14108", "summary": "Masterdata REST API v2 in IAM for PowerBalancer (Foundation and GRID CRUDL)", "issuetype": "Feature", "status": "In Development", "project": "EBASE", "parent_key": "EPP-378"},
     {"key": "EBASE-14109", "summary": "Timeseries REST API in IAM for PowerBalancer", "issuetype": "Feature", "status": "In Development", "project": "EBASE", "parent_key": "EPP-356"},
-    {"key": "EBASE-14110", "summary": "IAM role management for Timeseries API", "issuetype": "Feature", "status": "In Development", "project": "EBASE", "parent_key": "EPP-356"}
+    {"key": "EBASE-14110", "summary": "IAM role management for Timeseries API", "issuetype": "Feature", "status": "In Development", "project": "EBASE", "parent_key": "EPP-356"},
+    {"key": "AURORA-736", "summary": "Message Reprocessing", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-227"},
+    {"key": "AURORA-737", "summary": "Non-Finished Message Overview (BPO/admin)", "issuetype": "Feature", "status": "Testing", "project": "AURORA", "parent_key": "EPP-227"},
+    {"key": "AURORA-1052", "summary": "Message Reprocessing - Measurements and Allocation", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-189"},
+    {"key": "AURORA-1053", "summary": "Message Reprocessing - Imbalance", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-224"},
+    {"key": "AURORA-1054", "summary": "Message Reprocessing - Reconciliation", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-290"},
+    {"key": "AURORA-1085", "summary": "Publish Allocation TimeSeries to Kafka (N101–N151)", "issuetype": "Feature", "status": "Planned", "project": "AURORA", "parent_key": "EPP-172"},
+    {"key": "AURORA-1086", "summary": "Publish Reconciliation TimeSeries to Kafka (N201–N283)", "issuetype": "Feature", "status": "Planned", "project": "AURORA", "parent_key": "EPP-172"},
+    {"key": "AURORA-1087", "summary": "Publish Imbalance TimeSeries to Kafka (A12 / A06)", "issuetype": "Feature", "status": "Planned", "project": "AURORA", "parent_key": "EPP-172"},
+    {"key": "AURORA-1113", "summary": "Individual Allocation Series: Cross-checks", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-228"},
+    {"key": "AURORA-1114", "summary": "Aggregated Allocation Series: Cross-checks", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-292"},
+    {"key": "AURORA-1115", "summary": "Imbalance: Cross-checks", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-295"},
+    {"key": "AURORA-1116", "summary": "Reconciliation TMT, SMA: Cross-checks", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-293"},
+    {"key": "AURORA-1117", "summary": "Reconciliation PRF: Cross-checks", "issuetype": "Feature", "status": "In Delivery", "project": "AURORA", "parent_key": "EPP-293"},
+    {"key": "EBASE-14545", "summary": "Foundation — NLALLCONPB repository and packaging", "issuetype": "Technical Implementation", "status": "Done", "project": "EBASE", "parent_key": "EPP-379"},
+    {"key": "EBASE-14546", "summary": "Quality validation — 2067_PB: start from CORE notification", "issuetype": "Feature", "status": "Ready for Testing", "project": "EBASE", "parent_key": "EPP-379"},
+    {"key": "EBASE-14547", "summary": "Quality validation — 2064_PB: E0A/E0C/E0W meter checks", "issuetype": "Feature", "status": "Canceled", "project": "EBASE", "parent_key": "EPP-379"},
+    {"key": "EBASE-14548", "summary": "Completeness validation — 2080_PB_CREATE_TASK: create tasks from MDC mismatches", "issuetype": "Feature", "status": "In Development", "project": "EBASE", "parent_key": "EPP-379"},
+    {"key": "EBASE-14549", "summary": "Completeness validation — 2065: AllocationRevisionRequest E0B / E0D + MDC ReclamationSent (PB-gated)", "issuetype": "Feature", "status": "Waiting", "project": "EBASE", "parent_key": "EPP-379"},
+    {"key": "EBASE-14550", "summary": "Quality & completeness — 2066: MeasurementSeriesRevisionRequest E0T + MDC ReclamationSent (PB-gated)", "issuetype": "Feature", "status": "Waiting", "project": "EBASE", "parent_key": "EPP-379"},
+    {"key": "EBASE-14551", "summary": "Quality & completeness — 2072: RevisionResponse + MDC status sync (PB-gated)", "issuetype": "Feature", "status": "Waiting", "project": "EBASE", "parent_key": "EPP-379"}
   ]
 }
