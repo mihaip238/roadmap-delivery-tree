@@ -68,6 +68,7 @@
       </span>
       <span class="hrs hrs-cost dim">—</span>
       <span class="hrs hrs-log${loggedHours(st) ? "" : " dim"}">${esc(num(loggedHours(st)))}</span>
+      <span class="hrs hrs-last${Hours.lastBookedOf(st) ? "" : " dim"}">${esc(Hours.lastBookedOf(st) || "—")}</span>
       <span class="unit-act"></span>
     </div>`;
   }
@@ -87,6 +88,7 @@
         </span>
         <span class="hrs hrs-cost dim">—</span>
         <span class="hrs hrs-log${loggedHours(feat) ? "" : " dim"}">${esc(num(loggedHours(feat)))}</span>
+        <span class="hrs hrs-last${Hours.lastBookedOf(feat) ? "" : " dim"}">${esc(Hours.lastBookedOf(feat) || "—")}</span>
         <span class="unit-act"></span>
       </header>
       ${open && n ? `<div class="unit-b">${kids.map(storyLine).join("")}</div>` : ""}
@@ -122,6 +124,7 @@
         </span>
         <span class="hrs hrs-cost${cost == null ? " dim" : ""}">${esc(cost == null ? "—" : num(cost))}</span>
         <span class="hrs hrs-log${logged ? "" : " dim"}">${esc(num(logged))}</span>
+        <span class="hrs hrs-last${Hours.lastBookedOf(epp) ? "" : " dim"}">${esc(Hours.lastBookedOf(epp) || "—")}</span>
         <span class="unit-act">${act}</span>
       </header>
       ${open && feats.length ? `<div class="unit-b">${feats.map((feat) => featureBlock(feat, openSet)).join("")}</div>` : ""}
@@ -130,7 +133,7 @@
 
   function cols() {
     return `<div class="unit-cols">
-      <span></span><span></span><span></span><span>Cost</span><span>Logged</span><span></span>
+      <span></span><span></span><span></span><span>Cost</span><span>Logged</span><span>Last booked</span><span></span>
     </div>`;
   }
 
@@ -159,6 +162,7 @@
       <div class="metrics metrics-2">
         <div class="metric${cost > 0 ? " is-lead" : " is-quiet"}"><b>${esc(num(cost))}</b><span>Cost</span></div>
         <div class="metric${!(logged > 0) ? " is-quiet" : ""}"><b>${esc(num(logged))}</b><span>Logged</span></div>
+        <div class="metric${Hours.lastBookedOf(edp) ? "" : " is-quiet"}"><b>${esc(Hours.lastBookedOf(edp) || "—")}</b><span>Last booked</span></div>
       </div>
     </header>`;
   }
@@ -209,8 +213,9 @@
         <span class="pill">${esc(String(epp.featureCount || feats.length || 0))} FTR · ${esc(String(epp.storyCount || 0))} STY</span>
       </div>
       <h1>${esc(epp.title || "")}</h1>
-      <div class="metrics metrics-1">
+      <div class="metrics metrics-2">
         <div class="metric${logged > 0 ? " is-lead" : " is-quiet"}"><b>${esc(num(logged))}</b><span>Logged</span></div>
+        <div class="metric${Hours.lastBookedOf(epp) ? "" : " is-quiet"}"><b>${esc(Hours.lastBookedOf(epp) || "—")}</b><span>Last booked</span></div>
       </div>
     </header>` + cols() + feats.map((f) => featureBlock(f, openSet)).join("");
   }

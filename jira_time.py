@@ -135,6 +135,36 @@ def hours(seconds: int | None) -> float | None:
     return round(seconds / HOUR, 2)
 
 
+def iso_day(raw: Any) -> str | None:
+    if not raw:
+        return None
+    text = str(raw).strip()
+    if len(text) < 10:
+        return None
+    return text[:10]
+
+
+def later_date(*values: Any) -> str | None:
+    days = [iso_day(value) for value in values]
+    days = [day for day in days if day]
+    return max(days) if days else None
+
+
+def stamp_last_booked(node: dict, dates: dict[str, str]) -> str | None:
+    """Set own and rolled last-booked dates. Rolled is max(own, children)."""
+    own = dates.get(node.get("key") or "") or None
+    child_dates = [
+        stamp_last_booked(child, dates)
+        for child in (node.get("children") or node.get("stories") or [])
+    ]
+    rolled = later_date(own, *child_dates)
+    time_info = dict(node.get("time") or {})
+    time_info["lastBookedOn"] = own
+    time_info["lastBookedOnRolled"] = rolled
+    node["time"] = time_info
+    return rolled
+
+
 def leaf_rolled_spent(rec: dict | None) -> int:
     """Story/task rolled time: Jira aggregate (includes sub-tasks) else own."""
     if not rec:
@@ -207,6 +237,8 @@ def time_view(
     rolled_remaining: int | None = None,
     unlisted_spent: int = 0,
     shared_with: list[str] | None = None,
+    last_booked_on: str | None = None,
+    last_booked_on_rolled: str | None = None,
 ) -> dict:
     return {
         "ownSpentSec": own_spent,
@@ -232,6 +264,8 @@ def time_view(
         "unlistedSpentSec": unlisted_spent,
         "unlistedSpent": format_jira_time(unlisted_spent) if unlisted_spent else "",
         "sharedWith": shared_with or [],
+        "lastBookedOn": last_booked_on or (rec or {}).get("lastBookedOn"),
+        "lastBookedOnRolled": last_booked_on_rolled or last_booked_on or (rec or {}).get("lastBookedOnRolled"),
         "jiraSpentPretty": (rec or {}).get("jiraSpentPretty"),
         "jiraEstimatePretty": (rec or {}).get("jiraEstimatePretty"),
     }

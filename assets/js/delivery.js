@@ -211,7 +211,7 @@
     else renderProductRoots();
   }
 
-  function summaryView(kind, label, cost, count) {
+  function summaryView(kind, label, cost, count, lastBooked) {
     const isProgram = kind === "milestone";
     return `<header class="record-head record-summary">
       <div class="record-id">${Record.chip(isProgram ? "milestone" : "product")}</div>
@@ -219,6 +219,7 @@
       <div class="metrics metrics-2">
         <div class="metric${Number(cost) > 0 ? " is-lead" : " is-quiet"}"><b>${Hours.esc(Hours.fmtNum(cost))}</b><span>Cost</span></div>
         <div class="metric is-quiet"><b>${Hours.esc(String(count || 0))}</b><span>${isProgram ? "EPPs" : "EDPs"}</span></div>
+        <div class="metric${lastBooked ? "" : " is-quiet"}"><b>${Hours.esc(lastBooked || "—")}</b><span>Last booked</span></div>
       </div>
     </header>`;
   }
@@ -243,12 +244,12 @@
     if (view === "product" && line) {
       const row = Hours.productRows().find((p) => p.name === line);
       const count = Hours.uniqueEdps().filter((e) => e.productLabel === line || (e.alsoIn || []).includes(line)).length;
-      els.pane.innerHTML = summaryView("product", line, row && row.uniqueSpentHours, count);
+      els.pane.innerHTML = summaryView("product", line, row && row.uniqueSpentHours, count, row && row.lastBookedOn);
       return;
     }
     if (view === "milestone" && milestone) {
       const row = Hours.milestoneRows().find((m) => m.key === milestone);
-      els.pane.innerHTML = summaryView("milestone", `${milestone} ${(row && row.name) || ""}`, row && row.uniqueSpentHours, row && row.eppCount);
+      els.pane.innerHTML = summaryView("milestone", `${milestone} ${(row && row.name) || ""}`, row && row.uniqueSpentHours, row && row.eppCount, row && row.lastBookedOn);
       return;
     }
     els.pane.innerHTML = "";

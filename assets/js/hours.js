@@ -48,6 +48,16 @@
     return d.toISOString().slice(0, 16).replace("T", " ") + " UTC";
   }
 
+  function fmtDay(iso) {
+    const day = String(iso || "").slice(0, 10);
+    return /^\d{4}-\d{2}-\d{2}$/.test(day) ? day : "";
+  }
+
+  function lastBookedOf(node) {
+    const t = (node && node.time) || {};
+    return fmtDay(t.lastBookedOnRolled || t.lastBookedOn);
+  }
+
   function fetchedAt() {
     return (tree().hoursControl && tree().hoursControl.fetchedAt)
       || (((tree().totals || {}).time || {}).fetchedAt)
@@ -120,6 +130,7 @@
         edpCount: p.edpCount,
         activeCount: p.activeCount,
         official: p.official !== false,
+        lastBookedOn: lastBookedOf(p),
       });
     });
   }
@@ -153,6 +164,7 @@
         target: m.target,
         status: m.status,
         eppCount: m.eppCount,
+        lastBookedOn: lastBookedOf(m),
       }, env);
     });
   }
@@ -507,6 +519,8 @@
     uniqueEdps,
     fmtHours,
     fmtWhen,
+    fmtDay,
+    lastBookedOf,
     fetchedAt,
     jiraHref,
     costChildren,

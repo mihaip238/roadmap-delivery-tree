@@ -92,7 +92,7 @@ Mapping uses the same progressive Product line → EDP chrome as Delivery.
 | --- | --- | --- |
 | F3.1 | Product tree | Product → EDP → EPP → Feature → Story. Filters: active, product, link health (confirmed / pending / none). |
 | F3.2 | Milestone tree | M1–M4, EPP-first, EDPs/products on each EPP, unique hours on the milestone row. |
-| F3.3 | EDP record | Type-marked EDP → EPP → Feature → Story. Cost vs Logged. Pending Cost is a dash. Expand in place. |
+| F3.3 | EDP record | Type-marked EDP → EPP → Feature → Story. Cost vs Logged. Last booked = newest worklog `started` date, rolled as max(own, children). Pending Cost is a dash. Expand in place. |
 
 Delivery uses progressive navigation: Product line → EDP → record, or Program M1–M4 → milestone → EPP → record. Selecting a row opens the local breakdown; selecting a Jira key opens the source issue in a new tab. Records start collapsed.
 

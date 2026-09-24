@@ -8,7 +8,7 @@ import json
 from collections import defaultdict
 from datetime import datetime, timezone
 
-from apply_time import attach_epp
+from apply_time import attach_epp, load_last_booked
 from fetch_time import fetch_keys, fetch_parents, store_issue
 from jira_time import FEATURE_TYPES
 from milestones import FETCHED, JIRA, all_epp_keys
@@ -45,6 +45,8 @@ def slim_time(raw: dict | None) -> dict | None:
         "rolledPoints": raw.get("rolledPoints"),
         "unlistedSpent": raw.get("unlistedSpent") or "",
         "sharedWith": raw.get("sharedWith") or [],
+        "lastBookedOn": raw.get("lastBookedOn"),
+        "lastBookedOnRolled": raw.get("lastBookedOnRolled"),
     }
 
 
@@ -115,6 +117,9 @@ def main() -> None:
     print("new issues from feature parent walk", extra_leaves)
 
     children_by_parent = {k: v for k, v in children.items()}
+    for key, day in load_last_booked().items():
+        rec = index.setdefault(key, {"key": key})
+        rec["lastBookedOn"] = day
     epps = {}
     for key in keys:
         attached = attach_epp({"key": key, "children": []}, index, children_by_parent, {})

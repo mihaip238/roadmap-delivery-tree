@@ -6,19 +6,19 @@
       "date": "2026-09-14",
       "fetchedAt": "2026-09-14T14:06:16.184075+00:00",
       "summary": {
-        "cost": 10034.45,
-        "logged": 10269.7,
-        "activeCost": 8698.62,
-        "activeLogged": 8829.12,
-        "programCost": 2954.75,
-        "pending": 5987.0,
-        "activePending": 2846.5,
-        "sharedDuplication": 235.25,
+        "cost": 10747.7,
+        "logged": 11599.45,
+        "activeCost": 9411.87,
+        "activeLogged": 10158.87,
+        "programCost": 5135.58,
+        "pending": 5360.25,
+        "activePending": 2219.75,
+        "sharedDuplication": 851.75,
         "activeEdp": 63,
-        "confirmed": 9,
-        "pendingEdp": 17,
+        "confirmed": 18,
+        "pendingEdp": 8,
         "none": 37,
-        "mappingCoveragePct": 14.29,
+        "mappingCoveragePct": 28.57,
         "budgetCoveragePct": 0.0,
         "overBudgetEdp": 0,
         "overBudgetHours": 0
@@ -26,30 +26,30 @@
       "products": [
         {
           "name": "BRP as a Service",
-          "cost": 308.75,
-          "logged": 308.75,
-          "pending": 724.25,
-          "activeCost": 308.75,
-          "activeLogged": 308.75,
-          "activePending": 724.25,
+          "cost": 1022.0,
+          "logged": 1438.5,
+          "pending": 97.5,
+          "activeCost": 1022.0,
+          "activeLogged": 1438.5,
+          "activePending": 97.5,
           "budget": null,
           "activeEdp": 15,
-          "confirmed": 2,
-          "pendingEdp": 11,
+          "confirmed": 10,
+          "pendingEdp": 3,
           "none": 2
         },
         {
           "name": "Power Balancer",
-          "cost": 6987.27,
-          "logged": 6987.77,
+          "cost": 7187.27,
+          "logged": 7187.77,
           "pending": 0.0,
-          "activeCost": 6686.77,
-          "activeLogged": 6687.27,
+          "activeCost": 6886.77,
+          "activeLogged": 6887.27,
           "activePending": 0.0,
           "budget": null,
           "activeEdp": 7,
-          "confirmed": 3,
-          "pendingEdp": 1,
+          "confirmed": 4,
+          "pendingEdp": 0,
           "none": 3
         },
         {
@@ -169,10 +169,10 @@
         {
           "key": "M1",
           "name": "Nomination / new architecture",
-          "cost": 495.75,
-          "logged": 495.75,
+          "cost": 2002.75,
+          "logged": 2002.75,
           "budget": null,
-          "eppCount": 1
+          "eppCount": 4
         },
         {
           "key": "M2",
@@ -185,18 +185,18 @@
         {
           "key": "M3",
           "name": "Forecasting, position & financials",
-          "cost": 307.0,
-          "logged": 307.0,
+          "cost": 718.25,
+          "logged": 718.25,
           "budget": null,
-          "eppCount": 3
+          "eppCount": 8
         },
         {
           "key": "M4",
           "name": "Alloc 2.0 + imbalance (EET go-live)",
-          "cost": 758.5,
-          "logged": 758.5,
+          "cost": 1021.08,
+          "logged": 1021.08,
           "budget": null,
-          "eppCount": 9
+          "eppCount": 11
         }
       ],
       "edps": [
@@ -212,7 +212,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-162",
@@ -220,13 +238,33 @@
           "product": "BRP as a Service",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
-          "cost": 0.0,
-          "logged": 0.0,
-          "pending": 200.0,
+          "health": "confirmed",
+          "cost": 200.0,
+          "logged": 200.0,
+          "pending": 0.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 1,
+          "featureCount": 3,
+          "storyCount": 28,
+          "sharedEpps": [
+            "EPP-311"
+          ],
+          "deliverable": {
+            "scope": 28,
+            "status": {
+              "done": 7,
+              "active": 11,
+              "planned": 2,
+              "removed": 8,
+              "other": 0
+            },
+            "completionPct": 35.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 5.0,
+            "remainingCoveragePct": 35.0,
+            "originalEstimate": 8.0,
+            "remainingEstimate": 10.07
+          }
         },
         {
           "key": "EDP-160",
@@ -234,13 +272,33 @@
           "product": "BRP as a Service",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
+          "health": "confirmed",
           "cost": 0.0,
           "logged": 0.0,
           "pending": 0.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 2,
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [
+            "EPP-252"
+          ],
+          "deliverable": {
+            "scope": 2,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 2
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 0.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-105",
@@ -248,13 +306,31 @@
           "product": "BRP as a Service",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
-          "cost": 0.0,
-          "logged": 0.0,
-          "pending": 86.5,
+          "health": "confirmed",
+          "cost": 86.5,
+          "logged": 86.5,
+          "pending": 0.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 1,
+          "featureCount": 2,
+          "storyCount": 29,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 29,
+            "status": {
+              "done": 13,
+              "active": 3,
+              "planned": 7,
+              "removed": 6,
+              "other": 0
+            },
+            "completionPct": 56.52,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 8.7,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 1.0
+          }
         },
         {
           "key": "EDP-109",
@@ -262,13 +338,33 @@
           "product": "BRP as a Service",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
-          "cost": 0.0,
-          "logged": 0.0,
-          "pending": 25.5,
+          "health": "confirmed",
+          "cost": 220.5,
+          "logged": 220.5,
+          "pending": 5.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 2,
+          "featureCount": 5,
+          "storyCount": 36,
+          "sharedEpps": [
+            "EPP-311"
+          ],
+          "deliverable": {
+            "scope": 36,
+            "status": {
+              "done": 7,
+              "active": 12,
+              "planned": 2,
+              "removed": 15,
+              "other": 0
+            },
+            "completionPct": 33.33,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 4.76,
+            "remainingCoveragePct": 33.33,
+            "originalEstimate": 8.0,
+            "remainingEstimate": 10.07
+          }
         },
         {
           "key": "EDP-114",
@@ -276,13 +372,31 @@
           "product": "BRP as a Service",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
-          "cost": 0.0,
-          "logged": 0.0,
-          "pending": 298.0,
+          "health": "confirmed",
+          "cost": 298.0,
+          "logged": 298.0,
+          "pending": 0.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 2,
+          "featureCount": 11,
+          "storyCount": 24,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 24,
+            "status": {
+              "done": 10,
+              "active": 6,
+              "planned": 6,
+              "removed": 2,
+              "other": 0
+            },
+            "completionPct": 45.45,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 27.27,
+            "remainingCoveragePct": 31.82,
+            "originalEstimate": 240.0,
+            "remainingEstimate": 136.0
+          }
         },
         {
           "key": "EDP-161",
@@ -296,7 +410,25 @@
           "pending": 86.5,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-164",
@@ -304,13 +436,33 @@
           "product": "BRP as a Service",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
+          "health": "confirmed",
           "cost": 0.0,
           "logged": 0.0,
           "pending": 0.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 1,
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [
+            "EPP-252"
+          ],
+          "deliverable": {
+            "scope": 1,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 1
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 0.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-104",
@@ -324,7 +476,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-116",
@@ -337,8 +507,26 @@
           "logged": 276.75,
           "pending": 2.0,
           "budget": null,
-          "eppCount": 1,
-          "sharedEpps": []
+          "eppCount": 2,
+          "featureCount": 3,
+          "storyCount": 6,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 6,
+            "status": {
+              "done": 0,
+              "active": 4,
+              "planned": 1,
+              "removed": 1,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 20.0,
+            "remainingCoveragePct": 60.0,
+            "originalEstimate": 80.0,
+            "remainingEstimate": 1.0
+          }
         },
         {
           "key": "EDP-158",
@@ -346,13 +534,33 @@
           "product": "BRP as a Service",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
-          "cost": 0.0,
-          "logged": 0.0,
-          "pending": 108.25,
+          "health": "confirmed",
+          "cost": 108.25,
+          "logged": 108.25,
+          "pending": 0.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 1,
+          "featureCount": 4,
+          "storyCount": 1,
+          "sharedEpps": [
+            "EPP-303"
+          ],
+          "deliverable": {
+            "scope": 1,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 1,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 100.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-99",
@@ -366,7 +574,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-159",
@@ -374,13 +600,33 @@
           "product": "BRP as a Service",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
-          "cost": 0.0,
-          "logged": 0.0,
-          "pending": 108.25,
+          "health": "confirmed",
+          "cost": 108.25,
+          "logged": 108.25,
+          "pending": 0.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 1,
+          "featureCount": 4,
+          "storyCount": 1,
+          "sharedEpps": [
+            "EPP-303"
+          ],
+          "deliverable": {
+            "scope": 1,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 1,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 100.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-102",
@@ -389,12 +635,32 @@
           "alsoIn": [],
           "active": true,
           "health": "confirmed",
-          "cost": 32.0,
-          "logged": 32.0,
-          "pending": 108.25,
+          "cost": 140.25,
+          "logged": 140.25,
+          "pending": 0.0,
           "budget": null,
-          "eppCount": 2,
-          "sharedEpps": []
+          "eppCount": 3,
+          "featureCount": 4,
+          "storyCount": 1,
+          "sharedEpps": [
+            "EPP-303"
+          ],
+          "deliverable": {
+            "scope": 1,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 1,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 100.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-106",
@@ -408,7 +674,25 @@
           "pending": 4.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-107",
@@ -425,7 +709,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-42",
@@ -439,7 +741,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 4,
-          "sharedEpps": []
+          "featureCount": 40,
+          "storyCount": 376,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 376,
+            "status": {
+              "done": 157,
+              "active": 137,
+              "planned": 4,
+              "removed": 53,
+              "other": 25
+            },
+            "completionPct": 48.61,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 47.68,
+            "remainingCoveragePct": 83.59,
+            "originalEstimate": 2471.43,
+            "remainingEstimate": 45850.75
+          }
         },
         {
           "key": "EDP-115",
@@ -453,7 +773,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 3,
+          "storyCount": 30,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 30,
+            "status": {
+              "done": 19,
+              "active": 7,
+              "planned": 0,
+              "removed": 4,
+              "other": 0
+            },
+            "completionPct": 73.08,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 3.85,
+            "remainingCoveragePct": 42.31,
+            "originalEstimate": 16.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-103",
@@ -467,7 +805,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 8,
+          "storyCount": 21,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 21,
+            "status": {
+              "done": 5,
+              "active": 10,
+              "planned": 6,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 23.81,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 14.29,
+            "remainingCoveragePct": 14.29,
+            "originalEstimate": 176.0,
+            "remainingEstimate": 45.0
+          }
         },
         {
           "key": "EDP-110",
@@ -475,13 +831,33 @@
           "product": "Power Balancer",
           "alsoIn": [],
           "active": true,
-          "health": "pending",
-          "cost": 0.0,
-          "logged": 0.0,
+          "health": "confirmed",
+          "cost": 200.0,
+          "logged": 200.0,
           "pending": 0.0,
           "budget": null,
-          "eppCount": 0,
-          "sharedEpps": []
+          "eppCount": 1,
+          "featureCount": 3,
+          "storyCount": 28,
+          "sharedEpps": [
+            "EPP-311"
+          ],
+          "deliverable": {
+            "scope": 28,
+            "status": {
+              "done": 7,
+              "active": 11,
+              "planned": 2,
+              "removed": 8,
+              "other": 0
+            },
+            "completionPct": 35.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 5.0,
+            "remainingCoveragePct": 35.0,
+            "originalEstimate": 8.0,
+            "remainingEstimate": 10.07
+          }
         },
         {
           "key": "EDP-108",
@@ -495,7 +871,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-100",
@@ -509,7 +903,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-113",
@@ -523,7 +935,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 3,
-          "sharedEpps": []
+          "featureCount": 25,
+          "storyCount": 68,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 68,
+            "status": {
+              "done": 27,
+              "active": 31,
+              "planned": 4,
+              "removed": 6,
+              "other": 0
+            },
+            "completionPct": 43.55,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 30.65,
+            "remainingCoveragePct": 58.06,
+            "originalEstimate": 390.0,
+            "remainingEstimate": 174.75
+          }
         },
         {
           "key": "EDP-97",
@@ -539,7 +969,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-98",
@@ -553,7 +1001,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-101",
@@ -569,7 +1035,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 1,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 1,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-174",
@@ -583,7 +1067,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-68",
@@ -597,7 +1099,25 @@
           "pending": 721.75,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-121",
@@ -611,7 +1131,25 @@
           "pending": 264.25,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-22",
@@ -625,7 +1163,25 @@
           "pending": 273.25,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 1,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 1,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 100.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 1040.0
+          }
         },
         {
           "key": "EDP-111",
@@ -639,7 +1195,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 18,
+          "storyCount": 1,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 1,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 1,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 0.0,
+            "originalEstimate": 196.0,
+            "remainingEstimate": 17.5
+          }
         },
         {
           "key": "EDP-117",
@@ -653,7 +1227,25 @@
           "pending": 4.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-96",
@@ -667,7 +1259,25 @@
           "pending": 4.0,
           "budget": null,
           "eppCount": 16,
-          "sharedEpps": []
+          "featureCount": 28,
+          "storyCount": 33,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 33,
+            "status": {
+              "done": 12,
+              "active": 7,
+              "planned": 6,
+              "removed": 4,
+              "other": 4
+            },
+            "completionPct": 41.38,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 44.83,
+            "remainingCoveragePct": 58.62,
+            "originalEstimate": 393.0,
+            "remainingEstimate": 118.5
+          }
         },
         {
           "key": "EDP-169",
@@ -681,7 +1291,25 @@
           "pending": 4.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-126",
@@ -695,7 +1323,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-130",
@@ -709,7 +1355,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 7,
+          "storyCount": 14,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 14,
+            "status": {
+              "done": 8,
+              "active": 0,
+              "planned": 0,
+              "removed": 6,
+              "other": 0
+            },
+            "completionPct": 100.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 87.5,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 40.0
+          }
         },
         {
           "key": "EDP-132",
@@ -723,7 +1387,25 @@
           "pending": 291.75,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -737,7 +1419,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -751,7 +1451,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -765,7 +1483,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -779,7 +1515,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -793,7 +1547,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -807,7 +1579,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -821,7 +1611,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -835,7 +1643,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -849,7 +1675,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -863,7 +1707,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -877,7 +1739,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -891,7 +1771,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -905,7 +1803,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -919,7 +1835,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -933,7 +1867,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -947,7 +1899,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -961,7 +1931,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -975,7 +1963,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -989,7 +1995,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1003,7 +2027,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1017,7 +2059,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1031,7 +2091,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1045,7 +2123,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1059,7 +2155,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1073,7 +2187,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1087,7 +2219,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1101,7 +2251,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1115,7 +2283,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1129,7 +2315,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1143,7 +2347,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "",
@@ -1157,7 +2379,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-157",
@@ -1171,7 +2411,25 @@
           "pending": 1123.25,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-155",
@@ -1185,7 +2443,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-76",
@@ -1199,7 +2475,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-129",
@@ -1213,7 +2507,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 11,
+          "storyCount": 29,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 29,
+            "status": {
+              "done": 12,
+              "active": 7,
+              "planned": 1,
+              "removed": 8,
+              "other": 1
+            },
+            "completionPct": 57.14,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 38.1,
+            "remainingCoveragePct": 61.9,
+            "originalEstimate": 336.0,
+            "remainingEstimate": 312.0
+          }
         },
         {
           "key": "EDP-74",
@@ -1227,7 +2539,25 @@
           "pending": 164.5,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-70",
@@ -1241,7 +2571,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-176",
@@ -1255,7 +2603,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-175",
@@ -1269,7 +2635,25 @@
           "pending": 1.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-154",
@@ -1283,7 +2667,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-29",
@@ -1297,7 +2699,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 1,
+          "storyCount": 20,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 20,
+            "status": {
+              "done": 19,
+              "active": 0,
+              "planned": 0,
+              "removed": 1,
+              "other": 0
+            },
+            "completionPct": 100.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 36.84,
+            "remainingCoveragePct": 52.63,
+            "originalEstimate": 189.0,
+            "remainingEstimate": 125.75
+          }
         },
         {
           "key": "EDP-46",
@@ -1311,7 +2731,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-156",
@@ -1325,7 +2763,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 1,
+          "storyCount": 2,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 2,
+            "status": {
+              "done": 2,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 100.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 100.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-146",
@@ -1339,7 +2795,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-131",
@@ -1353,7 +2827,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-134",
@@ -1367,7 +2859,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-168",
@@ -1381,7 +2891,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-163",
@@ -1395,7 +2923,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-165",
@@ -1409,7 +2955,25 @@
           "pending": 1163.08,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-81",
@@ -1423,7 +2987,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-166",
@@ -1437,7 +3019,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-79",
@@ -1451,7 +3051,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 8,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 8,
+            "status": {
+              "done": 0,
+              "active": 1,
+              "planned": 7,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 62.5,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 2.0
+          }
         },
         {
           "key": "EDP-4",
@@ -1465,7 +3083,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-88",
@@ -1479,7 +3115,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-152",
@@ -1493,7 +3147,25 @@
           "pending": 1468.08,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-92",
@@ -1507,7 +3179,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-64",
@@ -1521,7 +3211,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-43",
@@ -1535,7 +3243,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 6,
+          "storyCount": 1,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 1,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 1,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 0.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-87",
@@ -1549,7 +3275,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-15",
@@ -1563,7 +3307,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 2,
+          "storyCount": 12,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 12,
+            "status": {
+              "done": 12,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 100.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 33.33,
+            "remainingCoveragePct": 58.33,
+            "originalEstimate": 47.0,
+            "remainingEstimate": 6736.5
+          }
         },
         {
           "key": "EDP-127",
@@ -1577,7 +3339,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-93",
@@ -1591,7 +3371,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-128",
@@ -1605,7 +3403,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-63",
@@ -1619,7 +3435,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-147",
@@ -1633,7 +3467,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-139",
@@ -1647,7 +3499,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-143",
@@ -1661,7 +3531,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-32",
@@ -1675,7 +3563,25 @@
           "pending": 7.5,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-137",
@@ -1689,7 +3595,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-149",
@@ -1703,7 +3627,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-148",
@@ -1717,7 +3659,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-138",
@@ -1731,7 +3691,25 @@
           "pending": 5.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-150",
@@ -1745,7 +3723,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-144",
@@ -1759,7 +3755,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-145",
@@ -1773,7 +3787,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-142",
@@ -1787,7 +3819,25 @@
           "pending": 42.5,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-153",
@@ -1801,7 +3851,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-83",
@@ -1815,7 +3883,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-84",
@@ -1829,7 +3915,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 1,
-          "sharedEpps": []
+          "featureCount": 5,
+          "storyCount": 5,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 5,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 5,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 0.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-140",
@@ -1843,7 +3947,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-136",
@@ -1857,7 +3979,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-135",
@@ -1871,7 +4011,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-86",
@@ -1885,7 +4043,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-141",
@@ -1899,7 +4075,25 @@
           "pending": 42.5,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-167",
@@ -1913,7 +4107,25 @@
           "pending": 284.83,
           "budget": null,
           "eppCount": 10,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 10,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 10,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 0.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 0.0,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-91",
@@ -1927,7 +4139,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 0,
-          "sharedEpps": []
+          "featureCount": 0,
+          "storyCount": 0,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 0,
+            "status": {
+              "done": 0,
+              "active": 0,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": null,
+            "statusCategoryCoveragePct": 0,
+            "estimateCoveragePct": null,
+            "remainingCoveragePct": null,
+            "originalEstimate": 0.0,
+            "remainingEstimate": 0.0
+          }
         },
         {
           "key": "EDP-62",
@@ -1941,7 +4171,25 @@
           "pending": 0.0,
           "budget": null,
           "eppCount": 9,
-          "sharedEpps": []
+          "featureCount": 5,
+          "storyCount": 4,
+          "sharedEpps": [],
+          "deliverable": {
+            "scope": 4,
+            "status": {
+              "done": 3,
+              "active": 1,
+              "planned": 0,
+              "removed": 0,
+              "other": 0
+            },
+            "completionPct": 75.0,
+            "statusCategoryCoveragePct": 0.0,
+            "estimateCoveragePct": 0.0,
+            "remainingCoveragePct": 50.0,
+            "originalEstimate": 64.0,
+            "remainingEstimate": 62.0
+          }
         }
       ],
       "epps": [
@@ -2672,16 +4920,18 @@
           "key": "EPP-209",
           "title": "EBASE integration with Jules Intraday to fetch ETPA ID Deals",
           "status": "Waiting for Release",
-          "cost": 0.0,
+          "cost": 257.0,
           "logged": 257.0,
-          "owners": [],
-          "pendingOn": [
+          "owners": [
             "EDP-114"
           ],
+          "pendingOn": [],
           "products": [
             "BRP as a Service"
           ],
-          "milestones": [],
+          "milestones": [
+            "M3"
+          ],
           "active": true
         },
         {
@@ -2777,11 +5027,25 @@
           "active": true
         },
         {
+          "key": "EPP-227",
+          "title": "NL Power BRP Message Monitoring: Market Message Overview",
+          "status": "Selected for Development",
+          "cost": 69.5,
+          "logged": 69.5,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ],
+          "active": true
+        },
+        {
           "key": "EPP-228",
           "title": "Validate Allocation Series Completeness",
           "status": "Backlog",
-          "cost": 128.5,
-          "logged": 128.5,
+          "cost": 198.5,
+          "logged": 198.5,
           "owners": [],
           "pendingOn": [],
           "products": [],
@@ -2970,13 +5234,18 @@
         },
         {
           "key": "EPP-252",
-          "title": "Manage Transport Program-flow as a BRP",
-          "status": "In Progress",
-          "cost": 495.75,
-          "logged": 495.75,
-          "owners": [],
+          "title": "(not in tree — refresh fetch)",
+          "status": "",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-160",
+            "EDP-164"
+          ],
           "pendingOn": [],
-          "products": [],
+          "products": [
+            "BRP as a Service"
+          ],
           "milestones": [
             "M1"
           ],
@@ -2999,6 +5268,24 @@
           "active": false
         },
         {
+          "key": "EPP-262",
+          "title": "(not in tree — refresh fetch)",
+          "status": "",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-160"
+          ],
+          "pendingOn": [],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": [
+            "M1"
+          ],
+          "active": true
+        },
+        {
           "key": "EPP-272",
           "title": "Workflow Enabler - Addition of Update and Get API's for custom use cases",
           "status": "Backlog",
@@ -3013,6 +5300,38 @@
           ],
           "milestones": [],
           "active": false
+        },
+        {
+          "key": "EPP-276",
+          "title": "(not in tree — refresh fetch)",
+          "status": "",
+          "cost": 0.0,
+          "logged": 0.0,
+          "owners": [
+            "EDP-116"
+          ],
+          "pendingOn": [],
+          "products": [
+            "BRP as a Service"
+          ],
+          "milestones": [
+            "M1"
+          ],
+          "active": true
+        },
+        {
+          "key": "EPP-279",
+          "title": "EMM: EBASE Market Messaging Foundation",
+          "status": "Backlog",
+          "cost": 216.0,
+          "logged": 216.0,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M1"
+          ],
+          "active": true
         },
         {
           "key": "EPP-290",
@@ -3092,9 +5411,10 @@
           "status": "Backlog",
           "cost": 86.5,
           "logged": 86.5,
-          "owners": [],
+          "owners": [
+            "EDP-105"
+          ],
           "pendingOn": [
-            "EDP-105",
             "EDP-161"
           ],
           "products": [
@@ -3134,7 +5454,9 @@
           "products": [
             "Power Balancer"
           ],
-          "milestones": [],
+          "milestones": [
+            "M3"
+          ],
           "active": true
         },
         {
@@ -3143,10 +5465,10 @@
           "status": "Backlog",
           "cost": 20.5,
           "logged": 20.5,
-          "owners": [],
-          "pendingOn": [
+          "owners": [
             "EDP-109"
           ],
+          "pendingOn": [],
           "products": [
             "BRP as a Service"
           ],
@@ -3159,18 +5481,20 @@
           "key": "EPP-303",
           "title": "Forecasting administrations and prognosis for Power Balancer",
           "status": "Backlog",
-          "cost": 0.0,
+          "cost": 108.25,
           "logged": 108.25,
-          "owners": [],
-          "pendingOn": [
+          "owners": [
             "EDP-158",
             "EDP-159",
             "EDP-102"
           ],
+          "pendingOn": [],
           "products": [
             "BRP as a Service"
           ],
-          "milestones": [],
+          "milestones": [
+            "M3"
+          ],
           "active": true
         },
         {
@@ -3259,7 +5583,7 @@
           "key": "EPP-310",
           "title": "Imbalance Realizations Dashboard",
           "status": "Backlog",
-          "cost": 0.0,
+          "cost": 5.0,
           "logged": 5.0,
           "owners": [],
           "pendingOn": [
@@ -3268,7 +5592,9 @@
           "products": [
             "BRP as a Service"
           ],
-          "milestones": [],
+          "milestones": [
+            "M3"
+          ],
           "active": true
         },
         {
@@ -3277,12 +5603,15 @@
           "status": "In Progress",
           "cost": 200.0,
           "logged": 200.0,
-          "owners": [],
-          "pendingOn": [
-            "EDP-162"
+          "owners": [
+            "EDP-162",
+            "EDP-109",
+            "EDP-110"
           ],
+          "pendingOn": [],
           "products": [
-            "BRP as a Service"
+            "BRP as a Service",
+            "Power Balancer"
           ],
           "milestones": [
             "M3"
@@ -3440,16 +5769,18 @@
           "key": "EPP-377",
           "title": "Enable PowerBalancer ETPA electricity trading integration across Day Ahead, Intraday, and Ex-Post via Jules",
           "status": "In Progress",
-          "cost": 0.0,
+          "cost": 41.0,
           "logged": 41.0,
-          "owners": [],
-          "pendingOn": [
+          "owners": [
             "EDP-114"
           ],
+          "pendingOn": [],
           "products": [
             "BRP as a Service"
           ],
-          "milestones": [],
+          "milestones": [
+            "M3"
+          ],
           "active": true
         },
         {
@@ -3467,6 +5798,20 @@
             "Platform"
           ],
           "milestones": [],
+          "active": true
+        },
+        {
+          "key": "EPP-379",
+          "title": "NLALLCONPB — Revision flows for decoupled Measurement and Allocation Series",
+          "status": "In Progress",
+          "cost": 123.08,
+          "logged": 123.08,
+          "owners": [],
+          "pendingOn": [],
+          "products": [],
+          "milestones": [
+            "M4"
+          ],
           "active": true
         },
         {
@@ -3776,7 +6121,8 @@
           "milestones": [],
           "active": true
         }
-      ]
+      ],
+      "cases": []
     }
   ]
 }

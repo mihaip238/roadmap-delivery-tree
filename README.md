@@ -34,6 +34,8 @@ python apply_overlay.py
 python build_mindmap.py
 ```
 
+Last booked dates live in `jira_map/last_booked.json` (ISO day only, no authors). `apply_time.py` and `build_mindmap.py` roll them up the tree.
+
 `build_mindmap.py` also updates `jira_map/report_history.json` and
 `jira_map/report_history.js`. History keeps one snapshot per Jira `fetchedAt`
 UTC date; another refresh on that date replaces the snapshot.

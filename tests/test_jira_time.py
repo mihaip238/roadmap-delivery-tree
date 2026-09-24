@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import unittest
 
-from jira_time import compact_issue, feature_rolled_remaining, leaf_rolled_remaining
+from jira_time import compact_issue, feature_rolled_remaining, later_date, leaf_rolled_remaining, stamp_last_booked
 
 
 class JiraTimeEvidenceTests(unittest.TestCase):
@@ -29,6 +29,29 @@ class JiraTimeEvidenceTests(unittest.TestCase):
         rec = {"ownRemainingSec": 1800, "jiraAggRemainingSec": 3600}
         self.assertEqual(leaf_rolled_remaining(rec), 3600)
         self.assertEqual(feature_rolled_remaining(rec, 7200), 9000)
+
+    def test_later_date_picks_the_newest_day(self):
+        self.assertEqual(later_date("2026-08-01T10:00:00", None, "2026-09-14"), "2026-09-14")
+        self.assertIsNone(later_date(None, ""))
+
+    def test_stamp_last_booked_rolls_max_child_date(self):
+        epp = {
+            "key": "EPP-1",
+            "children": [
+                {"key": "AURORA-1", "time": {}, "children": [{"key": "STY-1", "time": {}}]},
+                {"key": "AURORA-2", "time": {}},
+            ],
+            "time": {},
+        }
+        stamp_last_booked(epp, {
+            "EPP-1": "2026-01-01",
+            "AURORA-1": "2026-06-01",
+            "STY-1": "2026-09-20",
+            "AURORA-2": "2026-07-15",
+        })
+        self.assertEqual(epp["time"]["lastBookedOn"], "2026-01-01")
+        self.assertEqual(epp["time"]["lastBookedOnRolled"], "2026-09-20")
+        self.assertEqual(epp["children"][0]["time"]["lastBookedOnRolled"], "2026-09-20")
 
 
 if __name__ == "__main__":

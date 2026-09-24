@@ -7,7 +7,8 @@ from collections import OrderedDict
 from pathlib import Path
 
 from apply_overlay import apply_payload, load_budgets, load_overlay
-from jira_time import format_jira_time
+from apply_time import load_last_booked
+from jira_time import format_jira_time, stamp_last_booked
 from milestones import build_milestone_tree
 from report_history import update_history
 
@@ -422,6 +423,12 @@ def main() -> None:
         },
     }
     payload = apply_payload(payload, load_overlay(), load_budgets())
+    dates = load_last_booked()
+    if dates:
+        for product in payload.get("products") or []:
+            stamp_last_booked(product, dates)
+        for milestone in payload.get("milestones") or []:
+            stamp_last_booked(milestone, dates)
     update_history(payload)
     OUT_JSON.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     OUT_JS.write_text(

@@ -67,6 +67,8 @@ python apply_overlay.py
 python build_mindmap.py
 ```
 
+Last booked: `jira_map/last_booked.json` (ISO day only). Rolled up in `apply_time.py` / `build_mindmap.py`.
+
 Milestone EPP trees: `python fetch_milestone_epps.py` then `python build_mindmap.py`.
 
 Local editing: `python serve.py` then open http://127.0.0.1:8765/

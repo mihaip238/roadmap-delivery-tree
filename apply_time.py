@@ -15,16 +15,27 @@ from jira_time import (
     feature_rolled_spent,
     format_jira_time,
     hours,
+    later_date,
     leaf_rolled_estimate,
     leaf_rolled_remaining,
     leaf_rolled_spent,
+    stamp_last_booked,
     time_view,
 )
 
 ROOT = Path(r"C:\Users\MihaiPostolache\Downloads\kpisss")
 TREE = ROOT / "jira_map" / "delivery_tree.json"
 TIME = ROOT / "jira_map" / "time_tracking.json"
+LAST_BOOKED = ROOT / "jira_map" / "last_booked.json"
 AUDIT = ROOT / "jira_map" / "time_audit.json"
+
+
+def load_last_booked() -> dict[str, str]:
+    if not LAST_BOOKED.exists():
+        return {}
+    blob = json.loads(LAST_BOOKED.read_text(encoding="utf-8"))
+    dates = blob.get("dates") if isinstance(blob, dict) else {}
+    return {key: value for key, value in (dates or {}).items() if key and value}
 
 
 def rec_for(index: dict, key: str | None) -> dict | None:
@@ -42,6 +53,7 @@ def attach_story(st: dict, index: dict) -> dict:
     own_remaining = (rec or {}).get("ownRemainingSec")
     rolled_remaining = leaf_rolled_remaining(rec) if rec else 0
     points = (rec or {}).get("storyPoints")
+    last_booked = (rec or {}).get("lastBookedOn")
     out = dict(st)
     if rec:
         out.setdefault("summary", rec.get("summary"))
@@ -60,6 +72,8 @@ def attach_story(st: dict, index: dict) -> dict:
         own_points=points,
         rolled_points=points,
         unlisted_spent=max(0, rolled - own),
+        last_booked_on=last_booked,
+        last_booked_on_rolled=last_booked,
     )
     return out
 
@@ -104,6 +118,10 @@ def attach_feature(feat: dict, index: dict, children_by_parent: dict, seen_stori
     rolled_pts = (own_pts or 0) + child_pts if (own_pts is not None or has_pts) else None
     listed = own + child_spent
     unlisted = max(0, rolled - listed)
+    own_booked = (rec or {}).get("lastBookedOn")
+    rolled_booked = later_date(own_booked, *[
+        (st.get("time") or {}).get("lastBookedOnRolled") for st in stories
+    ])
     out = dict(feat)
     if rec:
         out.setdefault("summary", rec.get("summary"))
@@ -124,6 +142,8 @@ def attach_feature(feat: dict, index: dict, children_by_parent: dict, seen_stori
         own_points=own_pts,
         rolled_points=rolled_pts,
         unlisted_spent=unlisted,
+        last_booked_on=own_booked,
+        last_booked_on_rolled=rolled_booked,
     )
     for st in stories:
         if st.get("key"):
@@ -171,6 +191,10 @@ def attach_epp(epp: dict, index: dict, children_by_parent: dict, shared: dict[st
     own_remaining = (rec or {}).get("ownRemainingSec")
     rolled_remaining = (own_remaining or 0) + child_remaining
     rolled_pts = (own_pts or 0) + child_pts if (own_pts is not None or has_pts) else None
+    own_booked = (rec or {}).get("lastBookedOn")
+    rolled_booked = later_date(own_booked, *[
+        (f.get("time") or {}).get("lastBookedOnRolled") for f in features
+    ])
     out = dict(epp)
     if rec:
         out.setdefault("summary", rec.get("summary"))
@@ -191,6 +215,8 @@ def attach_epp(epp: dict, index: dict, children_by_parent: dict, shared: dict[st
         own_points=own_pts,
         rolled_points=rolled_pts,
         shared_with=shared.get(key or "", []),
+        last_booked_on=own_booked,
+        last_booked_on_rolled=rolled_booked,
     )
     return out
 
@@ -230,6 +256,9 @@ def main() -> None:
     blob = json.loads(TIME.read_text(encoding="utf-8"))
     index = blob.get("issues") or {}
     children_by_parent = blob.get("childrenByParent") or {}
+    for key, day in load_last_booked().items():
+        rec = index.setdefault(key, {"key": key})
+        rec["lastBookedOn"] = day
 
     epp_owners: dict[str, list[str]] = defaultdict(list)
     for item in list(tree.get("items") or []) + list(tree.get("non_ebase") or []):
@@ -296,6 +325,10 @@ def main() -> None:
                 e["key"] for e in epps
                 if e.get("key") in shared
             })
+            own_booked = (edp_rec or {}).get("lastBookedOn")
+            rolled_booked = later_date(own_booked, *[
+                (e.get("time") or {}).get("lastBookedOnRolled") for e in epps
+            ])
             edp["time"] = time_view(
                 edp_rec,
                 own_spent=own,
@@ -307,6 +340,8 @@ def main() -> None:
                 own_points=(edp_rec or {}).get("storyPoints"),
                 rolled_points=child_pts if has_pts else None,
                 shared_with=shared_keys,
+                last_booked_on=own_booked,
+                last_booked_on_rolled=rolled_booked,
             )
             edp["time"]["uniqueSpentSec"] = unique_spent
             edp["time"]["uniqueSpent"] = format_jira_time(unique_spent)

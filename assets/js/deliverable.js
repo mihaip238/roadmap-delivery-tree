@@ -143,7 +143,7 @@
     const rows = flatRows(report.edp);
     document.getElementById("deliverable-count").textContent = `${rows.length} Jira items`;
     document.getElementById("deliverable-table").innerHTML = `<table class="data deliverable-data">
-      <thead><tr><th>Key</th><th>Item</th><th>Status</th><th>State</th><th class="num">Logged h</th><th class="num">Original h</th><th class="num">Remaining h</th></tr></thead>
+      <thead><tr><th>Key</th><th>Item</th><th>Status</th><th>State</th><th class="num">Logged h</th><th>Last booked</th><th class="num">Original h</th><th class="num">Remaining h</th></tr></thead>
       <tbody>${rows.map(({ node, level }) => {
         const category = Kpis.category(node);
         return `<tr>
@@ -151,10 +151,11 @@
           <td class="scope-level-${level}"><span class="chip chip-${Hours.esc(node.type)}">${Hours.esc(node.type === "feature" ? "FTR" : node.type === "story" ? "STY" : "EPP")}</span>${Hours.esc(node.title || "")}</td>
           <td>${Hours.esc(node.status || "—")}</td><td>${Hours.esc(category.key)}</td>
           <td class="num mono">${Hours.esc(fmt(nodeHours(node, "rolledSpentSec")))}</td>
+          <td class="mono">${Hours.esc(Hours.lastBookedOf(node) || "—")}</td>
           <td class="num mono">${Hours.esc(fmt(nodeHours(node, "ownEstimateSec")))}</td>
           <td class="num mono">${Hours.esc(fmt(nodeHours(node, "ownRemainingSec")))}</td>
         </tr>`;
-      }).join("") || `<tr><td colspan="7" class="muted">No confirmed Jira scope</td></tr>`}</tbody>
+      }).join("") || `<tr><td colspan="8" class="muted">No confirmed Jira scope</td></tr>`}</tbody>
     </table>`;
   }
 

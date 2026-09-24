@@ -159,7 +159,7 @@
           <a href="${Hours.esc(Hours.lineHref(edp.productLabel) + "#" + encodeURIComponent(key))}">${Hours.esc(edp.title || "")}</a>
           <span class="pill">${Hours.esc(Hours.health(edp))}</span>
         </div>
-        <div class="unit-cols"><span></span><span></span><span></span><span>Cost</span><span>Logged</span><span></span></div>
+        <div class="unit-cols"><span></span><span></span><span></span><span>Cost</span><span>Logged</span><span>Last booked</span><span></span></div>
         ${ordered.map((epp) => Record.eppBlock(epp, open)).join("") || `<div class="empty-mini">—</div>`}
       </div>`;
     }).join("");
