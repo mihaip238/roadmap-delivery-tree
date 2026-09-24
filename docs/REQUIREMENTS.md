@@ -126,6 +126,7 @@ The payoff surface. Custom SVG. Short titles only. No captions, no insight essay
 | F5.13 | Reporting modes | Product line and Program M1–M4 are the top-level reporting cuts (Case is added in F7.6 as a third exclusive mode). EDP and EPP are drill levels, never peer business cuts. A Product selection never constrains Program. |
 | F5.14 | Chart grammar | Mapping health uses a Confirmed/Pending/None donut. Cost vs Budget/Logged uses dumbbells, Left uses diverging bars, history uses lines, concentration uses Pareto, and category comparison uses ranked bars. |
 | F5.15 | Chart bounds | Labels and values have measured gutters; plot marks are clipped to the plot area. Charts reflow before text, axes, or values can cross panel boundaries. |
+| F5.16 | Work recency | Report detail includes rolled Last booked date and can sort newest/oldest. Items without worklogs stay last. |
 
 Jira-backed EDP and EPP labels link to their source issues. Product lines and M1–M4 remain aggregate, non-Jira entities.
 When Active is selected, product-line Cost, Logged, Pending, counts, and historical series are recomputed from active EDPs; aggregate coverage de-duplicates multi-tagged EDPs.

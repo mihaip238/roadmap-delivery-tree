@@ -193,6 +193,7 @@
           pendingCount: edp.pendingCount || pendingChildren(edp).length,
           eppCount: edp.eppCount || costChildren(edp).length,
           sharedWith: shared,
+          lastBookedOn: lastBookedOf(edp),
           href: jiraHref(edp),
           edp: edp,
         }, env));
@@ -334,6 +335,7 @@
         activeCost: uniqueReportHours(activeEdps, true),
         activeLogged: round2(activeEdps.reduce((sum, edp) => sum + Number((edp.time || {}).rolledSpentHours || 0), 0)),
         activePending: pendingUniqueHours(activeEdps),
+        activeLastBookedOn: activeEdps.map(lastBookedOf).filter(Boolean).sort().pop() || "",
         active: active > 0,
         activeCount: active,
         count: product.edpCount || edps.length,
@@ -341,6 +343,7 @@
         confirmed: counts.confirmed,
         pendingCount: counts.pending,
         none: counts.none,
+        lastBookedOn: lastBookedOf(product),
         href: lineHref(product.name),
       }, env);
     });
@@ -359,6 +362,7 @@
         pending: 0,
         active: true,
         count: milestone.eppCount || (milestone.children || []).length,
+        lastBookedOn: lastBookedOf(milestone),
         href: "delivery.html?view=milestone&milestone=" + encodeURIComponent(milestone.key || ""),
       }, env);
     });
@@ -390,6 +394,7 @@
           unbudgeted: true,
         };
         row.logged = Math.max(row.logged, Number(timeInfo.rolledSpentHours) || 0);
+        row.lastBookedOn = [row.lastBookedOn, lastBookedOf(epp)].filter(Boolean).sort().pop() || "";
         if (epp.costMember) {
           row.cost = row.logged;
           if (edp.key && !row.owners.includes(edp.key)) row.owners.push(edp.key);
@@ -417,6 +422,7 @@
             cost: Number(timeInfo.uniqueSpentHours || timeInfo.rolledSpentHours) || 0,
             logged: Number(timeInfo.rolledSpentHours) || 0,
             pending: 0,
+            lastBookedOn: lastBookedOf(epp),
             active: true,
             owners: epp.onEdps || [],
             pendingOn: [],
@@ -429,6 +435,10 @@
             unbudgeted: true,
           };
         }
+        byKey[epp.key].lastBookedOn = [
+          byKey[epp.key].lastBookedOn,
+          lastBookedOf(epp),
+        ].filter(Boolean).sort().pop() || "";
         if (!byKey[epp.key].milestones.includes(milestone.key)) {
           byKey[epp.key].milestones.push(milestone.key);
         }
@@ -445,6 +455,10 @@
   }
 
   function caseRows() {
+    const edpDates = {};
+    edpRows().forEach((row) => {
+      if (row.key) edpDates[row.key] = row.lastBookedOn || "";
+    });
     return (tree().cases || []).map((row) => Object.assign({
       type: "case",
       key: row.id,
@@ -462,6 +476,11 @@
       remaining: row.left == null ? null : Number(row.left),
       active: row.status !== "closed",
       count: (row.edps || []).length,
+      lastBookedOn: (row.edps || [])
+        .map((key) => edpDates[key])
+        .filter(Boolean)
+        .sort()
+        .pop() || "",
       href: "cases.html?case=" + encodeURIComponent(row.id || ""),
     }, row));
   }

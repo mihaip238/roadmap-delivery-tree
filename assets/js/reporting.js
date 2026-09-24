@@ -51,6 +51,7 @@
         cost: row.activeCost,
         logged: row.activeLogged,
         pending: row.activePending,
+        lastBookedOn: row.activeLastBookedOn || row.lastBookedOn,
         count: row.activeCount,
       }));
     }
@@ -75,6 +76,17 @@
       return true;
     });
     data.sort((a, b) => {
+      if (state.sort === "booked-desc" || state.sort === "booked-asc") {
+        const av = a.lastBookedOn || "";
+        const bv = b.lastBookedOn || "";
+        if (!av && bv) return 1;
+        if (av && !bv) return -1;
+        if (av !== bv) {
+          return state.sort === "booked-asc"
+            ? av.localeCompare(bv)
+            : bv.localeCompare(av);
+        }
+      }
       const av = Number(a[state.metric] || 0);
       const bv = Number(b[state.metric] || 0);
       return metric.direction === "asc" ? av - bv : bv - av;
@@ -272,7 +284,7 @@
   }
 
   function csv(data, state) {
-    const columns = ["key", "title", "product", state.metric];
+    const columns = ["key", "title", "product", "lastBookedOn", state.metric];
     if (state.compare !== "none") columns.push(state.compare);
     const quote = (value) => `"${String(value == null ? "" : value).replace(/"/g, '""')}"`;
     return [

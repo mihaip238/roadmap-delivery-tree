@@ -7,9 +7,15 @@ global.Hours = {
   pendingUniqueHours() { return 0; },
   reportProductRows() {
     return [
-      { key: "A", name: "A", type: "product", remaining: 5, budget: 10, cost: 5, active: true },
-      { key: "B", name: "B", type: "product", remaining: -2, budget: 8, cost: 10, active: true },
-      { key: "C", name: "C", type: "product", remaining: null, budget: null, cost: 3, active: true },
+      {
+        key: "A", name: "A", type: "product", remaining: 5, budget: 10,
+        cost: 5, active: true, lastBookedOn: "2026-09-20",
+      },
+      {
+        key: "B", name: "B", type: "product", remaining: -2, budget: 8,
+        cost: 10, active: true, lastBookedOn: "2026-09-24",
+      },
+      { key: "C", name: "C", type: "product", remaining: null, budget: null, cost: 3, active: true, lastBookedOn: "" },
     ];
   },
   reportMilestoneRows() { return []; },
@@ -73,6 +79,34 @@ const remaining = Reporting.rows({
   milestone: "",
 });
 assert.deepEqual(remaining.map((row) => row.key), ["B", "A"]);
+
+const recentlyBooked = Reporting.rows({
+  cut: "product",
+  metric: "cost",
+  compare: "none",
+  product: "all",
+  active: true,
+  health: "",
+  q: "",
+  sort: "booked-desc",
+  top: "all",
+  milestone: "",
+});
+assert.deepEqual(recentlyBooked.map((row) => row.key), ["B", "A", "C"]);
+
+const oldestBooked = Reporting.rows({
+  cut: "product",
+  metric: "cost",
+  compare: "none",
+  product: "all",
+  active: true,
+  health: "",
+  q: "",
+  sort: "booked-asc",
+  top: "all",
+  milestone: "",
+});
+assert.deepEqual(oldestBooked.map((row) => row.key), ["A", "B", "C"], "missing dates stay last");
 
 const costSummary = Reporting.summary([
   { name: "A", cost: 5, budget: 10 },

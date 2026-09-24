@@ -10,6 +10,7 @@
     active: true,
     health: "",
     q: "",
+    sort: "metric",
     top: "10",
     range: "30",
     selected: "",
@@ -45,6 +46,7 @@
     health: document.getElementById("report-health"),
     healthWrap: document.getElementById("report-health-wrap"),
     q: document.getElementById("report-search"),
+    sort: document.getElementById("report-sort"),
     top: document.getElementById("report-top"),
     reset: document.getElementById("report-reset"),
     export: document.getElementById("report-export"),
@@ -87,6 +89,7 @@
       active: params.get("active") !== "0",
       health: params.get("health") || "",
       q: params.get("q") || "",
+      sort: params.get("sort") || DEFAULTS.sort,
       top: params.get("top") || localStorage.getItem("hours.reports.top") || DEFAULTS.top,
       range: params.get("range") || DEFAULTS.range,
       selected: params.get("select") || "",
@@ -139,6 +142,7 @@
     if (!["none", "logged", "budget", "fac"].includes(state.compare)
       || state.compare === state.metric
       || !["cost", "allocated", "fac"].includes(state.metric)) state.compare = "none";
+    if (!["metric", "booked-desc", "booked-asc"].includes(state.sort)) state.sort = DEFAULTS.sort;
     if (!["10", "25", "all"].includes(state.top)) state.top = "10";
     if (!["30", "90", "all"].includes(state.range)) state.range = "30";
     if (!hasBudgets() && ["budget", "remaining"].includes(state.metric)) state.metric = "cost";
@@ -158,6 +162,7 @@
     if (state.mode === "product" && !state.active) params.set("active", "0");
     if (state.health) params.set("health", state.health);
     if (state.q) params.set("q", state.q);
+    if (state.sort !== DEFAULTS.sort) params.set("sort", state.sort);
     if (state.top !== DEFAULTS.top) params.set("top", state.top);
     if (state.range !== DEFAULTS.range) params.set("range", state.range);
     if (state.selected) params.set("select", state.selected);
@@ -198,6 +203,7 @@
     els.case.value = state.case;
     els.health.value = state.health;
     els.q.value = state.q;
+    els.sort.value = state.sort;
     els.top.value = state.top;
     els.snapshot.textContent = Hours.fmtWhen(Hours.fetchedAt()).replace(" UTC", "");
 
@@ -567,16 +573,17 @@
     const productMode = state.mode === "product";
     const caseMode = state.mode === "case" && state.cut === "case";
     const header = caseMode
-      ? `<th>Key</th><th>Item</th><th class="num">Associated h</th><th class="num">Allocated h</th><th class="num">ETC h</th><th class="num">FAC h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Holes h</th>`
+      ? `<th>Key</th><th>Item</th><th>Last booked</th><th class="num">Associated h</th><th class="num">Allocated h</th><th class="num">ETC h</th><th class="num">FAC h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Holes h</th>`
       : productMode
-      ? `<th>Key</th><th>Item</th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Pending h</th><th class="num">Mapping</th><th>Shared</th>`
-      : `<th>Key</th><th>Item</th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th>EDPs</th><th>Products</th>`;
+      ? `<th>Key</th><th>Item</th><th>Last booked</th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th class="num">Pending h</th><th class="num">Mapping</th><th>Shared</th>`
+      : `<th>Key</th><th>Item</th><th>Last booked</th><th class="num">Cost h</th><th class="num">Logged h</th><th class="num">Budget h</th><th class="num">Left h</th><th>EDPs</th><th>Products</th>`;
     const body = data.map((row) => {
       const shared = (row.sharedWith || row.sharedEpps || []).join(" ");
       const owners = (row.owners || []).join(" ");
       const products = (row.products || []).join(", ");
       return `<tr${state.selected === row.key ? ` class="is-selected"` : ""} data-select-row="${Hours.esc(row.key || "")}">
         <td>${keyCell(row)}</td><td>${titleCell(row)}</td>
+        <td class="mono">${Hours.esc(row.lastBookedOn || "—")}</td>
         ${caseMode
           ? `${numberCell(row.associated, "associated")}${numberCell(row.allocated, "allocated")}${numberCell(row.etc, "etc")}${numberCell(row.fac, "fac")}${numberCell(row.budget, "budget")}${numberCell(row.remaining, "remaining")}${numberCell(row.holes, "holes")}`
           : `${numberCell(row.cost, "cost")}${numberCell(row.logged, "logged")}
@@ -622,7 +629,7 @@
     });
     [
       [els.metric, "metric"], [els.compare, "compare"], [els.range, "range"],
-      [els.product, "product"], [els.top, "top"],
+      [els.product, "product"], [els.sort, "sort"], [els.top, "top"],
     ].forEach(([element, key]) => element.addEventListener("change", () =>
       setState({ [key]: element.value, selected: "" })
     ));
